@@ -6,14 +6,23 @@ import Logo from "./Logo";
 import NavMenu from "./NavMenu";
 import UserMenu from "./UserMenu";
 
-const Header = ({ isAuth }) => {
-    return (
-        <header className="sticky top-0 w-full flex justify-between items-center p-4 bg-gray-100 shadow-md z-50">
-            <Logo />
-            <NavMenu />
-            <UserMenu isAuth={isAuth} />
-        </header>
-    );
+const Header = ({ isAuth, userName }) => {
+  return (
+    <header className="sticky top-0 w-full bg-blue-200 shadow-md z-50">
+      <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
+        {/* Logo à gauche */}
+        <Logo />
+
+        <nav className="flex gap-4">
+          {/* Menu de navigation au centre */}
+          <NavMenu />
+
+          {/* Menu utilisateur à droite */}
+          <UserMenu isAuth={isAuth} userName={userName} />
+        </nav>
+      </div>
+    </header>
+  );
 };
 
 export default Header;

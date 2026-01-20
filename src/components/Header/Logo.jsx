@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"; // pour les routes React
 const Logo = () => {
   return (
       <NavLink to="/">
-        <div className="flex items-center gap-2 p-4">
+        <div className="flex items-center gap-2">
           <img
             src="/images/acces-tuteur-no-text-no-bg.png"
             alt="Logo"

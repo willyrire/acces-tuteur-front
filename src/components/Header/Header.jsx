@@ -12,7 +12,7 @@ const Header = ({ isAuth, userName }) => {
   const [searchOpen, setSearchOpen] = useState(false);
   return (
     <>
-      <header className="sticky top-0 w-full bg-blue-200 shadow-md z-50">
+      <header className="fixed top-0 left-0 w-full z-50 bg-blue-200">
         <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
           {/* Logo à gauche */}
           <Logo />
@@ -21,7 +21,7 @@ const Header = ({ isAuth, userName }) => {
             {/* Menu de navigation au centre */}
             <NavMenu />
           </nav>
-          <nav className="flex gap-4 items-right">
+          <nav className="flex gap-4 items-center">
             {/* Menu utilisateur à droite */}
             <UserMenu isAuth={isAuth} userName={userName} />
             <SearchButton onClick={() => setSearchOpen(!searchOpen)} />

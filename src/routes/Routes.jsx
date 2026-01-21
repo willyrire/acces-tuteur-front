@@ -24,22 +24,20 @@ const AppRoutes = () => {
   React.useEffect(() => {
     const checkAuth = async () => {
       try {
-        const auth = await isLoggedIn(); // await si isLoggedIn est async
-        setIsAuth(auth.status === 200);
-
-        if (auth.status === 200) {
+        const auth = await isLoggedIn(); // true ou false
+        if (auth) {
+          setIsAuth(true);
           const name = await getUserNameLastNameFirstInitial();
           setUserName(name);
-        } else if (auth.status === 401) {
+        } else {
+          console.log("User not authenticated"); // ✅ ça va s'afficher
           clearAuthStorage();
           setIsAuth(false);
+          
         }
       } catch (err) {
-        console.error("Erreur auth :", err);
-        console.log("Erreur status :", err.response);
-        if(err.response.status === 401) {
-          clearAuthStorage();
-        }
+        // Erreur réseau / serveur
+        console.error("Erreur réseau auth :", err);
         setIsAuth(false);
       } finally {
         setLoading(false);

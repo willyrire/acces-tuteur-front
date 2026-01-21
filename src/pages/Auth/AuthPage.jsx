@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { loginRequest } from "@/api/auth/loginRequest";
 import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
+import { fastRedirect } from "@/utils/fastRedirect";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
@@ -38,34 +39,6 @@ function AuthPage() {
 
   const [passwordError, setPasswordError] = useState("");
 
-  const validatePassword = (password) => {
-    const minLength = /.{8,}/;
-    const uppercase = /[A-Z]/;
-    const lowercase = /[a-z]/;
-    const digit = /\d/;
-    const special = /[^A-Za-z0-9]/;
-    const noSpace = /^\S*$/;
-
-    if (!minLength.test(password)) {
-      return "Le mot de passe doit contenir au moins 8 caractères.";
-    }
-    if (!uppercase.test(password)) {
-      return "Le mot de passe doit contenir au moins une lettre majuscule.";
-    }
-    if (!lowercase.test(password)) {
-      return "Le mot de passe doit contenir au moins une lettre minuscule.";
-    }
-    if (!digit.test(password)) {
-      return "Le mot de passe doit contenir au moins un chiffre.";
-    }
-    if (!special.test(password)) {
-      return "Le mot de passe doit contenir au moins un caractère spécial.";
-    }
-    if (!noSpace.test(password)) {
-      return "Le mot de passe ne doit pas contenir d'espace.";
-    }
-    return "";
-  };
   // Variables de chargement
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isSignupLoading, setIsSignupLoading] = useState(false);
@@ -88,7 +61,7 @@ function AuthPage() {
 
     // ✅ Succès : on navigue directement
     loginSuccessHandler(response.data);
-    window.location.href = `/${response.data.role}/dashboard`; // reload + redirection
+    fastRedirect(`/${response.data.role}/dashboard`); // reload + redirection
     setIsLoginLoading(false);
   };
 

@@ -4,7 +4,7 @@ function loginSuccessHandler(data) {
     // On stock les différentes données dans le localStorage
     localStorage.setItem("userCity", data.city);
     localStorage.setItem("email", data.email);
-    localStorage.setItem("iat", data.iat);
+    localStorage.setItem("authIat", data.iat);
     localStorage.setItem("isEmailVerified", data.isEmailVerified);
     localStorage.setItem("name", data.name);
     localStorage.setItem("role", data.role);

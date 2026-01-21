@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import HomePage from "../pages/Homepage";
 import AuthPage from "../pages/Auth/AuthPage";
@@ -7,6 +12,7 @@ import LogoutPage from "../pages/Auth/LogoutPage";
 import NotFound404 from "../pages/Error/NotFound404";
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
 import { getUserNameLastNameFirstInitial } from "@/utils/getUserName";
+import { clearAuthStorage } from "@/utils/clearAuthStorage";
 // Ici tu pourras importer LoginPage, DashboardParent, DashboardTutor, etc.
 
 const AppRoutes = () => {
@@ -14,35 +20,26 @@ const AppRoutes = () => {
   const [isAuth, setIsAuth] = React.useState(false);
   const [loading, setLoading] = React.useState(true); // Pour éviter un flash de non-auth
   const params = new URLSearchParams(window.location.search);
-  if (params.get("jc") === "1") {
-    // Récupère l'URL actuelle
-    const url = new URL(window.location.href);
 
-    // Supprime le paramètre "jc"
-    url.searchParams.delete("jc");
-
-    // Remplace l'URL dans l'historique (sans reload)
-    window.history.replaceState({}, document.title, url.toString());
-
-    // Puis reload
-    window.location.reload();
-  }
   React.useEffect(() => {
     const checkAuth = async () => {
       try {
         const auth = await isLoggedIn(); // await si isLoggedIn est async
-        setIsAuth(!!auth);
+        setIsAuth(auth.status === 200);
 
-        if (auth) {
+        if (auth.status === 200) {
           const name = await getUserNameLastNameFirstInitial();
           setUserName(name);
-        } else {
-          // On détruit tout le localStorage si pas connecté
-          localStorage.clear();
+        } else if (auth.status === 401) {
+          clearAuthStorage();
+          setIsAuth(false);
         }
       } catch (err) {
         console.error("Erreur auth :", err);
-        window.location.href = "/auth/logout"; // reload + redirection
+        console.log("Erreur status :", err.response);
+        if(err.response.status === 401) {
+          clearAuthStorage();
+        }
         setIsAuth(false);
       } finally {
         setLoading(false);
@@ -60,8 +57,14 @@ const AppRoutes = () => {
           path="/"
           element={<HomePage isAuth={isAuth} userName={userName} />}
         />
-        <Route path="/auth/login" element={<AuthPage />} />
-        <Route path="/auth/create-account" element={<AuthPage />} />
+        <Route
+          path="/auth/login"
+          element={isAuth ? <Navigate to="/" /> : <AuthPage />}
+        />
+        <Route
+          path="/auth/create-account"
+          element={isAuth ? <Navigate to="/" /> : <AuthPage />}
+        />
         <Route path="/auth/logout" element={<LogoutPage />} />
 
         {/* Futur exemple de route */}

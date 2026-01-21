@@ -13,7 +13,7 @@ export async function isLoggedIn() {
     });
     console.log ("isLoggedIn response:", response);
     console.log ("isLoggedIn status:", response.status);
-    return response.status == 200;
+    return response.status;
   } catch (error) {
     return false;
   }

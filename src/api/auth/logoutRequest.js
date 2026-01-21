@@ -3,10 +3,10 @@
 import API from "@/api/client";
 
 
-export async function isLoggedIn() {
+export async function logoutRequest() {
   try {
     // Endpoint de vérification rapide
-    const response = await API.get("/v1/auth/quick-check", {
+    const response = await API.get("/v1/auth/logout", {
       headers: {
         "Authorization": localStorage.getItem("Authorization")
       }

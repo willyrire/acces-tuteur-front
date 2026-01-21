@@ -70,21 +70,26 @@ function AuthPage() {
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isSignupLoading, setIsSignupLoading] = useState(false);
 
-  const handleLoginSubmit  =async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setIsLoginLoading(true);
+
     const response = await loginRequest(loginEmail, loginPassword);
-    setAuthSuccess(response.status === "success");
+    const loginSuccess = response.status === "success"; // ✅ utiliser local variable
+
+    setAuthSuccess(loginSuccess); // ok pour mettre à jour le state
     console.log("Response from loginRequest:", response);
-    if(!authSuccess){
+
+    if (!loginSuccess) {
       setErrorMessage(response.error || "Erreur de connexion");
       setIsLoginLoading(false);
-    } else {
-      loginSuccessHandler(response.data);
-      // Connexion réussite
-      navigate("/" + response.data.role + "/dashboard");
-      setIsLoginLoading(false);
+      return; // exit pour éviter de continuer
     }
+
+    // ✅ Succès : on navigue directement
+    loginSuccessHandler(response.data);
+    navigate("/" + response.data.role + "/dashboard/?jc=1", { replace: true });
+    setIsLoginLoading(false);
   };
 
   const handleSignupSubmit = (e) => {
@@ -98,7 +103,6 @@ function AuthPage() {
       return;
     }
     setPasswordError("");
-    
   };
 
   return (
@@ -310,7 +314,7 @@ function AuthPage() {
                   <blockquote className="text-xl italic text-center">
                     Accès tuteur : Connectez-vous avec votre futur.
                   </blockquote>
-                   <div className="text-center mt-3">
+                  <div className="text-center mt-3">
                     Pas de compte ? <br />
                     <button
                       onClick={() => navigate("/auth/create-account")}
@@ -327,9 +331,10 @@ function AuthPage() {
               <div className="flex w-full md:w-1/2 justify-center items-center p-6 md:p-10">
                 <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
                   {/* Div pour messages d'erreur */}
-                  {(authSuccess === false) && (
+                  {authSuccess === false && (
                     <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                      <b>Erreur : </b>{errorMessage}
+                      <b>Erreur : </b>
+                      {errorMessage}
                     </div>
                   )}
                   <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
@@ -364,7 +369,6 @@ function AuthPage() {
                   </form>
                   <p className="mt-4 text-center text-gray-500 text-sm">
                     {" "}
-                    
                     <br />
                     <button
                       onClick={() => navigate("/auth/password-recovery")}

@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { loginRequest } from "@/api/auth/loginRequest";
 import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
 import { fastRedirect } from "@/utils/fastRedirect";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+import { validatePassword } from "@/utils/security/validatePassword";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
@@ -78,6 +80,8 @@ function AuthPage() {
     setPasswordError("");
   };
 
+  // <==========================RENDERING==========================>
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1 overflow-hidden bg-gray-50">
@@ -88,6 +92,7 @@ function AuthPage() {
               isLogin ? "-translate-x-1/2" : "translate-x-0"
             }`}
           >
+            {/* <==============================SIGNUP==========================> */}
             {/* Screen 1: Signup + Quote */}
             <div className="w-1/2 flex flex-col md:flex-row">
               {/* Signup Form (left) */}
@@ -142,9 +147,10 @@ function AuthPage() {
                     type="tel"
                     placeholder="Numéro de téléphone"
                     value={signupData.phone}
-                    onChange={(e) =>
-                      setSignupData({ ...signupData, phone: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const formatted = formatPhoneNumber(e.target.value);
+                      setSignupData({ ...signupData, phone: formatted });
+                    }}
                     className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
                   />
@@ -274,6 +280,7 @@ function AuthPage() {
               </div>
             </div>
 
+            {/* <==============================LOGIN==========================> */}
             {/* Screen 2: Quote + Login */}
             <div className="w-1/2 flex flex-col md:flex-row">
               {/* Quote (left) */}

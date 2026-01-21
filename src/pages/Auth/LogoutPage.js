@@ -13,7 +13,7 @@ const LogoutPage = () => {
         console.error("Erreur logout:", err);
       } finally {
         localStorage.clear();                   // supprime les infos utilisateur
-        navigate("/?jc=1", { replace: true }); // redirige vers accueil
+        window.location.href = "/"; // reload + redirection
       }
     };
 

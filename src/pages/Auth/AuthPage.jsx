@@ -88,7 +88,7 @@ function AuthPage() {
 
     // ✅ Succès : on navigue directement
     loginSuccessHandler(response.data);
-    navigate("/" + response.data.role + "/dashboard/?jc=1", { replace: true });
+    window.location.href = `/${response.data.role}/dashboard`; // reload + redirection
     setIsLoginLoading(false);
   };
 

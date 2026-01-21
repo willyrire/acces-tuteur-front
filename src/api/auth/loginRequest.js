@@ -19,6 +19,6 @@ export const loginRequest = async (email, password) => {
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la requête de connexion :", error);
-    return error.response.data;
+    return error?.response?.data;
   }
 };

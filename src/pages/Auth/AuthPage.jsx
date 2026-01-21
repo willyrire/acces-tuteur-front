@@ -8,6 +8,7 @@ import { validatePassword } from "@/utils/validator/validatePassword";
 import LoginForm from "@/components/Form/LoginForm";
 import SignUpForm from "@/components/Form/SignUpForm";
 import { isValidEmail } from "@/utils/validator/isValidEmail";
+import { createAccountRequest } from "@/api/auth/createAccountRequest";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
@@ -18,7 +19,7 @@ function AuthPage() {
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
-  
+
   useEffect(() => {
     if (location.pathname === "/auth/create-account") {
       setIsLogin(false);
@@ -47,6 +48,7 @@ function AuthPage() {
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isSignupLoading, setIsSignupLoading] = useState(false);
 
+  // Login submit handler
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setIsLoginLoading(true);
@@ -68,16 +70,39 @@ function AuthPage() {
     setIsLoginLoading(false);
   };
 
+  // Signup submit handler
   const handleSignupSubmit = (e) => {
     e.preventDefault();
     setIsSignupLoading(true);
     const error = validatePassword(signupData.password);
-    if (error) {
+    const emailError = isValidEmail(signupData.email)
+    if (error || !emailError) {
       setIsSignupLoading(false);
       setPasswordError(error);
       return;
     }
     setPasswordError("");
+
+    // TODO: Appel API création de compte
+    const response = createAccountRequest(
+      signupData.email,
+      signupData.password,
+      signupData.firstName,
+      signupData.lastName,
+      signupData.role,
+      signupData.city,
+      signupData.address,
+      signupData.phone
+    );
+
+    if(response){
+      console.log("Compte créé avec succès");
+      fastRedirect(`/${response.data.role}/dashboard`);
+      setIsSignupLoading(false);
+    }
+
+    console.log("Une erreur s'est produite lors de la création du compte : ", response);
+    setIsSignupLoading(false);
   };
 
   return (
@@ -159,9 +184,7 @@ function AuthPage() {
                   onEmailChange={setLoginEmail}
                   onPasswordChange={setLoginPassword}
                   onSubmit={handleLoginSubmit}
-                  onForgotPassword={() =>
-                    navigate("/auth/password-recovery")
-                  }
+                  onForgotPassword={() => navigate("/auth/password-recovery")}
                 />
               </div>
             </div>

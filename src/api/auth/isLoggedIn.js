@@ -8,7 +8,7 @@ export async function isLoggedIn() {
     // Endpoint de vérification rapide
     const response = await API.get("/v1/auth/quick-check", {
       headers: {
-        "Authorization": localStorage.getItem("Authorization")
+        "Authorization": localStorage.getItem("AuthorizationToken")
       }
     });
     console.log ("isLoggedIn response:", response);

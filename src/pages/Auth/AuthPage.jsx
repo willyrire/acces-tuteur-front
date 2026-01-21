@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
+import { loginRequest } from "@/api/auth/loginRequest";
+import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
 
 function AuthPage() {
+  const [authSuccess, setAuthSuccess] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,14 +36,69 @@ function AuthPage() {
     acceptTerms: false,
   });
 
-  const handleLoginSubmit = (e) => {
+  const [passwordError, setPasswordError] = useState("");
+
+  const validatePassword = (password) => {
+    const minLength = /.{8,}/;
+    const uppercase = /[A-Z]/;
+    const lowercase = /[a-z]/;
+    const digit = /\d/;
+    const special = /[^A-Za-z0-9]/;
+    const noSpace = /^\S*$/;
+
+    if (!minLength.test(password)) {
+      return "Le mot de passe doit contenir au moins 8 caractères.";
+    }
+    if (!uppercase.test(password)) {
+      return "Le mot de passe doit contenir au moins une lettre majuscule.";
+    }
+    if (!lowercase.test(password)) {
+      return "Le mot de passe doit contenir au moins une lettre minuscule.";
+    }
+    if (!digit.test(password)) {
+      return "Le mot de passe doit contenir au moins un chiffre.";
+    }
+    if (!special.test(password)) {
+      return "Le mot de passe doit contenir au moins un caractère spécial.";
+    }
+    if (!noSpace.test(password)) {
+      return "Le mot de passe ne doit pas contenir d'espace.";
+    }
+    return "";
+  };
+  // Variables de chargement
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
+  const [isSignupLoading, setIsSignupLoading] = useState(false);
+
+  const handleLoginSubmit  =async (e) => {
     e.preventDefault();
-    console.log("Login:", { loginEmail, loginPassword });
+    setIsLoginLoading(true);
+    const response = await loginRequest(loginEmail, loginPassword);
+    setAuthSuccess(response.status === "success");
+    console.log("Response from loginRequest:", response);
+    if(!authSuccess){
+      setErrorMessage(response.error || "Erreur de connexion");
+      setIsLoginLoading(false);
+    } else {
+      loginSuccessHandler(response.data);
+      // Connexion réussite
+      navigate("/" + response.data.role + "/dashboard");
+      setIsLoginLoading(false);
+    }
   };
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
-    console.log("Signup:", signupData);
+    setIsSignupLoading(true);
+    // Module d'inscription ici
+    const error = validatePassword(signupData.password);
+    if (error) {
+      setIsSignupLoading(false);
+      setPasswordError(error);
+      return;
+    }
+    setPasswordError("");
+    
   };
 
   return (
@@ -84,7 +143,10 @@ function AuthPage() {
                     placeholder="Prénom"
                     value={signupData.firstName}
                     onChange={(e) =>
-                      setSignupData({ ...signupData, firstName: e.target.value })
+                      setSignupData({
+                        ...signupData,
+                        firstName: e.target.value,
+                      })
                     }
                     className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
@@ -143,9 +205,13 @@ function AuthPage() {
                     type="password"
                     placeholder="Mot de passe"
                     value={signupData.password}
-                    onChange={(e) =>
-                      setSignupData({ ...signupData, password: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setSignupData({ ...signupData, password: value });
+                      if (passwordError) {
+                        setPasswordError(validatePassword(value));
+                      }
+                    }}
                     className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
                   />
@@ -163,6 +229,12 @@ function AuthPage() {
                     required
                   />
 
+                  {passwordError && (
+                    <p className="md:col-span-2 text-sm text-red-600">
+                      {passwordError}
+                    </p>
+                  )}
+
                   <label className="md:col-span-2 flex items-start gap-3 text-sm text-gray-600">
                     <input
                       type="checkbox"
@@ -178,7 +250,10 @@ function AuthPage() {
                     />
                     <span>
                       J'accepte les{" "}
-                      <a href="/legal/overwiew" className="text-blue-600 hover:underline">
+                      <a
+                        href="/legal/overwiew"
+                        className="text-blue-600 hover:underline"
+                      >
                         conditions d'utilisation
                       </a>
                       .
@@ -189,16 +264,10 @@ function AuthPage() {
                     type="submit"
                     className="w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition md:col-span-2"
                   >
-                    Créer un compte
+                    {isSignupLoading ? "Traitement..." : "Créer un compte"}
                   </button>
                   <p className="mt-4 text-center text-gray-500 text-sm md:col-span-2">
-                    Déjà un compte ?{" "}
-                    <button
-                      onClick={() => navigate("/auth/login")}
-                      className="text-blue-600 hover:underline"
-                    >
-                      Connectez-vous
-                    </button>
+                    {" "}
                   </p>
                 </form>
               </div>
@@ -207,13 +276,23 @@ function AuthPage() {
               <div className="hidden md:flex md:w-1/2 justify-center items-center bg-blue-900">
                 <div className="w-full max-w-lg text-white p-10">
                   <img
-                    src="/login-illustration.png"
+                    src="/images/progression.png"
                     alt="Illustration"
                     className="w-3/4 mb-6 rounded-lg shadow-lg mx-auto"
                   />
                   <blockquote className="text-xl italic text-center">
-                    Rejoignez Accès tuteur et commencez votre parcours.
+                    Rejoignez Accès tuteur et commencez votre parcours. <br />
                   </blockquote>
+                  <div className="text-center mt-3">
+                    Déjà un compte ? <br />
+                    <button
+                      onClick={() => navigate("/auth/login")}
+                      className="rounded-full hover:bg-blue-300 hover:cursor-pointer bg-blue-400 p-4 mt-2"
+                    >
+                      {" "}
+                      Se Connecter →
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -231,22 +310,41 @@ function AuthPage() {
                   <blockquote className="text-xl italic text-center">
                     Accès tuteur : Connectez-vous avec votre futur.
                   </blockquote>
+                   <div className="text-center mt-3">
+                    Pas de compte ? <br />
+                    <button
+                      onClick={() => navigate("/auth/create-account")}
+                      className="rounded-full hover:bg-blue-300 hover:cursor-pointer bg-blue-400 p-4 mt-2"
+                    >
+                      {" "}
+                      ← S'inscrire
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* Login Form (right) */}
               <div className="flex w-full md:w-1/2 justify-center items-center p-6 md:p-10">
                 <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
+                  {/* Div pour messages d'erreur */}
+                  {(authSuccess === false) && (
+                    <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                      <b>Erreur : </b>{errorMessage}
+                    </div>
+                  )}
                   <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
                     Bienvenue
                   </h2>
-                  <form className="flex flex-col gap-4" onSubmit={handleLoginSubmit}>
+                  <form
+                    className="flex flex-col gap-4"
+                    onSubmit={handleLoginSubmit}
+                  >
                     <input
                       type="email"
                       placeholder="Email"
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
-                      className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className={`w-full p-3 border ${authSuccess === false ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400`}
                       required
                     />
                     <input
@@ -254,23 +352,25 @@ function AuthPage() {
                       placeholder="Mot de passe"
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
-                      className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className={`w-full p-3 border ${authSuccess === false ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400`}
                       required
                     />
                     <button
                       type="submit"
                       className="w-full p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
                     >
-                      Se connecter
+                      {isLoginLoading ? "Connexion..." : "Se connecter"}
                     </button>
                   </form>
                   <p className="mt-4 text-center text-gray-500 text-sm">
-                    Pas encore de compte ?{" "}
+                    {" "}
+                    
+                    <br />
                     <button
-                      onClick={() => navigate("/auth/create-account")}
+                      onClick={() => navigate("/auth/password-recovery")}
                       className="text-blue-600 hover:underline"
                     >
-                      Inscrivez-vous
+                      Mot de passe oublié?
                     </button>
                   </p>
                 </div>

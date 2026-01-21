@@ -1,5 +1,3 @@
-import getCookie from "@/utils/tools/getCookie";
-
 function loginSuccessHandler(data) {
     // On stock les différentes données dans le localStorage
     localStorage.setItem("userCity", data.city);
@@ -12,8 +10,7 @@ function loginSuccessHandler(data) {
     localStorage.setItem("lastUpdate", data.lastUpdate);
 
     // On stock également le token d'authentification
-    const AuthorizationValue = getCookie("Authorization");
-    localStorage.setItem("Authorization", AuthorizationValue);
+    localStorage.setItem("Authorization", data.AuthorizationToken);
 }
 
 export { loginSuccessHandler };

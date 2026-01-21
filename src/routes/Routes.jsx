@@ -42,6 +42,7 @@ const AppRoutes = () => {
         }
       } catch (err) {
         console.error("Erreur auth :", err);
+        window.location.href = "/auth/logout"; // reload + redirection
         setIsAuth(false);
       } finally {
         setLoading(false);

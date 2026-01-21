@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import HomePage from "../pages/Homepage";
-import LoginPage from "../pages/Auth/LoginPage";
+import AuthPage from "../pages/Auth/AuthPage";
 import NotFound404 from "../pages/Error/NotFound404";
 // Ici tu pourras importer LoginPage, DashboardParent, DashboardTutor, etc.
 
@@ -13,7 +13,8 @@ const AppRoutes = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<HomePage isAuth={isAuth} userName={userName} />} />
-                <Route path="/auth/login" element={<LoginPage />} />
+                <Route path="/auth/login" element={<AuthPage />} />
+                <Route path="/auth/create-account" element={<AuthPage />} />
 
                 
                 {/* Futur exemple de route */}

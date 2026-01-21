@@ -1,0 +1,282 @@
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Footer from "@/components/Footer";
+
+function AuthPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [isLogin, setIsLogin] = useState(true);
+
+  useEffect(() => {
+    if (location.pathname === "/auth/create-account") {
+      setIsLogin(false);
+    } else {
+      setIsLogin(true);
+    }
+  }, [location.pathname]);
+
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  const [signupData, setSignupData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    city: "",
+    address: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "tuteur",
+    acceptTerms: false,
+  });
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    console.log("Login:", { loginEmail, loginPassword });
+  };
+
+  const handleSignupSubmit = (e) => {
+    e.preventDefault();
+    console.log("Signup:", signupData);
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-1 flex overflow-hidden relative bg-gray-50">
+        <div className="flex-1 flex flex-col md:flex-row">
+          {/* Quote column (1/2 screen) */}
+          <div
+            className={`hidden md:flex md:w-1/2 justify-center items-center transition-all duration-700 ease-in-out ${
+              isLogin ? "order-1" : "order-2"
+            }`}
+          >
+            <div className="w-full h-full flex justify-center items-center bg-blue-900">
+              <div className="w-full max-w-lg text-white p-10">
+                <img
+                  src="/login-illustration.png"
+                  alt="Illustration"
+                  className="w-3/4 mb-6 rounded-lg shadow-lg mx-auto"
+                />
+                <blockquote className="text-xl italic text-center">
+                  {isLogin
+                    ? "Accès tuteur : Connectez-vous avec votre futur."
+                    : "Rejoignez Accès tuteur et commencez votre parcours."}
+                </blockquote>
+              </div>
+            </div>
+          </div>
+
+          {/* Forms column (1/2 screen) */}
+          <div
+            className={`flex w-full md:w-1/2 justify-center items-center p-6 md:p-10 relative overflow-hidden transition-all duration-700 ${
+              isLogin ? "order-2" : "order-1"
+            }`}
+          >
+            {/* Login Form */}
+            <div
+              className={`w-full max-w-md transition-all duration-700 ease-in-out transform ${
+                isLogin
+                  ? "translate-x-0 opacity-100 z-20"
+                  : "-translate-x-full opacity-0 z-0"
+              }`}
+            >
+              <div className="bg-white p-10 rounded-lg shadow-lg">
+                <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+                  Bienvenue
+                </h2>
+                <form className="flex flex-col gap-4" onSubmit={handleLoginSubmit}>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={loginEmail}
+                    onChange={(e) => setLoginEmail(e.target.value)}
+                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    required
+                  />
+                  <input
+                    type="password"
+                    placeholder="Mot de passe"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="w-full p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+                  >
+                    Se connecter
+                  </button>
+                </form>
+                <p className="mt-4 text-center text-gray-500 text-sm">
+                  Pas encore de compte ?{" "}
+                  <button
+                    onClick={() => navigate("/auth/create-account")}
+                    className="text-blue-600 hover:underline"
+                  >
+                    Inscrivez-vous
+                  </button>
+                </p>
+              </div>
+            </div>
+
+            {/* Signup Form */}
+            <div
+              className={`absolute w-full max-w-2xl transition-all duration-700 ease-in-out transform ${
+                !isLogin
+                  ? "translate-x-0 opacity-100 z-20"
+                  : "translate-x-full opacity-0 z-0"
+              }`}
+            >
+              <form
+                onSubmit={handleSignupSubmit}
+                className="bg-white p-10 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-4"
+              >
+                <h2 className="text-3xl font-bold mb-6 text-center md:col-span-2 text-gray-800">
+                  Créer un compte
+                </h2>
+
+                <label className="flex flex-col gap-1 md:col-span-2 text-gray-700 font-medium">
+                  Vous êtes :
+                  <select
+                    value={signupData.role}
+                    onChange={(e) =>
+                      setSignupData({ ...signupData, role: e.target.value })
+                    }
+                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  >
+                    <option value="tuteur">Tuteur</option>
+                    <option value="parent">Parent</option>
+                    <option value="enfant">Enfant</option>
+                  </select>
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="Prénom"
+                  value={signupData.firstName}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, firstName: e.target.value })
+                  }
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Nom"
+                  value={signupData.lastName}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, lastName: e.target.value })
+                  }
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+                <input
+                  type="tel"
+                  placeholder="Numéro de téléphone"
+                  value={signupData.phone}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, phone: e.target.value })
+                  }
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Ville"
+                  value={signupData.city}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, city: e.target.value })
+                  }
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Adresse"
+                  value={signupData.address}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, address: e.target.value })
+                  }
+                  className="md:col-span-2 w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={signupData.email}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, email: e.target.value })
+                  }
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Mot de passe"
+                  value={signupData.password}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, password: e.target.value })
+                  }
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Confirmer le mot de passe"
+                  value={signupData.confirmPassword}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, confirmPassword: e.target.value })
+                  }
+                  className="md:col-span-2 w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+
+                <label className="md:col-span-2 flex items-start gap-3 text-sm text-gray-600">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={signupData.acceptTerms}
+                    onChange={(e) =>
+                      setSignupData({ ...signupData, acceptTerms: e.target.checked })
+                    }
+                    className="mt-1"
+                  />
+                  <span>
+                    J'accepte les{" "}
+                    <a href="/legal/overwiew" className="text-blue-600 hover:underline">
+                      conditions d'utilisation
+                    </a>
+                    .
+                  </span>
+                </label>
+
+                <button
+                  type="submit"
+                  className="w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition md:col-span-2"
+                >
+                  Créer un compte
+                </button>
+                <p className="mt-4 text-center text-gray-500 text-sm md:col-span-2">
+                  Déjà un compte ?{" "}
+                  <button
+                    onClick={() => navigate("/auth/login")}
+                    className="text-blue-600 hover:underline"
+                  >
+                    Connectez-vous
+                  </button>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+export default AuthPage;

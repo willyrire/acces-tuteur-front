@@ -11,8 +11,8 @@ import AuthPage from "../pages/Auth/AuthPage";
 import LogoutPage from "../pages/Auth/LogoutPage";
 import NotFound404 from "../pages/Error/NotFound404";
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
-import { getUserNameLastNameFirstInitial } from "@/utils/getUserName";
-import { clearAuthStorage } from "@/utils/clearAuthStorage";
+import { getUserNameLastNameFirstInitial } from "@/utils/tools/getUserName";
+import { clearAuthStorage } from "@/utils/tools/clearAuthStorage";
 // Ici tu pourras importer LoginPage, DashboardParent, DashboardTutor, etc.
 
 const AppRoutes = () => {

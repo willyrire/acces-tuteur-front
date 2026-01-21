@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logoutRequest } from "@/api/auth/logoutRequest";
-import { clearAuthStorage } from "@/utils/clearAuthStorage";
-import { fastRedirect } from "@/utils/fastRedirect";
+import { clearAuthStorage } from "@/utils/tools/clearAuthStorage";
+import { fastRedirect } from "@/utils/tools/fastRedirect";
 
 const LogoutPage = () => {
   const navigate = useNavigate();

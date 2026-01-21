@@ -1,4 +1,4 @@
-import getCookie from "@/utils/getCookie";
+import getCookie from "@/utils/tools/getCookie";
 
 function loginSuccessHandler(data) {
     // On stock les différentes données dans le localStorage

@@ -9,6 +9,7 @@ import {
 import HomePage from "../pages/Homepage";
 import AuthPage from "../pages/Auth/AuthPage";
 import NotFound404 from "../pages/Error/NotFound404";
+import PasswordRecoveryPage from "../pages/Auth/PasswordRecoveryPage";
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
 import { getUserNameLastNameFirstInitial } from "@/utils/tools/getUserName";
 import { clearAuthStorage } from "@/utils/tools/clearAuthStorage";
@@ -62,6 +63,8 @@ const AppRoutes = () => {
           path="/auth/create-account"
           element={isAuth ? <Navigate from="/auth/create-account" to="/" /> : <AuthPage />}
         />
+
+        <Route path="/auth/password-recovery" element={isAuth ? <Navigate from="/auth/create-account" to="/" /> : <PasswordRecoveryPage />} />
 
         {/* Fallback 404 */}
         <Route path="*" element={<NotFound404 />} />

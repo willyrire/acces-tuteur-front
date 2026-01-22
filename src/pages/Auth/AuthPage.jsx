@@ -70,7 +70,7 @@ function AuthPage() {
     }
 
     loginSuccessHandler(response.data);
-    fastRedirect(`/${response.data.role}/dashboard`);
+    fastRedirect(`/dashboard/${response.data.role}`);
     setIsLoginLoading(false);
   };
 
@@ -118,7 +118,7 @@ function AuthPage() {
       return;
     }
     loginSuccessHandler(response.data);
-    fastRedirect(`/${response.data.role}/dashboard`);
+    fastRedirect(`/dashboard/${response.data.role}`);
     setIsSignupLoading(false);
     console.log(
       "Une erreur s'est produite lors de la création du compte : ",

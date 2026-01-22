@@ -12,7 +12,9 @@ import { createAccountRequest } from "@/api/auth/createAccountRequest";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
+  const [signupSuccess, setSignupSuccess] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [signupErrorMessage, setSignupErrorMessage] = useState("");
   const [emailValid, setEmailValid] = useState(true);
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const location = useLocation();
@@ -39,7 +41,7 @@ function AuthPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "tuteur",
+    role: "parent",
     acceptTerms: false,
   });
 
@@ -71,20 +73,24 @@ function AuthPage() {
   };
 
   // Signup submit handler
-  const handleSignupSubmit = (e) => {
+  const handleSignupSubmit = async (e) => {
+    console.log("Signup data submitted");
     e.preventDefault();
     setIsSignupLoading(true);
     const error = validatePassword(signupData.password);
-    const emailError = isValidEmail(signupData.email)
-    if (error || !emailError) {
+    const emailError = isValidEmail(signupData.email);
+    console.log(error == [] + " | " + emailError);
+    if (error == [] || !emailError) {
+      console.log("Une erreur")
+      setSignupSuccess(false);
       setIsSignupLoading(false);
       setPasswordError(error);
+      setSignupErrorMessage("Le courriel ou le mot de passe ne sont pas valides.");
       return;
     }
     setPasswordError("");
 
-    // TODO: Appel API création de compte
-    const response = createAccountRequest(
+    const response = await createAccountRequest(
       signupData.email,
       signupData.password,
       signupData.firstName,
@@ -92,17 +98,26 @@ function AuthPage() {
       signupData.role,
       signupData.city,
       signupData.address,
-      signupData.phone
+      signupData.phone,
     );
 
-    if(response){
-      console.log("Compte créé avec succès");
-      fastRedirect(`/${response.data.role}/dashboard`);
-      setIsSignupLoading(false);
-    }
+    console.log("Response from createAccountRequest:", response);
 
-    console.log("Une erreur s'est produite lors de la création du compte : ", response);
+    const signupSuccess = response.status === "success";
+
+    if (!signupSuccess) {
+      setSignupSuccess(false);
+      setSignupErrorMessage(response.error || "Erreur lors de la création du compte");
+      setIsSignupLoading(false);
+      return;
+    }
+    loginSuccessHandler(response.data);
+    fastRedirect(`/${response.data.role}/dashboard`);
     setIsSignupLoading(false);
+    console.log(
+      "Une erreur s'est produite lors de la création du compte : ",
+      response,
+    );
   };
 
   return (
@@ -118,6 +133,8 @@ function AuthPage() {
             <div className="w-1/2 flex flex-col md:flex-row">
               <div className="flex w-full md:w-1/2 justify-center items-center p-6 md:p-10">
                 <SignUpForm
+                  authSuccess={signupSuccess}
+                  signupErrorMessage={signupErrorMessage}
                   signupData={signupData}
                   setSignupData={setSignupData}
                   passwordError={passwordError}

@@ -27,7 +27,7 @@ const validatePassword = (password) => {
     errors.push("Le mot de passe ne doit pas contenir d'espace.");
   }
 
-  return errors; // ✅ retourne un array de messages
+  return errors ; // ✅ retourne un array de messages
 };
 
 export { validatePassword };

@@ -10,7 +10,7 @@ function loginSuccessHandler(data) {
     localStorage.setItem("lastUpdate", data.lastUpdate);
 
     // On stock également le token d'authentification
-    localStorage.setItem("AuthorizationToken", data.AuthorizationToken);
+    localStorage.setItem("Authorization", data.AuthorizationToken);
 }
 
 export { loginSuccessHandler };

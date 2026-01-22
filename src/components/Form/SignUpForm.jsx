@@ -4,6 +4,8 @@ import { validatePassword } from "@/utils/validator/validatePassword";
 import { isValidEmail } from "@/utils/validator/isValidEmail";
 
 export default function SignUpForm({
+  authSuccess,
+  signupErrorMessage,
   signupData,
   setSignupData,
   passwordError,
@@ -17,6 +19,12 @@ export default function SignUpForm({
       onSubmit={onSubmit}
       className="bg-white p-10 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl"
     >
+      {authSuccess === false && (
+        <div className="mb-4 p-3 col-span-2 bg-red-100 border border-red-400 text-red-700 rounded">
+          <b>Erreur : </b>
+          {signupErrorMessage}
+        </div>
+      )}
       <h2 className="text-3xl font-bold mb-6 text-center md:col-span-2 text-gray-800">
         Créer un compte
       </h2>

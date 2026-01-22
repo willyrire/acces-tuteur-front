@@ -13,11 +13,11 @@ async function createAccountRequest(
   phone,
 ) {
   // On construit le userName
-  const userName = `${firstName} ${lastName}`;
+  const userName = `${firstName.trim()} ${lastName.trim()}`;
   var payload = {
     email: email,
     password: password,
-    userName: userName,
+    name: userName,
     role: role,
     city: city,
     location: location,
@@ -26,14 +26,10 @@ async function createAccountRequest(
 
   try {
     const response = await API.post("/v1/auth/create-account", payload);
-
-    if (response.status === 201) {
-      // On traite la réponse de création de compte
-      loginSuccessHandler(response.data);
-      return true;
-    }
+    return response.data;
   } catch (error) {
-    return error.response.data;
+    console.error("Erreur lors de la requête de connexion :", error);
+    return error?.response?.data;
   }
 }
 

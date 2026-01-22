@@ -3,7 +3,7 @@
 import API from "@/api/client";
 
 
-export async function logoutRequest() {
+async function logoutRequest() {
   try {
     // Endpoint de vérification rapide
     const response = await API.post("/v1/auth/logout", {} , {
@@ -11,10 +11,10 @@ export async function logoutRequest() {
         "Authorization": localStorage.getItem("Authorization")
       }
     });
-    console.log ("isLoggedIn response:", response);
-    console.log ("isLoggedIn status:", response.status);
     return response.status == 200;
   } catch (error) {
-    console.log("Erreur logoutRequest:", error);
+    throw error;
   }
 }
+
+export default logoutRequest;

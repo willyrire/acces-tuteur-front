@@ -18,7 +18,6 @@ export const loginRequest = async (email, password) => {
     const response = await API.post("/v1/auth/login", payload);
     return response.data;
   } catch (error) {
-    console.error("Erreur lors de la requête de connexion :", error);
     return error?.response?.data;
   }
 };

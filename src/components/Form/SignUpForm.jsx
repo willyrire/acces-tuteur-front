@@ -4,6 +4,7 @@ import { validatePassword } from "@/utils/validator/validatePassword";
 import { isValidEmail } from "@/utils/validator/isValidEmail";
 
 export default function SignUpForm({
+  navigate,
   authSuccess,
   signupErrorMessage,
   signupData,
@@ -182,7 +183,15 @@ export default function SignUpForm({
       >
         {isSignupLoading ? "Traitement..." : "Créer un compte"}
       </button>
-      <p className="mt-4 text-center text-gray-500 text-sm md:col-span-2"> </p>
+      <div className="div text-center col-span-2">
+        Déjà un compte ?{" "}
+        <button
+          onClick={() => navigate("/auth/login")}
+          className="hover:underline text-blue-600"
+        >
+          Se connecter
+        </button>
+      </div>
     </form>
   );
 }

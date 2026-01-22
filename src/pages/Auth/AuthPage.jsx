@@ -9,6 +9,8 @@ import LoginForm from "@/components/Form/LoginForm";
 import SignUpForm from "@/components/Form/SignUpForm";
 import { isValidEmail } from "@/utils/validator/isValidEmail";
 import { createAccountRequest } from "@/api/auth/createAccountRequest";
+import Header from "@/components/Header/Header";
+import Logo from "@/components/Header/Logo";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
@@ -81,11 +83,13 @@ function AuthPage() {
     const emailError = isValidEmail(signupData.email);
     console.log(error == [] + " | " + emailError);
     if (error == [] || !emailError) {
-      console.log("Une erreur")
+      console.log("Une erreur");
       setSignupSuccess(false);
       setIsSignupLoading(false);
       setPasswordError(error);
-      setSignupErrorMessage("Le courriel ou le mot de passe ne sont pas valides.");
+      setSignupErrorMessage(
+        "Le courriel ou le mot de passe ne sont pas valides.",
+      );
       return;
     }
     setPasswordError("");
@@ -107,7 +111,9 @@ function AuthPage() {
 
     if (!signupSuccess) {
       setSignupSuccess(false);
-      setSignupErrorMessage(response.error || "Erreur lors de la création du compte");
+      setSignupErrorMessage(
+        response.error || "Erreur lors de la création du compte",
+      );
       setIsSignupLoading(false);
       return;
     }
@@ -121,7 +127,14 @@ function AuthPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-screen">
+      <div
+        className={`absolute top-4 left-4 z-50 transform transition-transform duration-700 ease-in-out ${
+          isLogin ? "translate-x-0" : "translate-x-[calc(100vw/2)]"
+        }`}
+      >
+        <Logo bigTitleColorWhite={true} />
+      </div>
       <main className="flex-1 overflow-hidden bg-gray-50">
         <div className="relative w-full h-full overflow-hidden">
           <div
@@ -133,6 +146,7 @@ function AuthPage() {
             <div className="w-1/2 flex flex-col md:flex-row">
               <div className="flex w-full md:w-1/2 justify-center items-center p-6 md:p-10">
                 <SignUpForm
+                  navigate={navigate}
                   authSuccess={signupSuccess}
                   signupErrorMessage={signupErrorMessage}
                   signupData={signupData}
@@ -193,6 +207,7 @@ function AuthPage() {
 
               <div className="flex w-full md:w-1/2 justify-center items-center p-6 md:p-10">
                 <LoginForm
+                  navigate={navigate}
                   authSuccess={authSuccess}
                   errorMessage={errorMessage}
                   loginEmail={loginEmail}

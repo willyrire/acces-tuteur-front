@@ -11,9 +11,7 @@ export async function isLoggedIn() {
         "Authorization": localStorage.getItem("Authorization")
       }
     });
-    console.log ("isLoggedIn response:", response);
-    console.log ("isLoggedIn status:", response.status);
-    return response.status;
+    return response.status === 200;
   } catch (error) {
     return false;
   }

@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function LoginForm({
+  navigate,
   authSuccess,
   errorMessage,
   loginEmail,
@@ -51,6 +52,9 @@ export default function LoginForm({
         </button>
       </form>
       <p className="mt-4 text-center text-gray-500 text-sm">
+        <button onClick={() => navigate("/auth/create-account")}>
+          Pas de compte ? <span className="hover:underline text-blue-600">S'inscrire</span>
+        </button>
         <br />
         <button
           onClick={onForgotPassword}

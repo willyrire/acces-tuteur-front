@@ -8,7 +8,6 @@ import {
 
 import HomePage from "../pages/Homepage";
 import AuthPage from "../pages/Auth/AuthPage";
-import LogoutPage from "../pages/Auth/LogoutPage";
 import NotFound404 from "../pages/Error/NotFound404";
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
 import { getUserNameLastNameFirstInitial } from "@/utils/tools/getUserName";
@@ -57,16 +56,12 @@ const AppRoutes = () => {
         />
         <Route
           path="/auth/login"
-          element={isAuth ? <Navigate to="/" /> : <AuthPage />}
+          element={isAuth ? <Navigate from="/auth/login" to="/" /> : <AuthPage />}
         />
         <Route
           path="/auth/create-account"
-          element={isAuth ? <Navigate to="/" /> : <AuthPage />}
+          element={isAuth ? <Navigate from="/auth/create-account" to="/" /> : <AuthPage />}
         />
-        <Route path="/auth/logout" element={<LogoutPage />} />
-
-        {/* Futur exemple de route */}
-        {/* <Route path="/login" element={<LoginPage />} /> */}
 
         {/* Fallback 404 */}
         <Route path="*" element={<NotFound404 />} />

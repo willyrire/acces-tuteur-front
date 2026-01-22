@@ -5,14 +5,14 @@ import UserMenu from "./UserMenu";
 import SearchButton from "./SearchButton";
 import SearchBar from "./SearchBar";
 
-const Header = ({ isAuth, userName, minimalist = false }) => {
+const Header = ({ isAuth, userName, minimalist = false, emptyBg = false, bigTitleColorWhite = false }) => {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-blue-200">
+    <header className={`fixed top-0 left-0 w-full z-50 ${emptyBg ? "bg-transparent" : "bg-blue-200"}`}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo toujours visible */}
-        <Logo />
+        <Logo bigTitleColorWhite={bigTitleColorWhite} />
 
         {/* Si pas minimaliste, on affiche le menu et le user menu */}
         {!minimalist && (

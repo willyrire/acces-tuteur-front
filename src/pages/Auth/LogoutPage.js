@@ -15,7 +15,7 @@ const LogoutPage = () => {
         console.error("Erreur logout:", err);
       } finally {
         clearAuthStorage(); // Nettoyer le stockage local
-        // fastRedirect("/"); // Redirection rapide vers la page d'accueil
+        fastRedirect("/"); // Redirection rapide vers la page d'accueil
       }
     };
 

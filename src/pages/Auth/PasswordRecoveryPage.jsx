@@ -42,7 +42,6 @@ function PasswordRecoveryPage() {
             Entrez votre courriel et nous vous enverrons un lien pour réinitialiser
             votre mot de passe.
           </p>
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="email"

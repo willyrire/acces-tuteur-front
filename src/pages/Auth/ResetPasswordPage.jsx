@@ -51,7 +51,7 @@ function ResetPasswordPage() {
         setStatus("success");
         setMessage(
           result.message ||
-            "Mot de passe réinitialisé avec succès. Vous pouvez maintenant vous connecter.",
+            "Mot de passe réinitialisé avec succès. Vous serez redirigé dans un instant.",
         );
         setTimeout(() => fastRedirect("/auth/login"), 3000);
       } else {

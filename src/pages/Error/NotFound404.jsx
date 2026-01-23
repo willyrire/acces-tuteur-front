@@ -1,9 +1,9 @@
 import React from "react";
 
 import Header from "../../components/Header/Header";
-function NotFound404(){
+function NotFound404({isAuth, userName}) {
     return (
-        <Header isAuth={false} minimalist={true} />
+        <Header isAuth={isAuth} userName={userName} />
     )
 }
 

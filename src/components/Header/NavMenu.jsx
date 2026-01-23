@@ -13,18 +13,24 @@ const NavMenu = () => {
   ];
 
   return (
-    <nav>
-      {tabs
-        .filter((tab) => tab.link !== location.pathname) // filtre la page active
-        .map((tab) => (
-          <NavLink
-            key={tab.name}
-            to={tab.link}
-            className="px-3 py-1 font-bold rounded hover:underline transition text-gray-800"
-          >
-            {tab.name}
-          </NavLink>
-        ))}
+    <nav className="flex gap-6">
+      {tabs.map((tab) => (
+        <NavLink
+          key={tab.name}
+          to={tab.link}
+          className={({ isActive }) =>
+            `inline-block pb-1 font-bold text-gray-800 transition
+           border-b-2
+           ${
+             isActive
+               ? "border-gray-800"
+               : "border-transparent hover:border-gray-400"
+           }`
+          }
+        >
+          {tab.name}
+        </NavLink>
+      ))}
     </nav>
   );
 };

@@ -70,7 +70,7 @@ const AppRoutes = () => {
         <Route path="/auth/password-recovery"  element={isAuth ? <Navigate from="/auth/password-recovery" to="/" /> : <PasswordRecoveryPage />} />
         <Route path="/auth/reset-password" element={isAuth ? <Navigate from="/auth/reset-password" to="/" /> : <ResetPasswordPage />} />
         {/* Fallback 404 */}
-        <Route path="*" element={<NotFound404 />} />
+        <Route path="*" element={<NotFound404 isAuth={isAuth} userName={userName} />} />
       </Routes>
     </Router>
   );

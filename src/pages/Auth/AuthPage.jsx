@@ -11,6 +11,7 @@ import { isValidEmail } from "@/utils/validator/isValidEmail";
 import { createAccountRequest } from "@/api/auth/createAccountRequest";
 import Header from "@/components/Header/Header";
 import Logo from "@/components/Header/Logo";
+import useIsMobile from "@/utils/tools/useIsMobile";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
@@ -21,7 +22,7 @@ function AuthPage() {
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-
+  const isMobile = useIsMobile();
   const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {
@@ -129,11 +130,19 @@ function AuthPage() {
   return (
     <div className="relative flex flex-col min-h-screen">
       <div
-        className={`absolute top-4 left-4 z-50 transform transition-transform duration-700 ease-in-out ${
-          isLogin ? "translate-x-0" : "translate-x-[calc(100vw/2)]"
+        className={`${
+          isMobile
+            ? "bg-blue-200 w-full ml-0 top-0 left-0 p-4"
+            : "absolute top-4 left-4"
+        } z-50 transform transition-transform duration-700 ease-in-out ${
+          isMobile
+            ? ""
+            : isLogin
+              ? "translate-x-0"
+              : "translate-x-[calc(100vw/2)]"
         }`}
       >
-        <Logo bigTitleColorWhite={true} />
+        <Logo bigTitleColorWhite={!isMobile} />
       </div>
       <main className="flex-1 overflow-hidden bg-gray-50">
         <div className="relative w-full h-full overflow-hidden">

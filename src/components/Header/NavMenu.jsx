@@ -1,8 +1,9 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import useIsMobile from "@/utils/tools/useIsMobile";
+import { NavLink } from "react-router-dom";
 
-const NavMenu = () => {
-  const location = useLocation();
+const NavMenu = ({ isMobileMenu = false }) => {
+  const isMobile = useIsMobile() || isMobileMenu;
 
   const tabs = [
     { name: "Accueil", link: "/" },
@@ -13,19 +14,27 @@ const NavMenu = () => {
   ];
 
   return (
-    <nav className="flex gap-6">
+    <nav
+      className={
+        isMobile
+          ? "flex flex-col items-center gap-6 mt-8"
+          : "flex gap-6"
+      }
+    >
       {tabs.map((tab) => (
         <NavLink
           key={tab.name}
           to={tab.link}
           className={({ isActive }) =>
-            `inline-block pb-1 font-bold text-gray-800 transition
-           border-b-2
-           ${
-             isActive
-               ? "border-gray-800"
-               : "border-transparent hover:border-gray-400"
-           }`
+            `
+            font-bold transition text-gray-800
+            ${isMobile ? "text-xl" : "inline-block pb-1"}
+            ${
+              !isMobile && isActive
+                ? "border-b-2 border-gray-800"
+                : "border-b-2 border-transparent"
+            }
+            `
           }
         >
           {tab.name}

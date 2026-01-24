@@ -22,7 +22,7 @@ const UserMenu = ({ isAuth, userName }) => {
 
   if (!isAuth) {
     return (
-      <nav className="gap-1 flex items-center">
+      <nav className="gap-1 pb-1.5 flex items-center">
         <NavLink to="/auth/login" className="px-3 py-1 font-bold hover:underline">
           Se connecter
         </NavLink>

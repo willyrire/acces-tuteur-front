@@ -27,7 +27,7 @@ const NavMenu = ({ isMobileMenu = false }) => {
           to={tab.link}
           className={({ isActive }) =>
             `
-            font-bold transition text-gray-800
+            border-b-2 hover:border-gray-400 font-bold transition text-gray-800
             ${isMobile ? "text-xl" : "inline-block pb-1"}
             ${
               !isMobile && isActive

@@ -6,11 +6,7 @@ import API from "@/api/client";
 async function logoutRequest() {
   try {
     // Endpoint de vérification rapide
-    const response = await API.post("/v1/auth/logout", {} , {
-      headers: {
-        "Authorization": localStorage.getItem("Authorization")
-      }
-    });
+    const response = await API.post("/v1/auth/logout");
     return response.status == 200;
   } catch (error) {
     throw error;

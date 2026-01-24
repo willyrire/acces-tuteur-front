@@ -1,7 +1,17 @@
+import { useEffect } from "react";
 import NavMenu from "./NavMenu";
 import UserMenu from "./UserMenu";
 
 const MobileMenu = ({ isOpen, onClose, isAuth, userName }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -14,6 +24,7 @@ const MobileMenu = ({ isOpen, onClose, isAuth, userName }) => {
           bg-white
           p-6
           animate-slide-down
+          overflow-y-auto
         "
       >
         {/* Close */}

@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import passwordRecoveryRequest from "@/api/auth/passwordRecoveryRequest";
+import useIsMobile from "@/utils/tools/useIsMobile";
+import Logo from "@/components/Header/Logo";
 
 function PasswordRecoveryPage() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [message, setMessage] = useState("");
-
+  const isMobile = useIsMobile();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
@@ -24,15 +26,29 @@ function PasswordRecoveryPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header
+      {isMobile ? <div
+        className={`${
+          isMobile
+            ? "bg-blue-200 w-full ml-0 top-0 left-0 p-4"
+            : "absolute top-4 left-4"
+        } z-50 transform transition-transform duration-700 ease-in-out ${
+          isMobile
+            ? ""
+            : isLogin
+              ? "translate-x-0"
+              : "translate-x-[calc(100vw/2)]"
+        }`}
+      >
+        <Logo />
+      </div> : <Header
         isAuth={false}
         userName={null}
         minimalist={true}
         emptyBg={false}
         bigTitleColorWhite={false}
-      />
+      />}
 
-      <main className="mt-20 flex-grow flex items-center justify-center p-4">
+      <main className={`${isMobile ? "" : "mt-"} flex-grow flex items-center justify-center p-4`}>
         <div className="w-full max-w-md bg-white rounded-xl shadow-md p-6">
           <h1 className="text-2xl font-semibold text-center mb-4">
             Mot de passe oublié

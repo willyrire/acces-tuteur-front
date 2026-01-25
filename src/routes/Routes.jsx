@@ -58,6 +58,7 @@ const AppRoutes = () => {
           path="/"
           element={<HomePage isAuth={isAuth} userName={userName} />}
         />
+        {/* Authentification */}
         <Route
           path="/auth/login"
           element={isAuth ? <Navigate from="/auth/login" to="/" /> : <AuthPage />}
@@ -66,7 +67,7 @@ const AppRoutes = () => {
           path="/auth/create-account"
           element={isAuth ? <Navigate from="/auth/create-account" to="/" /> : <AuthPage />}
         />
-
+        {/* Authentification / Mot de passe oublié */}
         <Route path="/auth/password-recovery"  element={isAuth ? <Navigate from="/auth/password-recovery" to="/" /> : <PasswordRecoveryPage />} />
         <Route path="/auth/reset-password" element={isAuth ? <Navigate from="/auth/reset-password" to="/" /> : <ResetPasswordPage />} />
         {/* Fallback 404 */}

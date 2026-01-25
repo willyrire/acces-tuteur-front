@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../components/Header/Header";
-import Section from "../components/Section";
-
+import Header from "@/components/Header/Header";
+import Section from "@/components/Section";
+import Footer from "@/components/Footer";
 function HomePage({isAuth, userName}) {
   return (
     <div className="flex flex-col">
@@ -16,8 +16,9 @@ function HomePage({isAuth, userName}) {
       <Section
         title="Deuxième section"
         children="Voici une autre section."
-        className="bg-green-500 min-h-screen mt-0"
+        className="bg-green-500 min-h-screen"
       />
+      <Footer />
     </div>
   );
 }

@@ -31,7 +31,7 @@ function NotFound404({ isAuth, userName }) {
             </p>
           </>
         }
-        className="bg-white mb-30 min-h-[70vh] flex flex-col justify-center items-center text-center mt-[5%]"
+        className="bg-white mb-30 min-h-[70vh] flex flex-col justify-center items-center text-center mt-25"
         titleAlignement="text-center"
       />
       <Footer />

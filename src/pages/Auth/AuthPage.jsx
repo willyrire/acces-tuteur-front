@@ -12,6 +12,8 @@ import { createAccountRequest } from "@/api/auth/createAccountRequest";
 import Header from "@/components/Header/Header";
 import Logo from "@/components/Header/Logo";
 import useIsMobile from "@/utils/tools/useIsMobile";
+import { getDashBoardLink } from "@/utils/tools/getDashboardLink";
+import { getSession } from "@/api/auth/sessionCreation";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
@@ -71,7 +73,8 @@ function AuthPage() {
     }
 
     loginSuccessHandler(response.data);
-    fastRedirect(`/dashboard/${response.data.role}`);
+    // Avant de rediriger sur le dashboard, création de la micro session de transport.
+    fastRedirect("/user/profile");
     setIsLoginLoading(false);
   };
 
@@ -119,7 +122,8 @@ function AuthPage() {
       return;
     }
     loginSuccessHandler(response.data);
-    fastRedirect(`/dashboard/${response.data.role}`);
+    // Avant de rediriger sur le dashboard, création de la micro session de transport.
+    fastRedirect("/user/profile");
     setIsSignupLoading(false);
     console.log(
       "Une erreur s'est produite lors de la création du compte : ",

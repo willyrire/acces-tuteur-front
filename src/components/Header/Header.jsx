@@ -7,6 +7,9 @@ import SearchButton from "./SearchButton";
 import SearchBar from "./SearchBar";
 import MobileMenu from "./MobileMenu";
 import useIsMobile from "@/utils/tools/useIsMobile";
+import Warning from "@/components/Warning";
+import warningText from "@/assets/warning-text.json";
+
 const Header = ({
   isAuth,
   userName,
@@ -26,6 +29,8 @@ const Header = ({
     setShowWarning(true);
     setHasCheckedEmail(true);
   }
+
+  const emailNotVerifiedMessage = warningText.email_not_verified;
 
   // Hook pour détecter le scroll
   useEffect(() => {
@@ -95,44 +100,13 @@ const Header = ({
         </div>
         {/* Email verification warning banner */}
         {isAuth && !isEmailVerified && showWarning && (
-          <div className="mt-5 left-0 w-full z-40 bg-yellow-400 border-b-2 border-yellow-500">
-            <div className={`max-w-6xl mx-auto px-4 py-3 flex items-center ${isMobile ? "text-justify" : "justify-between"}`}>
-              <div className="flex items-center">
-                <CircleAlert className="w-10 h-10 text-black-600" />
-              </div>
-              <p className={`text-black font-medium ${isMobile && ("mr-2")} `}>
-                Votre adresse courriel n'est pas vérifié. Veuillez la vérifier
-                afin de sécuriser votre compte. <br />
-                Votre compte sera <u><b>supprimé</b></u> dans 30 jours si vous ne le faites pas.
-              </p>
-              <div className="flex items-center align-baseline">
-                {!isMobile ? (
-                  <button
-                  onClick={handleResendEmail}
-                  className="hover:cursor-pointer bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-4 py-2 rounded transition-colors duration-200"
-                >
-                  Vérifier maintenant
-                </button>
-                ) : (
-                  <>
-                  <br />
-                  <button
-                  onClick={handleResendEmail}
-                  className="hover:cursor-pointer bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-4 py-2 rounded transition-colors duration-200"
-                >
-                  Vérifier
-                </button> 
-                  </>
-                )}
-                <button
-                  onClick={() => setShowWarning(false)}
-                  className="hover:cursor-pointer ml-3 bg-yellow-400 rounded-full hover:bg-opa hover:bg-yellow-300 px-4 py-4 transition"
-                >
-                  <X className="w-6 h-6 text-black-600" />
-                </button>
-              </div>
-            </div>
-          </div>
+          <Warning
+            isMobile={isMobile}
+            message={emailNotVerifiedMessage}
+            hasButton={true}
+            buttonText="Vérifier maintenant"
+            buttonTargetFunction={handleResendEmail}
+          />
         )}
       </header>
     </>

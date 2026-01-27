@@ -18,7 +18,8 @@ function Profile({ isAuth, userName }) {
       setRequestStatus("error");
       return;
     }
-
+    
+    // TODO : Bien getData, une erreur se produit à quelque part.
     const verify = async () => {
       try {
         const verifData = await verifyEmail(params.code);

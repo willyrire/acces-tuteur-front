@@ -7,7 +7,7 @@ function Profile({isAuth, userName}) {
   return (
     <div>
         {/* Navigation */}
-        <Header isAuth={isAuth} userName={userName} />
+        <Header removeWarnings={true} isAuth={isAuth} userName={userName} />
         {/* Contenue */}
         
         {/* Footer */}

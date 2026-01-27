@@ -21,14 +21,16 @@ const Header = ({
   minimalist = false,
   emptyBg = false,
   bigTitleColorWhite = false,
+  removeWarnings = false
 }) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [hasCheckedEmail, setHasCheckedEmail] = useState(false);
-  const [showWarning, setShowWarning] = useState(true);
+  const [showWarning, setShowWarning] = useState(false);
   const isMobile = useIsMobile();
+  const [hasInterpretedRequest, setHasInterpretedRequest] = useState(false);
   const [showSuccessEmailSent, setShowSuccessEmailSent] = useState(false);
   const [showEmailNotVerifiedWarning, setShowEmailNotVerifiedWarning] = useState(false);
   if (!isEmailVerified && !hasCheckedEmail) {
@@ -80,6 +82,11 @@ const Header = ({
 
       console.error("Erreur lors de l'envoi de l'email de vérification :", error);
     }
+  }
+
+  if(removeWarnings && !hasInterpretedRequest) {
+    setShowWarning(false);
+    setHasInterpretedRequest(true);
   }
 
   return (

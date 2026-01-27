@@ -2,8 +2,9 @@
 import axios from "axios";
 import type { AxiosInstance } from "axios"; // ✅ juste le type
 
+const apiUrl: string = "http://localhost/"; // http://192.168.2.11/
 const API: AxiosInstance = axios.create({
-  baseURL: "http://192.168.2.11/", // ton endpoint API
+  baseURL: apiUrl, // ton endpoint API
   headers: {
     "Content-Type": "application/json",
     "Authorization": localStorage.getItem("Authorization") ?? ""

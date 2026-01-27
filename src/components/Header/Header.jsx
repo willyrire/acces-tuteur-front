@@ -7,9 +7,12 @@ import SearchButton from "./SearchButton";
 import SearchBar from "./SearchBar";
 import MobileMenu from "./MobileMenu";
 import useIsMobile from "@/utils/tools/useIsMobile";
-import Warning from "@/components/HeaderObject/Warning";
 import warningText from "@/assets/warning-text.json";
-import loadWarning from "@/utils/tools/loadWarnings.jsx";
+import Warning from "@/components/HeaderObject/Warning";
+import Danger from "@/components/HeaderObject/Danger";
+import Info from "@/components/HeaderObject/Info";
+import Success from "@/components/HeaderObject/Success";
+import { div } from "framer-motion/client";
 
 const Header = ({
   isAuth,
@@ -108,12 +111,27 @@ const Header = ({
             </>
           )}
         </div>
-        {/* Email verification warning banner */}
+        {/* Warnings */}
         {showWarning && (
-          !isEmailVerified && (
-            <Warning isMobile={isMobile} message={warningText.email_not_verified.text} hasButton={warningText.email_not_verified.hasButton} buttonText={warningText.email_not_verified.buttonText} buttonTextMobile={warningText.email_not_verified.buttonTextMobile} buttonTargetFunction={handleResendEmail} showWarning={showWarning} onClose={() => setShowWarning(false)}/>
-          )
-
+          <div className="mt-5">
+            {!isEmailVerified && ( 
+              // Si l'email n'est pas vérifié, afficher l'avertissement
+              <div className="mt-5">
+                <Warning
+                  isMobile={isMobile}
+                  message={warningText.email_not_verified.text}
+                  hasButton={warningText.email_not_verified.hasButton}
+                  buttonText={warningText.email_not_verified.buttonText}
+                  buttonTextMobile={
+                    warningText.email_not_verified.buttonTextMobile
+                  }
+                  buttonTargetFunction={handleResendEmail}
+                  showWarning={showWarning}
+                  onClose={() => setShowWarning(false)}
+                />
+              </div>
+            )}
+          </div>
         )}
       </header>
     </>

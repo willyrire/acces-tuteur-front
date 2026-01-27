@@ -1,7 +1,7 @@
 import React from "react";
 import { X, CircleAlert } from "lucide-react";
 
-const Warning = ({
+const Info = ({
   isMobile,
   message,
   hasButton,
@@ -11,7 +11,7 @@ const Warning = ({
   onClose,
 }) => {
   return (
-    <div className="left-0 w-full z-40 bg-yellow-400 border-b-2 border-yellow-500">
+    <div className="left-0 w-full z-40 bg-blue-400 border-b-2 border-blue-500">
       <div
         className={`${hasButton ? "max-w-6xl " : "max-w-3xl"} mx-auto px-4 py-3 flex items-center ${
           isMobile ? "text-justify" : "justify-between"
@@ -30,14 +30,14 @@ const Warning = ({
           {hasButton && (
             <button
               onClick={buttonTargetFunction}
-              className="hover:cursor-pointer bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-4 py-2 rounded transition-colors duration-200"
+              className="hover:cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded transition-colors duration-200"
             >
               {isMobile ? buttonTextMobile : buttonText}
             </button>
           )}
           <button
             onClick={onClose}
-            className="hover:cursor-pointer ml-3 bg-yellow-400 rounded-full hover:bg-yellow-300 px-4 py-4 transition"
+            className="hover:cursor-pointer ml-3 bg-blue-400 rounded-full hover:bg-blue-300 px-4 py-4 transition"
           >
             <X className="w-6 h-6 text-black" />
           </button>
@@ -47,4 +47,4 @@ const Warning = ({
   );
 };
 
-export default Warning;
+export default Info;

@@ -1,3 +1,9 @@
 {
-    "email_not_verified": "Votre adresse courriel n'est pas vérifié. Veuillez la vérifier afin de sécuriser votre compte. <br /> Votre compte sera <u><b>supprimé</b></u> dans 30 jours si vous ne le faites pas."
+    "email_not_verified": {
+        "type": "warning",
+        "hasButton": true,
+        "buttonText": "Vérifier maintenant",
+        "buttonTextMobile": "Vérifier",
+        "text": "Votre adresse courriel n'est pas vérifié. Veuillez la vérifier afin de sécuriser votre compte. <br /> Votre compte sera <u><b>supprimé</b></u> dans 30 jours si vous ne le faites pas."
+    }
 }

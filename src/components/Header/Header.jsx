@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Logo from "./Logo";
-import { X, CircleAlert  } from "lucide-react";
+import { X, CircleAlert } from "lucide-react";
 import NavMenu from "./NavMenu";
 import UserMenu from "./UserMenu";
 import SearchButton from "./SearchButton";
 import SearchBar from "./SearchBar";
 import MobileMenu from "./MobileMenu";
 import useIsMobile from "@/utils/tools/useIsMobile";
-import Warning from "@/components/Warning";
+import Warning from "@/components/HeaderObject/Warning";
 import warningText from "@/assets/warning-text.json";
+import loadWarning from "@/utils/tools/loadWarnings.jsx";
 
 const Header = ({
   isAuth,
@@ -29,9 +30,18 @@ const Header = ({
     setShowWarning(true);
     setHasCheckedEmail(true);
   }
+  // ✅ Ne jamais setState dans le render : fais-le ici
+  useEffect(() => {
+    const verified = localStorage.getItem("isEmailVerified") === "true";
+    setIsEmailVerified(verified);
+    setShowWarning(!verified);
+  }, []);
 
-  const emailNotVerifiedMessage = warningText.email_not_verified;
-
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 0);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   // Hook pour détecter le scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +69,7 @@ const Header = ({
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out ${
           emptyBg ? "bg-transparent" : "bg-blue-200"
-        } ${scrolled ? showWarning ? "pt-2" : "py-2" : showWarning ? "pt-4" : "py-4"}`}
+        } ${scrolled ? (showWarning ? "pt-2" : "py-2") : showWarning ? "pt-4" : "py-4"}`}
       >
         <div className="max-w-6xl mx-auto flex items-center justify-between px-4 h-16">
           {/* Logo */}
@@ -99,14 +109,11 @@ const Header = ({
           )}
         </div>
         {/* Email verification warning banner */}
-        {isAuth && !isEmailVerified && showWarning && (
-          <Warning
-            isMobile={isMobile}
-            message={emailNotVerifiedMessage}
-            hasButton={true}
-            buttonText="Vérifier maintenant"
-            buttonTargetFunction={handleResendEmail}
-          />
+        {showWarning && (
+          !isEmailVerified && (
+            <Warning isMobile={isMobile} message={warningText.email_not_verified.text} hasButton={warningText.email_not_verified.hasButton} buttonText={warningText.email_not_verified.buttonText} buttonTextMobile={warningText.email_not_verified.buttonTextMobile} buttonTargetFunction={handleResendEmail} showWarning={showWarning} onClose={() => setShowWarning(false)}/>
+          )
+
         )}
       </header>
     </>

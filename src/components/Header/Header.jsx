@@ -13,6 +13,7 @@ import Danger from "@/components/HeaderObject/Danger";
 import Info from "@/components/HeaderObject/Info";
 import Success from "@/components/HeaderObject/Success";
 import { div } from "framer-motion/client";
+import sendEmailVerification from "@/api/service/sendEmailVerification";
 
 const Header = ({
   isAuth,
@@ -26,8 +27,10 @@ const Header = ({
   const [scrolled, setScrolled] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [hasCheckedEmail, setHasCheckedEmail] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
+  const [showWarning, setShowWarning] = useState(true);
   const isMobile = useIsMobile();
+  const [showSuccessEmailSent, setShowSuccessEmailSent] = useState(false);
+  const [showEmailNotVerifiedWarning, setShowEmailNotVerifiedWarning] = useState(false);
   if (!isEmailVerified && !hasCheckedEmail) {
     setIsEmailVerified(localStorage.getItem("isEmailVerified") === "true");
     setShowWarning(true);
@@ -37,7 +40,7 @@ const Header = ({
   useEffect(() => {
     const verified = localStorage.getItem("isEmailVerified") === "true";
     setIsEmailVerified(verified);
-    setShowWarning(!verified);
+    setShowEmailNotVerifiedWarning(!verified);
   }, []);
 
   useEffect(() => {
@@ -56,16 +59,28 @@ const Header = ({
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  const handleResendEmail = () => {
-    // Ajoutez ici votre logique pour renvoyer l'email de vérification
-    console.log("Resending verification email...");
-  };
+  const handleResendEmail = async () => {
+    try {
+      setShowEmailNotVerifiedWarning(false);
+      setShowSuccessEmailSent(true);
+      const response = await sendEmailVerification();
+      console.log("Email de vérification renvoyé avec succès :", response);
+      
+      // Masquer le message de succès après quelques secondes
+      
+      setTimeout(() => {
+        setShowSuccessEmailSent(false);
+      }, 2750);
+    } catch (error) {
+
+      console.error("Erreur lors de l'envoi de l'email de vérification :", error);
+    }
+  }
 
   return (
     <>
@@ -114,7 +129,7 @@ const Header = ({
         {/* Warnings */}
         {showWarning && (
           <div className="mt-5">
-            {!isEmailVerified && ( 
+            {!isEmailVerified && showEmailNotVerifiedWarning && ( 
               // Si l'email n'est pas vérifié, afficher l'avertissement
               <div className="mt-5">
                 <Warning
@@ -127,9 +142,12 @@ const Header = ({
                   }
                   buttonTargetFunction={handleResendEmail}
                   showWarning={showWarning}
-                  onClose={() => setShowWarning(false)}
+                  onClose={() => setShowEmailNotVerifiedWarning(false)}
                 />
               </div>
+            )}
+            {showSuccessEmailSent && (
+              <Success message={warningText.email_sent_success.text} />
             )}
           </div>
         )}

@@ -14,7 +14,6 @@ import NotFound404 from "../pages/Error/NotFound404";
 import PasswordRecoveryPage from "../pages/Auth/PasswordRecoveryPage";
 import Profile from "@/pages/User/Profile";
 import VerifyEmail from "@/pages/User/VerifyEmail";
-import Settings from "@/pages/User/Settings";
 
 // Utils
 import { isLoggedIn } from "@/api/auth/isLoggedIn";

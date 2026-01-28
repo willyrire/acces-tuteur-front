@@ -1,18 +1,81 @@
-import React from "react";
-
+import React, { useState } from "react";
+import {
+  User,
+  Settings,
+  LogOut,
+  ShieldOff
+} from "lucide-react";
 import Header from "@/components/Header/Header";
-import { div } from "framer-motion/client";
 import Footer from "@/components/Footer";
-function Profile({isAuth, userName}) {
+import MenuItem from "./MenuItem";
+
+function Profile({ isAuth, userName }) {
+  const [activeTab, setActiveTab] = useState("profile");
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "profile":
+        return <div>🧑 Infos du profil</div>;
+      case "settings":
+        return <div>⚙️ Paramètres</div>;
+      case "logout":
+        return <div>🚪 Déconnexion</div>;
+      case "logoutAll":
+        return <div>🔥 Déconnexion de toutes les sessions</div>;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div>
-        {/* Navigation */}
-        <Header isAuth={isAuth} userName={userName} />
-        {/* Contenue */}
-        
-        {/* Footer */}
-        <Footer />
+    <div className="flex flex-col min-h-screen">
+      <Header isAuth={isAuth} userName={userName} />
+
+      {/* CONTENU */}
+      <div className="flex flex-1 max-w-6xl my-20 mt-30 w-full mx-auto gap-6 px-4">
+        {/* MENU GAUCHE */}
+        <aside className="w-64 bg-gray-100 rounded-xl p-4">
+          <ul className="space-y-2">
+            <MenuItem
+              label="Profil"
+              icon={User}
+              active={activeTab === "profile"}
+              onClick={() => setActiveTab("profile")}
+            />
+
+            <MenuItem
+              label="Paramètres"
+              icon={Settings}
+              active={activeTab === "settings"}
+              onClick={() => setActiveTab("settings")}
+            />
+
+            <MenuItem
+              label="Déconnexion"
+              icon={LogOut}
+              active={activeTab === "logout"}
+              onClick={() => setActiveTab("logout")}
+            />
+
+            <MenuItem
+              label="Déconnexion globale"
+              icon={ShieldOff}
+              danger
+              active={activeTab === "logoutAll"}
+              onClick={() => setActiveTab("logoutAll")}
+            />
+          </ul>
+        </aside>
+
+        {/* CONTENU DROIT */}
+        <main className="flex-1 bg-white rounded-xl p-6 shadow">
+          {renderContent()}
+        </main>
+      </div>
+
+      <Footer />
     </div>
   );
 }
+
 export default Profile;

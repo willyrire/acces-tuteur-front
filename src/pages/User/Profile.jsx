@@ -18,6 +18,7 @@ function Profile({ isAuth, userName }) {
     lastName: getLastName() || "",
     city: localStorage.getItem("userCity") || "",
     location: localStorage.getItem("location") || "",
+    phone: localStorage.getItem("phone") || "",
   });
   const renderContent = () => {
     switch (activeTab) {

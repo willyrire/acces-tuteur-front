@@ -76,7 +76,6 @@ const AppRoutes = () => {
 
         {/* user/profile */}
         <Route path="/user/profile" element={isAuth ? <Profile isAuth={isAuth} userName={userName} /> : <Navigate from="/user/profile" to="/auth/login" />} />
-        <Route path="/user/settings" element={isAuth ? <Settings isAuth={isAuth} userName={userName} /> : <Navigate from="/user/settings" to="/auth/login" />} />
         <Route path="/user/profile/verify-email" element={isAuth ? <VerifyEmail isAuth={isAuth} userName={userName} /> : <Navigate from="/user/profile/verify-email" to="/auth/login" />} />
 
         {/* Fallback 404 */}

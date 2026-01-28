@@ -12,9 +12,13 @@ function NotFound404({ isAuth, userName }) {
         title="404 - Page introuvable"
         children={
           <>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-gray-600 font-semibold">
               Désolé, la page que vous tentez d'accéder n'existe plus ou a été
-              changée de place.
+              changée de place. <br />
+              Accès Tuteur est un projet en développement constant. <br />
+              Il est donc
+              possible que cette page finisse par être ajoutée (ou pas) ! <br />
+              Vous le trouvez comment le robot?
             </p>
             <Picture
               source="/images/404-error-page-robot.png"

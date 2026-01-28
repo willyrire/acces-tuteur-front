@@ -1,7 +1,6 @@
 import API from '../client';
 
 const verifyEmail = async (code) => {
-    console.log("Verifying email with code:", code);
     const payload = {
         "token": String(code)
     };

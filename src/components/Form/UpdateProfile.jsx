@@ -4,16 +4,6 @@ const UpdateProfile = ({ updateProfile, setUpdateProfile, onSubmit }) => {
   return (
     <>
       <div className="flex flex-col">
-        <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Modifier mon profile
-        </h3>
-        <p>
-          Bienvenue sur votre profile. Vous pouvez mettre à jour vos
-          informations personnelles ci-dessous. Si vous désirez changer votre
-          mot de passe ou votre adresse courriel, veuillez cliquer sur{" "}
-          <b>Paramètres</b> en utilisant le menu de navigation ci-contre.
-        </p>
-        <br />
         <form onSubmit={onSubmit}>
           {/* Prénom */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">

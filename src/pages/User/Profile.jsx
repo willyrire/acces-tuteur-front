@@ -9,11 +9,13 @@ import { getFirstName, getLastName } from "@/utils/tools/getUserName";
 import { div } from "framer-motion/client";
 
 function Profile({ isAuth, userName }) {
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState("profil");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("Une erreur est survenue lors de la requête.");
+  const [errorMessage, setErrorMessage] = useState(
+    "Une erreur est survenue lors de la requête.",
+  );
   const [updateProfile, setUpdateProfile] = useState({
     firstName: getFirstName() || "",
     lastName: getLastName() || "",
@@ -23,25 +25,46 @@ function Profile({ isAuth, userName }) {
   });
   const renderContent = () => {
     switch (activeTab) {
-      case "profile":
+      case "profil":
         return (
-          <UpdateProfile
-            onSubmit={(e) =>
-              updateProfileHandler({
-                e,
-                updateProfile,
-                setIsLoading,
-                setError,
-                setSuccess,
-                setErrorMessage
-              })
-            }
-            updateProfile={updateProfile}
-            setUpdateProfile={setUpdateProfile}
-          />
+          <>
+            <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Modifier mon Profil
+            </h3>
+            <p>
+              Bienvenue sur votre profil. Vous pouvez mettre à jour vos
+              informations personnelles ci-dessous. Si vous désirez changer
+              votre mot de passe ou votre adresse courriel, veuillez cliquer sur{" "}
+              <b>Paramètres</b> en utilisant le menu de navigation ci-contre.
+            </p>
+            <br />
+            <UpdateProfile
+              onSubmit={(e) =>
+                updateProfileHandler({
+                  e,
+                  updateProfile,
+                  setIsLoading,
+                  setError,
+                  setSuccess,
+                  setErrorMessage,
+                })
+              }
+              updateProfile={updateProfile}
+              setUpdateProfile={setUpdateProfile}
+            />
+          </>
         );
       case "settings":
-        return <div>⚙️ Paramètres</div>;
+        return (
+          <>
+            <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Paramètres
+            </h3>
+            <p>
+              Ici vous pouvez changer votre mot de passe ainsi que votre adresse courriel.
+            </p>
+          </>
+        );
       case "logout":
         return <div>🚪 Déconnexion</div>;
       case "logoutAll":
@@ -63,8 +86,8 @@ function Profile({ isAuth, userName }) {
             <MenuItem
               label="Profil"
               icon={User}
-              active={activeTab === "profile"}
-              onClick={() => setActiveTab("profile")}
+              active={activeTab === "profil"}
+              onClick={() => setActiveTab("profil")}
             />
 
             <MenuItem
@@ -106,7 +129,8 @@ function Profile({ isAuth, userName }) {
           )}
           {error && (
             <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
-              <b>Erreur : </b>{errorMessage}
+              <b>Erreur : </b>
+              {errorMessage}
             </div>
           )}
           {renderContent()}

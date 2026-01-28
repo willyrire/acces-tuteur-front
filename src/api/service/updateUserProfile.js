@@ -7,6 +7,7 @@ const updateProfileHandler = async ({
   setIsLoading,
   setError,
   setSuccess,
+  setErrorMessage
 }) => {
   e.preventDefault();
 
@@ -28,16 +29,23 @@ const updateProfileHandler = async ({
     }
     const destinator = localStorage.getItem("userId");
     const response = await API.patch(`/v1/user/${destinator}`, payload);
-    if (response.data.status !== "success") {
-      return setError(true);
+    console.log("Response update profile:", response);
+    if (response.status !== 200) {
+      // On essaye de prendre le message d'erreur
+      const errorMessage = response || "Erreur inconnue";
+      console.log("Error updating profile:", errorMessage);
+      return setError(true), setErrorMessage(errorMessage);
     }
 
     // On update les données
     const data = response.data.data;
+    console.log("Updated user data:", data);
     updateLocalData(data);
     setSuccess(true);
   } catch (err) {
-    setError(err.message);
+    const errorMessage = err.response?.data?.error || "Erreur inconnue";
+    setError(true);
+    setErrorMessage(errorMessage);
   } finally {
     setIsLoading(false);
   }

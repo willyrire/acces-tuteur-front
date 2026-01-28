@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import {
-  User,
-  Settings,
-  LogOut,
-  ShieldOff
-} from "lucide-react";
+import { User, Settings, LogOut, ShieldOff } from "lucide-react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import MenuItem from "./MenuItem";
 import UpdateProfile from "@/components/Form/UpdateProfile";
+import updateProfileHandler from "@/api/service/updateUserProfile";
 import { getFirstName, getLastName } from "@/utils/tools/getUserName";
 
 function Profile({ isAuth, userName }) {
   const [activeTab, setActiveTab] = useState("profile");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("Une erreur est survenue lors de la requête.");
   const [updateProfile, setUpdateProfile] = useState({
     firstName: getFirstName() || "",
     lastName: getLastName() || "",
@@ -23,7 +23,22 @@ function Profile({ isAuth, userName }) {
   const renderContent = () => {
     switch (activeTab) {
       case "profile":
-        return <UpdateProfile onSubmit={() => {}} updateProfile={updateProfile} setUpdateProfile={setUpdateProfile} />;
+        return (
+          <UpdateProfile
+            onSubmit={(e) =>
+              updateProfileHandler({
+                e,
+                updateProfile,
+                setIsLoading,
+                setError,
+                setSuccess,
+                setErrorMessage
+              })
+            }
+            updateProfile={updateProfile}
+            setUpdateProfile={setUpdateProfile}
+          />
+        );
       case "settings":
         return <div>⚙️ Paramètres</div>;
       case "logout":
@@ -77,6 +92,12 @@ function Profile({ isAuth, userName }) {
 
         {/* CONTENU DROIT */}
         <main className="flex-1 bg-white rounded-xl p-6 shadow">
+          {/* Si des erreurs on les mets tout de suite */}
+          {error && (
+            <div className="bg-red-100 border-red-900 text-red-700 p-3 rounded mb-4">
+              <b>Erreur : </b>{errorMessage}
+            </div>
+          )}
           {renderContent()}
         </main>
       </div>

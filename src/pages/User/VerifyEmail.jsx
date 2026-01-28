@@ -6,120 +6,89 @@ import Footer from "@/components/Footer";
 import verifyEmail from "@/api/service/verifyEmail";
 import getUserData from "@/api/service/getUserData";
 import updateLocalData from "@/utils/tools/updateLocalData";
-import { div } from "framer-motion/client";
 import Section from "@/components/Section";
 
-function Profile({ isAuth, userName }) {
-  const [requestStatus, setRequestStatus] = useState("processing"); // processing | success | error
+function VerifyEmail({ isAuth, userName }) {
+  const [requestStatus, setRequestStatus] = useState("processing");
   const params = getParams();
+
   useEffect(() => {
     if (isEmpty(params.code)) {
       setRequestStatus("error");
       return;
     }
 
-    // TODO : Bien getData, une erreur se produit à quelque part.
-    const verify = async () => {
-      if (requestStatus === "processing") {
-        try {
-          const verifData = await verifyEmail(params.code);
-          if (!verifData.success) {
-            setRequestStatus("error");
-            return;
-          }
-          setRequestStatus("processing-success-change");
-        } catch (err) {
+    const runVerification = async () => {
+      try {
+        const verifData = await verifyEmail(params.code);
+        if (!verifData.success) {
           setRequestStatus("error");
+          return;
         }
-      }
 
-      // Si en process ou 
-      if(requestStatus === "processing" || requestStatus === "processing-success-change") {
-        try{
-          const userData = await getUserData();
-          if (userData.status === "success") {
-            updateLocalData(userData.data);
-            setRequestStatus("processing-success-success");
-          }
-        } catch(err) {
-          setRequestStatus("error");
+        const userData = await getUserData();
+        if (userData?.status === "success") {
+          updateLocalData(userData.data);
         }
-      }
-      if(requestStatus === "processing-success-success") {
+
         setRequestStatus("success");
+      } catch {
+        setRequestStatus("error");
       }
     };
 
-    verify();
-  }, []); // 🔥 une seule fois au mount
+    runVerification();
+  }, []);
 
   return (
     <div className="flex flex-col">
       <Header removeWarnings={true} isAuth={isAuth} userName={userName} />
 
-      {/* Contenu */}
-      {(requestStatus === "processing" || requestStatus === "processing-success-change") && (
-        <div>
-          <Section
-            title={"Vérification en cours"}
-            children={
-              "Veuillez patienter pendant que nous vérifions votre adresse e-mail."
-            }
-            className={"bg-white-500 pb-30 pt-50 max-w-4xl mx-auto text-center"}
-          />
-        </div>
+      {(requestStatus === "processing") && (
+        <Section
+          title="Vérification en cours"
+          className="bg-white-500 pb-30 pt-50 max-w-4xl mx-auto text-center"
+        >
+          Veuillez patienter pendant que nous vérifions votre adresse e-mail.
+        </Section>
       )}
+
       {requestStatus === "success" && (
-        <div>
-          <Section
-            title={"Vérification réussie"}
-            children={
-              <>
-                <p className="mt-2 text-[18px]">
-                  Votre adresse e-mail a été vérifiée avec succès. Vous pouvez
-                  maintenant accéder à toutes les fonctionnalités.
-                </p>
-                <p className="mt-6">
-                  <a
-                    href="/"
-                    className="items-center rounded-full hover:text-black transition hover:bg-white p-4 border-2 border-blue-500 bg-blue-500 text-white font-bold align-center"
-                  >
-                    Retour à l'accueil
-                  </a>
-                </p>
-              </>
-            }
-            className={
-              "bg-white-500 my-[7%] pb-30 pt-50 max-w-4xl mx-auto text-center"
-            }
-          />
-        </div>
+        <Section
+          title="Vérification réussie"
+          className="bg-white-500 my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
+        >
+          <p className="mt-2 text-[18px]">
+            Votre adresse e-mail a été vérifiée avec succès.
+          </p>
+          <p className="mt-6">
+            <a
+              href="/"
+              className="rounded-full hover:text-black transition hover:bg-white p-4 border-2 border-blue-500 bg-blue-500 text-white font-bold"
+            >
+              Retour à l'accueil
+            </a>
+          </p>
+        </Section>
       )}
+
       {requestStatus === "error" && (
-        <div>
-          <Section
-            title={"Une erreur s'est produite"}
-            children={
-              <>
-                <p className="mt-2 text-[18px]">
-                  Une erreur est survenue lors de la vérification de votre
-                  adresse e-mail. Veuillez réessayer plus tard.
-                </p>
-                <p className="mt-6">
-                  <a
-                    href="/"
-                    className="items-center rounded-full hover:text-black transition hover:bg-white p-4 border-2 border-blue-500 bg-blue-500 text-white font-bold align-center"
-                  >
-                    Retour à l'accueil
-                  </a>
-                </p>
-              </>
-            }
-            className={
-              "bg-white-500 my-[7%] pb-30 pt-50 max-w-4xl mx-auto text-center"
-            }
-          />
-        </div>
+        <Section
+          title="Une erreur s'est produite"
+          className="bg-white-500 my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
+        >
+          <p className="mt-2 text-[18px]">
+            Le lien est invalide ou expiré.
+          </p>
+          <p className="mt-6">
+            <a
+              href="/"
+              className="rounded-full hover:text-black transition hover:bg-white p-4 border-2 border-blue-500 bg-blue-500 text-white font-bold"
+            >
+              Retour à l'accueil
+            </a>
+          </p>
+        </Section>
       )}
 
       <Footer />
@@ -127,4 +96,4 @@ function Profile({ isAuth, userName }) {
   );
 }
 
-export default Profile;
+export default VerifyEmail;

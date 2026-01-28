@@ -6,6 +6,7 @@ import MenuItem from "./MenuItem";
 import UpdateProfile from "@/components/Form/UpdateProfile";
 import updateProfileHandler from "@/api/service/updateUserProfile";
 import { getFirstName, getLastName } from "@/utils/tools/getUserName";
+import { div } from "framer-motion/client";
 
 function Profile({ isAuth, userName }) {
   const [activeTab, setActiveTab] = useState("profile");
@@ -93,8 +94,18 @@ function Profile({ isAuth, userName }) {
         {/* CONTENU DROIT */}
         <main className="flex-1 bg-white rounded-xl p-6 shadow">
           {/* Si des erreurs on les mets tout de suite */}
+          {isLoading && (
+            <div className="bg-blue-100 text-blue-700 p-3 rounded mb-4">
+              Traitement de la requête...
+            </div>
+          )}
+          {success && (
+            <div className="bg-green-100 text-green-700 p-3 rounded mb-4">
+              Profil mis à jour avec succès.
+            </div>
+          )}
           {error && (
-            <div className="bg-red-100 border-red-900 text-red-700 p-3 rounded mb-4">
+            <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
               <b>Erreur : </b>{errorMessage}
             </div>
           )}

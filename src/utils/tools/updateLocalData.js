@@ -3,7 +3,7 @@ const updateLocalData = (userData) => {
     localStorage.setItem("location", userData.location);
     localStorage.setItem("email", userData.email);
     localStorage.setItem("authIat", userData.iat);
-    localStorage.setItem("phone", userData.phone);
+    localStorage.setItem("phone", userData.phoneNumber);
     localStorage.setItem("isEmailVerified", userData.isEmailVerified);
     localStorage.setItem("name", userData.name);
     localStorage.setItem("role", userData.role);

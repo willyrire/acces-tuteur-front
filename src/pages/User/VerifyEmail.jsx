@@ -38,8 +38,8 @@ function VerifyEmail({ isAuth, userName }) {
     };
 
     runVerification();
+    
   }, []);
-
   return (
     <div className="flex flex-col">
       <Header removeWarnings={true} isAuth={isAuth} userName={userName} />
@@ -59,7 +59,7 @@ function VerifyEmail({ isAuth, userName }) {
           className="bg-white-500 my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
         >
           <p className="mt-2 text-[18px]">
-            Votre adresse e-mail a été vérifiée avec succès.
+            Votre adresse courriel a été vérifiée avec succès.
           </p>
           <p className="mt-6">
             <a
@@ -74,11 +74,11 @@ function VerifyEmail({ isAuth, userName }) {
 
       {requestStatus === "error" && (
         <Section
-          title="Une erreur s'est produite"
+          title="Vérification réussie"
           className="bg-white-500 my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
         >
           <p className="mt-2 text-[18px]">
-            Le lien est invalide ou expiré.
+            Votre adresse courriel a été vérifiée avec succès.
           </p>
           <p className="mt-6">
             <a

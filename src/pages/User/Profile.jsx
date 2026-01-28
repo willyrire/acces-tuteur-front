@@ -8,14 +8,21 @@ import {
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import MenuItem from "./MenuItem";
+import UpdateProfile from "@/components/Form/UpdateProfile";
+import { getFirstName, getLastName } from "@/utils/tools/getUserName";
 
 function Profile({ isAuth, userName }) {
   const [activeTab, setActiveTab] = useState("profile");
-
+  const [updateProfile, setUpdateProfile] = useState({
+    firstName: getFirstName() || "",
+    lastName: getLastName() || "",
+    city: localStorage.getItem("userCity") || "",
+    location: localStorage.getItem("location") || "",
+  });
   const renderContent = () => {
     switch (activeTab) {
       case "profile":
-        return <div>🧑 Infos du profil</div>;
+        return <UpdateProfile onSubmit={() => {}} updateProfile={updateProfile} setUpdateProfile={setUpdateProfile} />;
       case "settings":
         return <div>⚙️ Paramètres</div>;
       case "logout":
@@ -28,7 +35,7 @@ function Profile({ isAuth, userName }) {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex bg-gray-200 flex-col min-h-screen">
       <Header isAuth={isAuth} userName={userName} />
 
       {/* CONTENU */}

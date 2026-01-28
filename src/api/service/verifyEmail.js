@@ -1,9 +1,12 @@
 import API from '../client';
 
-export default async function verifyEmail(code) {
-    payload = {
-        "token": code
-    }
+const verifyEmail = async (code) => {
+    console.log("Verifying email with code:", code);
+    const payload = {
+        "token": String(code)
+    };
     const response = await API.patch('/v1/user/email-verification', payload);
     return response.data;
 }
+
+export default verifyEmail;

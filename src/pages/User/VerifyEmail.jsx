@@ -12,31 +12,48 @@ import Section from "@/components/Section";
 function Profile({ isAuth, userName }) {
   const [requestStatus, setRequestStatus] = useState("processing"); // processing | success | error
   const params = getParams();
-  console.log("Params:", params.code);
   useEffect(() => {
     if (isEmpty(params.code)) {
       setRequestStatus("error");
       return;
     }
-    
+
     // TODO : Bien getData, une erreur se produit à quelque part.
     const verify = async () => {
-      try {
-        const verifData = await verifyEmail(params.code);
-
-        if (!verifData.success) {
+      console.log("Starting verification with code:", params.code);
+      if (requestStatus === "processing") {
+        try {
+          const verifData = await verifyEmail(params.code);
+          console.log("Verification response data:", verifData);
+          if (!verifData.success) {
+            setRequestStatus("error");
+            return;
+          }
+          setRequestStatus("processing-success-change");
+        } catch (err) {
+          console.log("Error during email verification:", err);
           setRequestStatus("error");
-          return;
         }
+      }
+      console.log("Request status after verification attempt:", requestStatus);
 
-        const userData = await getUserData();
-        if (userData.success) {
-          updateLocalData(userData);
+      // Si en process ou 
+      if(requestStatus === "processing") {
+        try{
+          const userData = await getUserData();
+          console.log("User data fetched after verification:", userData);
+          if (userData.status === "success") {
+            console.log("Updating local data with:", userData.data);
+            updateLocalData(userData.data);
+            setRequestStatus("processing-success-success");
+          }
+        } catch(err) {
+          setRequestStatus("error");
+          console.log("Error updating local data after email verification:", err);
         }
-
+      }
+      if(requestStatus === "processing-success-success") {
         setRequestStatus("success");
-      } catch (err) {
-        setRequestStatus("error");
       }
     };
 
@@ -48,7 +65,7 @@ function Profile({ isAuth, userName }) {
       <Header removeWarnings={true} isAuth={isAuth} userName={userName} />
 
       {/* Contenu */}
-      {requestStatus === "processing" && (
+      {(requestStatus === "processing" || requestStatus === "processing-success-change") && (
         <div>
           <Section
             title={"Vérification en cours"}
@@ -66,8 +83,8 @@ function Profile({ isAuth, userName }) {
             children={
               <>
                 <p className="mt-2 text-[18px]">
-                  Votre adresse e-mail a été vérifiée avec succès.
-                  Vous pouvez maintenant accéder à toutes les fonctionnalités.
+                  Votre adresse e-mail a été vérifiée avec succès. Vous pouvez
+                  maintenant accéder à toutes les fonctionnalités.
                 </p>
                 <p className="mt-6">
                   <a

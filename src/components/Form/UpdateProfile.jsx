@@ -121,10 +121,11 @@ const UpdateProfile = ({ updateProfile, setUpdateProfile, onSubmit }) => {
 
           {/* * */}
           <p className="text-sm text-gray-500 mt-4">
-            <span className="text-red-500">*</span> : À noter que ces champs ne
-            sont pas vérifier et propriétaire. Cela veut-dire que n'importe qui
-            peut avoir les mêmes informations. Il en va donc de vous de fournir
-            les bonnes informations pour obtenir le meilleur service possible.
+            <span className="text-red-500">*</span> : À noter - ces champs ne
+            font l’objet d’aucune vérification d’identité. Il est donc possible
+            que plusieurs utilisateurs partagent des informations similaires. Il
+            vous revient de fournir des renseignements exacts afin de bénéficier
+            du meilleur service possible.
           </p>
         </form>
       </div>

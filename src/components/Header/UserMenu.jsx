@@ -39,7 +39,7 @@ const UserMenu = ({ isAuth, userName }) => {
       {/* Bouton utilisateur */}
       <button
         onClick={() => setOpen(!open)}
-        className="px-4 py-2 font-bold rounded-full bg-green-400 hover:bg-blue-300 transition"
+        className="px-4 hover:cursor-pointer py-2 font-bold rounded-full bg-green-400 hover:bg-blue-300 transition"
       >
         {userName}
       </button>

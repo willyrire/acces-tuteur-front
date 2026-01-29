@@ -9,7 +9,7 @@ async function getUserNameLastNameFirstInitial() {
   const lastName = parts.length > 1 ? parts[parts.length - 1] : "";
   const firstNameInitial = lastName ? lastName[0] + "." : "";
 
-  return `${firstNameInitial} ${firstName}`;
+  return `${firstName} ${firstNameInitial} `;
 }
 
 const getFirstName = () => {

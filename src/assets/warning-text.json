@@ -1,0 +1,14 @@
+{
+    "email_not_verified": {
+        "type": "warning",
+        "hasButton": true,
+        "buttonText": "Vérifier maintenant",
+        "buttonTextMobile": "Vérifier",
+        "text": "Votre adresse courriel n'est pas vérifié. Veuillez la vérifier afin de sécuriser votre compte. <br /> Votre compte sera <u><b>supprimé</b></u> dans 30 jours si vous ne le faites pas."
+    },
+    "email_sent_success": {
+        "type": "success",
+        "hasButton": false,
+        "text": "Un email de vérification a été renvoyé à votre adresse. Veuillez vérifier votre boîte de réception."
+    }
+}

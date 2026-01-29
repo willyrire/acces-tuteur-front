@@ -39,7 +39,7 @@ const UserMenu = ({ isAuth, userName }) => {
       {/* Bouton utilisateur */}
       <button
         onClick={() => setOpen(!open)}
-        className="px-4 py-2 font-bold rounded-full bg-green-400 hover:bg-blue-300 transition"
+        className="px-4 hover:cursor-pointer py-2 font-bold rounded-full bg-green-400 hover:bg-blue-300 transition"
       >
         {userName}
       </button>
@@ -49,14 +49,6 @@ const UserMenu = ({ isAuth, userName }) => {
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
           <NavLink
             to="/user/profile"
-            className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
-            onClick={() => setOpen(false)}
-          >
-            <User size={18} /> Mon profil
-          </NavLink>
-
-          <NavLink
-            to="/user/settings"
             className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
             onClick={() => setOpen(false)}
           >

@@ -3,6 +3,8 @@ function loginSuccessHandler(data) {
     localStorage.setItem("userCity", data.city);
     localStorage.setItem("email", data.email);
     localStorage.setItem("authIat", data.iat);
+    localStorage.setItem("phone", data.phoneNumber);
+    localStorage.setItem("location", data.location);
     localStorage.setItem("isEmailVerified", data.isEmailVerified);
     localStorage.setItem("name", data.name);
     localStorage.setItem("role", data.role);

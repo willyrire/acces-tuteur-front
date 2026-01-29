@@ -31,16 +31,22 @@ export default function SignUpForm({
         </div>
       )}
 
-      <h2 className={`text-3xl font-bold mb-6 text-center col-span-1 md:col-span-2 text-gray-800`}>
+      <h2
+        className={`text-3xl font-bold mb-6 text-center col-span-1 md:col-span-2 text-gray-800`}
+      >
         Créer un compte
       </h2>
 
       {/* Rôle */}
-      <label className={`flex flex-col gap-1 ${isMobile ? "col-span-1" : "md:col-span-2"} text-gray-700 font-medium`}>
+      <label
+        className={`flex flex-col gap-1 ${isMobile ? "col-span-1" : "md:col-span-2"} text-gray-700 font-medium`}
+      >
         Vous êtes :
         <select
           value={signupData.role}
-          onChange={(e) => setSignupData({ ...signupData, role: e.target.value })}
+          onChange={(e) =>
+            setSignupData({ ...signupData, role: e.target.value })
+          }
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
           <option value="parent">Parent</option>
@@ -54,7 +60,9 @@ export default function SignUpForm({
         type="text"
         placeholder="Prénom"
         value={signupData.firstName}
-        onChange={(e) => setSignupData({ ...signupData, firstName: e.target.value })}
+        onChange={(e) =>
+          setSignupData({ ...signupData, firstName: e.target.value })
+        }
         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         required
       />
@@ -64,7 +72,9 @@ export default function SignUpForm({
         type="text"
         placeholder="Nom"
         value={signupData.lastName}
-        onChange={(e) => setSignupData({ ...signupData, lastName: e.target.value })}
+        onChange={(e) =>
+          setSignupData({ ...signupData, lastName: e.target.value })
+        }
         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         required
       />
@@ -91,13 +101,27 @@ export default function SignUpForm({
         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         required
       />
+      {/* Ville */}
+      <p className={`${isMobile ? "" : "col-2"} text-xs text-gray-400 w-full pl-3`}>
+        City data provided by{" "}
+        <a
+          href="https://www.geonames.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          GeoNames
+        </a>
+      </p>
 
       {/* Adresse */}
       <input
         type="text"
         placeholder="Adresse"
         value={signupData.address}
-        onChange={(e) => setSignupData({ ...signupData, address: e.target.value })}
+        onChange={(e) =>
+          setSignupData({ ...signupData, address: e.target.value })
+        }
         className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${isMobile ? "col-span-1" : "md:col-span-2"}`}
         required
       />
@@ -107,12 +131,16 @@ export default function SignUpForm({
         type="email"
         placeholder="Email"
         value={signupData.email}
-        onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+        onChange={(e) =>
+          setSignupData({ ...signupData, email: e.target.value })
+        }
         className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${signupData.email && !isValidEmail(signupData.email) ? "border-red-500" : "border-gray-300"} ${isMobile ? "col-span-1" : "md:col-span-2"}`}
         required
       />
       {signupData.email && !isValidEmail(signupData.email) && (
-        <p className={`${isMobile ? "col-span-1" : "md:col-span-2"} text-sm text-red-600`}>
+        <p
+          className={`${isMobile ? "col-span-1" : "md:col-span-2"} text-sm text-red-600`}
+        >
           Veuillez entrer un email valide
         </p>
       )}
@@ -134,7 +162,9 @@ export default function SignUpForm({
         className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${passwordError.length > 0 ? "border-red-500" : "border-gray-300"} ${isMobile ? "col-span-1" : "md:col-span-2"}`}
       />
       {passwordError.length > 0 && (
-        <ul className={`${isMobile ? "col-span-1" : "md:col-span-2"} text-sm text-red-600 list-disc list-inside text-left`}>
+        <ul
+          className={`${isMobile ? "col-span-1" : "md:col-span-2"} text-sm text-red-600 list-disc list-inside text-left`}
+        >
           {passwordError.map((err, idx) => (
             <li key={idx}>{err}</li>
           ))}
@@ -155,18 +185,24 @@ export default function SignUpForm({
         required
       />
       {!isPasswordMatch && signupData.confirmPassword && (
-        <p className={`${isMobile ? "col-span-1" : "md:col-span-2"} text-sm text-red-600`}>
+        <p
+          className={`${isMobile ? "col-span-1" : "md:col-span-2"} text-sm text-red-600`}
+        >
           Les mots de passe ne correspondent pas
         </p>
       )}
 
       {/* Accept Terms */}
-      <label className={`flex items-start gap-3 text-sm text-gray-600 ${isMobile ? "col-span-1" : "md:col-span-2"}`}>
+      <label
+        className={`flex items-start gap-3 text-sm text-gray-600 ${isMobile ? "col-span-1" : "md:col-span-2"}`}
+      >
         <input
           type="checkbox"
           required
           checked={signupData.acceptTerms}
-          onChange={(e) => setSignupData({ ...signupData, acceptTerms: e.target.checked })}
+          onChange={(e) =>
+            setSignupData({ ...signupData, acceptTerms: e.target.checked })
+          }
           className="mt-1"
         />
         <span>
@@ -186,8 +222,10 @@ export default function SignUpForm({
         {isSignupLoading ? "Traitement..." : "Créer un compte"}
       </button>
 
-      {/* Login */}
-      <div className={`text-center ${isMobile ? "col-span-1" : "md:col-span-2"}`}>
+      {/* Goto Login Button */}
+      <div
+        className={`text-center ${isMobile ? "col-span-1" : "md:col-span-2"}`}
+      >
         Déjà un compte ?{" "}
         <button
           onClick={() => navigate("/auth/login")}
@@ -195,6 +233,17 @@ export default function SignUpForm({
         >
           Se connecter
         </button>
+        <p className="text-[12px] text-gray-400">
+          Data provided by{" "}
+          <a
+            href="https://www.geonames.org"
+            className="underline hover:text-gray-200"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GeoNames
+          </a>
+        </p>
       </div>
     </form>
   );

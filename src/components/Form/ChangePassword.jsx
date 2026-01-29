@@ -3,12 +3,9 @@ import { Settings } from "lucide-react";
 const ChangePassword = ({ changePassword, setChangePassword, onSubmit }) => {
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col mt-3">
         <form onSubmit={onSubmit}>
           {/* Mot de passe actuel */}
-          <label htmlFor="currentPassword" className="block mb-1">
-            Mot de passe actuel
-          </label>
           <input
             id="currentPassword"
             type="password"
@@ -19,7 +16,35 @@ const ChangePassword = ({ changePassword, setChangePassword, onSubmit }) => {
                 currentPassword: e.target.value,
               })
             }
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full my-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          {/* Nouveau mot de passe */}
+          <input
+            id="newPassword"
+            type="password"
+            placeholder="Nouveau mot de passe"
+            onChange={(e) =>
+              setChangePassword({
+                ...changePassword,
+                newPassword: e.target.value,
+              })
+            }
+            className="w-full my-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          {/* Nouveau mot de passe */}
+          <input
+            id="confirmNewPassword"
+            type="password"
+            placeholder="Confirmer le nouveau mot de passe"
+            onChange={(e) =>
+              setChangePassword({
+                ...changePassword,
+                confirmNewPassword: e.target.value,
+              })
+            }
+            className="w-full my-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
           {/* Submit Button */}

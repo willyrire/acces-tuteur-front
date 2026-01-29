@@ -1,9 +1,9 @@
 import API from "@/api/client";
 import updateLocalData from "@/utils/tools/updateLocalData";
 
-const updateProfileHandler = async ({
+const changePasswordFinalize = async ({
   e,
-  updateProfile,
+  changePassword,
   setIsLoading,
   setError,
   setSuccess,
@@ -20,24 +20,18 @@ const updateProfileHandler = async ({
 
     // Payload
     // 🔁 Exemple d’appel API (à adapter)
-    const name = `${updateProfile.firstName} ${updateProfile.lastName}`;
     const payload = {
-      "name": name,
-      "phoneNumber": updateProfile.phoneNumber,
-      "city": updateProfile.city,
-      "location": updateProfile.location
+      "oldPassword": changePassword.currentPassword,
+      "newPassword": changePassword.newPassword
     }
-    const destinator = localStorage.getItem("userId");
-    const response = await API.patch(`/v1/user/${destinator}`, payload);
+    const response = await API.put(`/v1/user/change-password`, payload);
+    console.log("Response update profile:", response);
     if (response.status !== 200) {
       // On essaye de prendre le message d'erreur
       const errorMessage = response || "Erreur inconnue";
+      console.log("Error updating profile:", errorMessage);
       return setError(true), setErrorMessage(errorMessage);
     }
-
-    // On update les données
-    const data = response.data.data;
-    updateLocalData(data);
     setSuccess(true);
   } catch (err) {
     const errorMessage = err.response?.data?.error || "Erreur inconnue";
@@ -48,4 +42,4 @@ const updateProfileHandler = async ({
   }
 };
 
-export default updateProfileHandler;
+export default changePasswordFinalize;

@@ -4,8 +4,10 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import MenuItem from "./MenuItem";
 import UpdateProfile from "@/components/Form/UpdateProfile";
+import ChangePassword from "@/components/Form/ChangePassword";
 import updateProfileHandler from "@/api/service/updateUserProfile";
 import { getFirstName, getLastName } from "@/utils/tools/getUserName";
+import changePasswordFinalize from "@/api/service/changePasswordFinalize";
 import { div } from "framer-motion/client";
 
 function Profile({ isAuth, userName }) {
@@ -13,6 +15,9 @@ function Profile({ isAuth, userName }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(
+    "Votre profil a été mis à jour avec succès.",
+  );
   const [errorMessage, setErrorMessage] = useState(
     "Une erreur est survenue lors de la requête.",
   );
@@ -23,6 +28,39 @@ function Profile({ isAuth, userName }) {
     location: localStorage.getItem("location") || "",
     phoneNumber: localStorage.getItem("phone") || "",
   });
+  const [changePassword, setChangePassword] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
+
+  const changePasswordInit = (e) => {
+    e.preventDefault();
+
+    if (
+      changePassword.newPassword !== changePassword.confirmNewPassword
+    ) {
+      setError(true);
+      setErrorMessage("Les nouveaux mots de passe ne correspondent pas.");
+      return;
+    }
+
+    if(changePassword.newPassword === changePassword.currentPassword) {
+      setError(true);
+      setErrorMessage("Le nouveau mot de passe doit être différent de l'ancien.");
+      return;
+    }
+    changePasswordFinalize({
+      e,
+      changePassword,
+      setIsLoading,
+      setError,
+      setSuccess,
+      setErrorMessage,
+    });
+
+    setSuccessMessage("Mot de passe modifié avec succès.");
+  }
   const renderContent = () => {
     switch (activeTab) {
       case "profil":
@@ -63,6 +101,11 @@ function Profile({ isAuth, userName }) {
             <p>
               Ici vous pouvez changer votre mot de passe ainsi que votre adresse courriel.
             </p>
+            <ChangePassword 
+              changePassword={changePassword}
+              setChangePassword={setChangePassword}
+              onSubmit={changePasswordInit}
+            />
           </>
         );
       case "logout":
@@ -124,7 +167,7 @@ function Profile({ isAuth, userName }) {
           )}
           {success && (
             <div className="bg-green-100 text-green-700 p-3 rounded mb-4">
-              Profil mis à jour avec succès.
+              {successMessage}
             </div>
           )}
           {error && (

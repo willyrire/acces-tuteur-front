@@ -9,6 +9,8 @@ import updateProfileHandler from "@/api/service/updateUserProfile";
 import { getFirstName, getLastName } from "@/utils/tools/getUserName";
 import changePasswordFinalize from "@/api/service/changePasswordFinalize";
 import { div } from "framer-motion/client";
+import ChangeEmail from "@/components/Form/ChangeEmail";
+import changeEmailFinalize from "@/api/service/changeEmailFinalize";
 
 function Profile({ isAuth, userName }) {
   const [activeTab, setActiveTab] = useState("profil");
@@ -33,21 +35,25 @@ function Profile({ isAuth, userName }) {
     newPassword: "",
     confirmNewPassword: "",
   });
+  const [changeEmail, setChangeEmail] = useState({
+    newEmail: "",
+    currentPassword: "", // Pour valider le changement
+  });
 
   const changePasswordInit = (e) => {
     e.preventDefault();
-
-    if (
-      changePassword.newPassword !== changePassword.confirmNewPassword
-    ) {
+    setSuccess(false);
+    if (changePassword.newPassword !== changePassword.confirmNewPassword) {
       setError(true);
       setErrorMessage("Les nouveaux mots de passe ne correspondent pas.");
       return;
     }
 
-    if(changePassword.newPassword === changePassword.currentPassword) {
+    if (changePassword.newPassword === changePassword.currentPassword) {
       setError(true);
-      setErrorMessage("Le nouveau mot de passe doit être différent de l'ancien.");
+      setErrorMessage(
+        "Le nouveau mot de passe doit être différent de l'ancien.",
+      );
       return;
     }
     changePasswordFinalize({
@@ -60,7 +66,7 @@ function Profile({ isAuth, userName }) {
     });
 
     setSuccessMessage("Mot de passe modifié avec succès.");
-  }
+  };
   const renderContent = () => {
     switch (activeTab) {
       case "profil":
@@ -99,12 +105,27 @@ function Profile({ isAuth, userName }) {
               Paramètres
             </h3>
             <p>
-              Ici vous pouvez changer votre mot de passe ainsi que votre adresse courriel.
+              Ici vous pouvez changer votre mot de passe ainsi que votre adresse
+              courriel.
             </p>
-            <ChangePassword 
+            <ChangePassword
               changePassword={changePassword}
               setChangePassword={setChangePassword}
               onSubmit={changePasswordInit}
+            />
+            <ChangeEmail
+              changeEmail={changeEmail}
+              setChangeEmail={setChangeEmail}
+              onSubmit={(e) =>
+                changeEmailFinalize({
+                  e,
+                  changeEmail,
+                  setIsLoading,
+                  setError,
+                  setSuccess,
+                  setErrorMessage,
+                })
+              }
             />
           </>
         );
@@ -130,21 +151,21 @@ function Profile({ isAuth, userName }) {
               label="Profil"
               icon={User}
               active={activeTab === "profil"}
-              onClick={() => setActiveTab("profil")}
+              onClick={() => {setActiveTab("profil");setSuccess(false);setError(null);}}
             />
 
             <MenuItem
               label="Paramètres"
               icon={Settings}
               active={activeTab === "settings"}
-              onClick={() => setActiveTab("settings")}
+              onClick={() => {setActiveTab("settings");setSuccess(false);setError(null);}}
             />
 
             <MenuItem
               label="Déconnexion"
               icon={LogOut}
               active={activeTab === "logout"}
-              onClick={() => setActiveTab("logout")}
+              onClick={() => {setActiveTab("logout");setSuccess(false);setError(null);}}
             />
 
             <MenuItem
@@ -152,7 +173,7 @@ function Profile({ isAuth, userName }) {
               icon={ShieldOff}
               danger
               active={activeTab === "logoutAll"}
-              onClick={() => setActiveTab("logoutAll")}
+              onClick={() => {setActiveTab("logoutAll");setSuccess(false);setError(null);}}
             />
           </ul>
         </aside>

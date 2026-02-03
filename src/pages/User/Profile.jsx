@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { User, Settings, LogOut, X, ShieldCheck } from "lucide-react";
+import openApp from "@/handler/actions/openApp";
+import {
+  User,
+  Settings,
+  LogOut,
+  X,
+  ShieldCheck,
+  AppWindow,
+  ExternalLink,
+} from "lucide-react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import MenuItem from "./MenuItem";
@@ -15,7 +24,7 @@ import logout from "@/handler/actions/logout";
 import logoutFromAll from "@/api/auth/logoutFromAll";
 
 function Profile({ isAuth, userName }) {
-  const [activeTab, setActiveTab] = useState("profil");
+  const [activeTab, setActiveTab] = useState("applications");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -132,46 +141,69 @@ function Profile({ isAuth, userName }) {
           </>
         );
       case "security":
-        return(
-        <>
-          <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
-            Sécurité du compte
-          </h3>
-          <p>
-            Pour des raisons de sécurité, nous vous recommandons de ne pas
-            partager vos informations de connexion avec quiconque et de
-            choisir un mot de passe robuste. Assurez-vous également de
-            mettre à jour régulièrement votre mot de passe pour protéger
-            votre compte contre les accès non autorisés.
-          </p>
-          <br />
-          <button
-            onClick={() => {
-              logout();
-            }}
-            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
-          >
-            <LogOut size={18} /> Se déconnecter
-          </button>
-          <br />
-          <button
-            onClick={() => {
-              logoutFromAll();
-            }}
-            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
-          >
-            <LogOut size={18} /> Se déconnecter de toutes les sessions
-          </button>
-          <br />
-          <button
-            onClick={() => {
-              logout();
-            }}
-            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
-          >
-            <X size={18} /> Supprimer mon compte
-          </button>
-        </>);
+        return (
+          <>
+            <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Sécurité du compte
+            </h3>
+            <p>
+              Pour des raisons de sécurité, nous vous recommandons de ne pas
+              partager vos informations de connexion avec quiconque et de
+              choisir un mot de passe robuste. Assurez-vous également de mettre
+              à jour régulièrement votre mot de passe pour protéger votre compte
+              contre les accès non autorisés.
+            </p>
+            <br />
+            <button
+              onClick={() => {
+                logout();
+              }}
+              className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+            >
+              <LogOut size={18} /> Se déconnecter
+            </button>
+            <br />
+            <button
+              onClick={() => {
+                logoutFromAll();
+              }}
+              className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+            >
+              <LogOut size={18} /> Se déconnecter de toutes les sessions
+            </button>
+            <br />
+            <button
+              onClick={() => {
+                logout();
+              }}
+              className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+            >
+              <X size={18} /> Supprimer mon compte
+            </button>
+          </>
+        );
+      case "applications":
+        return (
+          <>
+            <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Mes Applications
+            </h3>
+            <p>
+              Voici la liste de vos applications. <br /> Cliquer sur
+              l'application de votre choix pour pouvoir y accéder.
+            </p>
+            <br />
+            <button
+              onClick={openApp}
+              className={`w-full text-center p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:cursor-pointer transition my-4`}
+            >
+              <div className="inline align-middle items-center">
+                <ExternalLink size={18} className="inline mr-2" /> Accèder au
+                tableau de bord
+              </div>
+            </button>
+          </>
+        );
       default:
         return null;
     }
@@ -187,24 +219,47 @@ function Profile({ isAuth, userName }) {
         <aside className="w-64 bg-gray-100 rounded-xl p-4">
           <ul className="space-y-2">
             <MenuItem
+              label="Applications"
+              icon={AppWindow}
+              active={activeTab === "applications"}
+              onClick={() => {
+                setActiveTab("applications");
+                setSuccess(false);
+                setError(null);
+              }}
+            />
+
+            <MenuItem
               label="Profil"
               icon={User}
               active={activeTab === "profil"}
-              onClick={() => {setActiveTab("profil");setSuccess(false);setError(null);}}
+              onClick={() => {
+                setActiveTab("profil");
+                setSuccess(false);
+                setError(null);
+              }}
             />
 
             <MenuItem
               label="Paramètres"
               icon={Settings}
               active={activeTab === "settings"}
-              onClick={() => {setActiveTab("settings");setSuccess(false);setError(null);}}
+              onClick={() => {
+                setActiveTab("settings");
+                setSuccess(false);
+                setError(null);
+              }}
             />
 
             <MenuItem
               label="Sécurité du compte"
               icon={ShieldCheck}
               active={activeTab === "security"}
-              onClick={() => {setActiveTab("security");setSuccess(false);setError(null);}}
+              onClick={() => {
+                setActiveTab("security");
+                setSuccess(false);
+                setError(null);
+              }}
             />
           </ul>
         </aside>

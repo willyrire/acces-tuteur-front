@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Settings, LogOut, ShieldOff } from "lucide-react";
+import { User, Settings, LogOut, X, ShieldCheck } from "lucide-react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import MenuItem from "./MenuItem";
@@ -11,6 +11,8 @@ import changePasswordFinalize from "@/api/service/changePasswordFinalize";
 import { div } from "framer-motion/client";
 import ChangeEmail from "@/components/Form/ChangeEmail";
 import changeEmailFinalize from "@/api/service/changeEmailFinalize";
+import logout from "@/handler/actions/logout";
+import logoutFromAll from "@/api/auth/logoutFromAll";
 
 function Profile({ isAuth, userName }) {
   const [activeTab, setActiveTab] = useState("profil");
@@ -129,10 +131,47 @@ function Profile({ isAuth, userName }) {
             />
           </>
         );
-      case "logout":
-        return <div>🚪 Déconnexion</div>;
-      case "logoutAll":
-        return <div>🔥 Déconnexion de toutes les sessions</div>;
+      case "security":
+        return(
+        <>
+          <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
+            Sécurité du compte
+          </h3>
+          <p>
+            Pour des raisons de sécurité, nous vous recommandons de ne pas
+            partager vos informations de connexion avec quiconque et de
+            choisir un mot de passe robuste. Assurez-vous également de
+            mettre à jour régulièrement votre mot de passe pour protéger
+            votre compte contre les accès non autorisés.
+          </p>
+          <br />
+          <button
+            onClick={() => {
+              logout();
+            }}
+            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+          >
+            <LogOut size={18} /> Se déconnecter
+          </button>
+          <br />
+          <button
+            onClick={() => {
+              logoutFromAll();
+            }}
+            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+          >
+            <LogOut size={18} /> Se déconnecter de toutes les sessions
+          </button>
+          <br />
+          <button
+            onClick={() => {
+              logout();
+            }}
+            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+          >
+            <X size={18} /> Supprimer mon compte
+          </button>
+        </>);
       default:
         return null;
     }
@@ -162,18 +201,10 @@ function Profile({ isAuth, userName }) {
             />
 
             <MenuItem
-              label="Déconnexion"
-              icon={LogOut}
-              active={activeTab === "logout"}
-              onClick={() => {setActiveTab("logout");setSuccess(false);setError(null);}}
-            />
-
-            <MenuItem
-              label="Déconnexion globale"
-              icon={ShieldOff}
-              danger
-              active={activeTab === "logoutAll"}
-              onClick={() => {setActiveTab("logoutAll");setSuccess(false);setError(null);}}
+              label="Sécurité du compte"
+              icon={ShieldCheck}
+              active={activeTab === "security"}
+              onClick={() => {setActiveTab("security");setSuccess(false);setError(null);}}
             />
           </ul>
         </aside>

@@ -14,6 +14,7 @@ import Info from "@/components/HeaderObject/Info";
 import Success from "@/components/HeaderObject/Success";
 import { div } from "framer-motion/client";
 import sendEmailVerification from "@/api/service/sendEmailVerification";
+import { isLoggedIn } from "@/api/auth/isLoggedIn";
 
 const Header = ({
   isAuth,
@@ -136,7 +137,7 @@ const Header = ({
         {/* Warnings */}
         {showWarning && (
           <div className="mt-5">
-            {!isEmailVerified && showEmailNotVerifiedWarning && ( 
+            {!isEmailVerified && showEmailNotVerifiedWarning && isAuth && ( 
               // Si l'email n'est pas vérifié, afficher l'avertissement
               <div className="mt-5">
                 <Warning

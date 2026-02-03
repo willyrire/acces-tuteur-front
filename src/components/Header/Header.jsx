@@ -22,7 +22,7 @@ const Header = ({
   minimalist = false,
   emptyBg = false,
   bigTitleColorWhite = false,
-  removeWarnings = false
+  removeWarnings = false,
 }) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -33,7 +33,8 @@ const Header = ({
   const isMobile = useIsMobile();
   const [hasInterpretedRequest, setHasInterpretedRequest] = useState(false);
   const [showSuccessEmailSent, setShowSuccessEmailSent] = useState(false);
-  const [showEmailNotVerifiedWarning, setShowEmailNotVerifiedWarning] = useState(false);
+  const [showEmailNotVerifiedWarning, setShowEmailNotVerifiedWarning] =
+    useState(false);
   if (!isEmailVerified && !hasCheckedEmail) {
     setIsEmailVerified(localStorage.getItem("isEmailVerified") === "true");
     setShowWarning(true);
@@ -73,19 +74,21 @@ const Header = ({
       setShowSuccessEmailSent(true);
       const response = await sendEmailVerification();
       console.log("Email de vérification renvoyé avec succès :", response);
-      
+
       // Masquer le message de succès après quelques secondes
-      
+
       setTimeout(() => {
         setShowSuccessEmailSent(false);
       }, 2750);
     } catch (error) {
-
-      console.error("Erreur lors de l'envoi de l'email de vérification :", error);
+      console.error(
+        "Erreur lors de l'envoi de l'email de vérification :",
+        error,
+      );
     }
-  }
+  };
 
-  if(removeWarnings && !hasInterpretedRequest) {
+  if (removeWarnings && !hasInterpretedRequest) {
     setShowWarning(false);
     setHasInterpretedRequest(true);
   }
@@ -137,7 +140,7 @@ const Header = ({
         {/* Warnings */}
         {showWarning && (
           <div className="mt-5">
-            {!isEmailVerified && showEmailNotVerifiedWarning && isAuth && ( 
+            {!isEmailVerified && showEmailNotVerifiedWarning && isAuth && (
               // Si l'email n'est pas vérifié, afficher l'avertissement
               <div className="mt-5">
                 <Warning

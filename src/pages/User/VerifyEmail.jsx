@@ -25,26 +25,22 @@ function VerifyEmail({ isAuth, userName }) {
           setRequestStatus("error");
           return;
         }
-
-        const userData = await getUserData();
-        if (userData?.status === "success") {
-          updateLocalData(userData.data);
-        }
-
         setRequestStatus("success");
       } catch {
         setRequestStatus("error");
       }
+      // On update quand même les données pour qu'elles soient à jour
+      const data = await getUserData();
+      updateLocalData(data.data);
     };
 
     runVerification();
-    
   }, []);
   return (
     <div className="flex flex-col">
       <Header removeWarnings={true} isAuth={isAuth} userName={userName} />
 
-      {(requestStatus === "processing") && (
+      {requestStatus === "processing" && (
         <Section
           title="Vérification en cours"
           className="bg-white-500 pb-30 pt-50 max-w-4xl mx-auto text-center"

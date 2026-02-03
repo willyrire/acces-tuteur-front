@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Settings, LogOut, ShieldOff } from "lucide-react";
+import { User, Settings, LogOut, X, ShieldCheck } from "lucide-react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import MenuItem from "./MenuItem";
@@ -9,6 +9,10 @@ import updateProfileHandler from "@/api/service/updateUserProfile";
 import { getFirstName, getLastName } from "@/utils/tools/getUserName";
 import changePasswordFinalize from "@/api/service/changePasswordFinalize";
 import { div } from "framer-motion/client";
+import ChangeEmail from "@/components/Form/ChangeEmail";
+import changeEmailFinalize from "@/api/service/changeEmailFinalize";
+import logout from "@/handler/actions/logout";
+import logoutFromAll from "@/api/auth/logoutFromAll";
 
 function Profile({ isAuth, userName }) {
   const [activeTab, setActiveTab] = useState("profil");
@@ -33,21 +37,25 @@ function Profile({ isAuth, userName }) {
     newPassword: "",
     confirmNewPassword: "",
   });
+  const [changeEmail, setChangeEmail] = useState({
+    newEmail: "",
+    currentPassword: "", // Pour valider le changement
+  });
 
   const changePasswordInit = (e) => {
     e.preventDefault();
-
-    if (
-      changePassword.newPassword !== changePassword.confirmNewPassword
-    ) {
+    setSuccess(false);
+    if (changePassword.newPassword !== changePassword.confirmNewPassword) {
       setError(true);
       setErrorMessage("Les nouveaux mots de passe ne correspondent pas.");
       return;
     }
 
-    if(changePassword.newPassword === changePassword.currentPassword) {
+    if (changePassword.newPassword === changePassword.currentPassword) {
       setError(true);
-      setErrorMessage("Le nouveau mot de passe doit être différent de l'ancien.");
+      setErrorMessage(
+        "Le nouveau mot de passe doit être différent de l'ancien.",
+      );
       return;
     }
     changePasswordFinalize({
@@ -60,7 +68,7 @@ function Profile({ isAuth, userName }) {
     });
 
     setSuccessMessage("Mot de passe modifié avec succès.");
-  }
+  };
   const renderContent = () => {
     switch (activeTab) {
       case "profil":
@@ -99,19 +107,71 @@ function Profile({ isAuth, userName }) {
               Paramètres
             </h3>
             <p>
-              Ici vous pouvez changer votre mot de passe ainsi que votre adresse courriel.
+              Ici vous pouvez changer votre mot de passe ainsi que votre adresse
+              courriel.
             </p>
-            <ChangePassword 
+            <ChangePassword
               changePassword={changePassword}
               setChangePassword={setChangePassword}
               onSubmit={changePasswordInit}
             />
+            <ChangeEmail
+              changeEmail={changeEmail}
+              setChangeEmail={setChangeEmail}
+              onSubmit={(e) =>
+                changeEmailFinalize({
+                  e,
+                  changeEmail,
+                  setIsLoading,
+                  setError,
+                  setSuccess,
+                  setErrorMessage,
+                })
+              }
+            />
           </>
         );
-      case "logout":
-        return <div>🚪 Déconnexion</div>;
-      case "logoutAll":
-        return <div>🔥 Déconnexion de toutes les sessions</div>;
+      case "security":
+        return(
+        <>
+          <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
+            Sécurité du compte
+          </h3>
+          <p>
+            Pour des raisons de sécurité, nous vous recommandons de ne pas
+            partager vos informations de connexion avec quiconque et de
+            choisir un mot de passe robuste. Assurez-vous également de
+            mettre à jour régulièrement votre mot de passe pour protéger
+            votre compte contre les accès non autorisés.
+          </p>
+          <br />
+          <button
+            onClick={() => {
+              logout();
+            }}
+            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+          >
+            <LogOut size={18} /> Se déconnecter
+          </button>
+          <br />
+          <button
+            onClick={() => {
+              logoutFromAll();
+            }}
+            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+          >
+            <LogOut size={18} /> Se déconnecter de toutes les sessions
+          </button>
+          <br />
+          <button
+            onClick={() => {
+              logout();
+            }}
+            className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
+          >
+            <X size={18} /> Supprimer mon compte
+          </button>
+        </>);
       default:
         return null;
     }
@@ -130,29 +190,21 @@ function Profile({ isAuth, userName }) {
               label="Profil"
               icon={User}
               active={activeTab === "profil"}
-              onClick={() => setActiveTab("profil")}
+              onClick={() => {setActiveTab("profil");setSuccess(false);setError(null);}}
             />
 
             <MenuItem
               label="Paramètres"
               icon={Settings}
               active={activeTab === "settings"}
-              onClick={() => setActiveTab("settings")}
+              onClick={() => {setActiveTab("settings");setSuccess(false);setError(null);}}
             />
 
             <MenuItem
-              label="Déconnexion"
-              icon={LogOut}
-              active={activeTab === "logout"}
-              onClick={() => setActiveTab("logout")}
-            />
-
-            <MenuItem
-              label="Déconnexion globale"
-              icon={ShieldOff}
-              danger
-              active={activeTab === "logoutAll"}
-              onClick={() => setActiveTab("logoutAll")}
+              label="Sécurité du compte"
+              icon={ShieldCheck}
+              active={activeTab === "security"}
+              onClick={() => {setActiveTab("security");setSuccess(false);setError(null);}}
             />
           </ul>
         </aside>

@@ -194,14 +194,21 @@ function Profile({ isAuth, userName }) {
             </p>
             <br />
             <button
-              onClick={openApp}
+              aria-label="Accéder au tableau de bord de l'application"
+              onClick={() => openApp("profile_page")}
               className={`w-full text-center p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:cursor-pointer transition my-4`}
             >
-              <div className="inline align-middle items-center">
-                <ExternalLink size={18} className="inline mr-2" /> Accèder au
-                tableau de bord
-              </div>
+              <ExternalLink size={20} className="inline mr-2" /> Accéder au
+              tableau de bord
             </button>
+            <p className="text-gray-400">
+              En cliquant sur les boutons ci-dessus, vous acceptez de respecter
+              les conditions d'utilisation liées à chaque application. Celles-ci
+              peuvent différer de celles de notre plateforme principale. Les
+              conditions de chaque application est disponible dans la section
+              légal de notre plateforme principale.
+              <br />
+            </p>
           </>
         );
       default:

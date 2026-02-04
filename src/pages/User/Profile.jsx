@@ -80,6 +80,35 @@ function Profile({ isAuth, userName }) {
   };
   const renderContent = () => {
     switch (activeTab) {
+      case "applications":
+        return (
+          <>
+            <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Mes Applications
+            </h3>
+            <p>
+              Voici la liste de vos applications. <br /> Cliquer sur
+              l'application de votre choix pour pouvoir y accéder.
+            </p>
+            <br />
+            <button
+              aria-label="Accéder au tableau de bord de l'application"
+              onClick={() => openApp("profile_page")}
+              className={`w-full text-center p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:cursor-pointer transition my-4`}
+            >
+              <ExternalLink size={20} className="inline mr-2" /> Accéder au
+              tableau de bord
+            </button>
+            <p className="text-gray-400">
+              En cliquant sur les boutons ci-dessus, vous acceptez de respecter
+              les conditions d'utilisation liées à chaque application. Celles-ci
+              peuvent différer de celles de notre plateforme principale. Les
+              conditions de chaque application est disponible dans la section
+              légal de notre plateforme principale.
+              <br />
+            </p>
+          </>
+        );  
       case "profil":
         return (
           <>
@@ -172,43 +201,15 @@ function Profile({ isAuth, userName }) {
               <LogOut size={18} /> Se déconnecter de toutes les sessions
             </button>
             <br />
-            <button
+            {/* Supprimer le compte, fonctionnalité à venir. */}
+            {/* <button
               onClick={() => {
                 logout();
               }}
               className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
             >
               <X size={18} /> Supprimer mon compte
-            </button>
-          </>
-        );
-      case "applications":
-        return (
-          <>
-            <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">
-              Mes Applications
-            </h3>
-            <p>
-              Voici la liste de vos applications. <br /> Cliquer sur
-              l'application de votre choix pour pouvoir y accéder.
-            </p>
-            <br />
-            <button
-              aria-label="Accéder au tableau de bord de l'application"
-              onClick={() => openApp("profile_page")}
-              className={`w-full text-center p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:cursor-pointer transition my-4`}
-            >
-              <ExternalLink size={20} className="inline mr-2" /> Accéder au
-              tableau de bord
-            </button>
-            <p className="text-gray-400">
-              En cliquant sur les boutons ci-dessus, vous acceptez de respecter
-              les conditions d'utilisation liées à chaque application. Celles-ci
-              peuvent différer de celles de notre plateforme principale. Les
-              conditions de chaque application est disponible dans la section
-              légal de notre plateforme principale.
-              <br />
-            </p>
+            </button> */}
           </>
         );
       default:

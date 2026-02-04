@@ -47,11 +47,11 @@ function ResetPasswordPage() {
     try {
       const result = await passwordResetRequest(token, formData.password);
       console.log(result);
-      if (result.status === "success") {
+      if (result.data.status === "success") {
         setStatus("success");
         setMessage(
           result.message ||
-            "Mot de passe réinitialisé avec succès. Vous serez redirigé dans un instant.",
+            "Mot de passe réinitialisé avec succès. Vous serez redirigé vers la page de connexion dans un instant.",
         );
         setTimeout(() => fastRedirect("/auth/login"), 3000);
       } else {
@@ -158,6 +158,7 @@ function ResetPasswordPage() {
                 : "Réinitialiser le mot de passe"}
             </button>
           </form>
+          <a className="mt-4 flex items-center align-middle text-center text-blue-600 hover:underline" href="/auth/login">Revenir en arrière</a>
 
           {message && (
             <p

@@ -21,7 +21,7 @@ import { div } from "framer-motion/client";
 import ChangeEmail from "@/components/Form/ChangeEmail";
 import changeEmailFinalize from "@/api/service/changeEmailFinalize";
 import logout from "@/handler/actions/logout";
-import logoutFromAll from "@/api/auth/logoutFromAll";
+import logoutAllSessions from "@/handler/actions/logoutFromAll";
 
 function Profile({ isAuth, userName }) {
   const [activeTab, setActiveTab] = useState("applications");
@@ -104,7 +104,7 @@ function Profile({ isAuth, userName }) {
               les conditions d'utilisation liées à chaque application. Celles-ci
               peuvent différer de celles de notre plateforme principale. Les
               conditions de chaque application est disponible dans la section
-              légal de notre plateforme principale.
+              légale de notre plateforme principale.
               <br />
             </p>
           </>
@@ -194,7 +194,7 @@ function Profile({ isAuth, userName }) {
             <br />
             <button
               onClick={() => {
-                logoutFromAll();
+                logoutAllSessions();
               }}
               className="w-full text-left flex hover:cursor-pointer border-2 border-red-600 rounded  items-center gap-2 px-4 py-2 bg-red-100 text-red-600 hover:bg-red-50"
             >

@@ -1,4 +1,4 @@
-import API from "@/api/client.js";
+import API from "@/api/client";
 
 export default async function passwordResetRequest(token: string, password: string) {
   try {

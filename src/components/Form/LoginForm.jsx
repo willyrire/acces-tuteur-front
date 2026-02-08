@@ -1,3 +1,4 @@
+import { div } from "framer-motion/client";
 import React from "react";
 
 export default function LoginForm({
@@ -11,6 +12,7 @@ export default function LoginForm({
   onPasswordChange,
   onSubmit,
   onForgotPassword,
+  params,
 }) {
   return (
     <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
@@ -20,9 +22,15 @@ export default function LoginForm({
           {errorMessage}
         </div>
       )}
+
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
-        Bienvenue
+        Se connecter
       </h2>
+      {params.on_success === "open_app" && (
+        <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+          Vous allez être redirigé vers l'application web après la connexion.
+        </div>
+      )}
       <form className="flex flex-col gap-4" onSubmit={onSubmit}>
         <input
           type="email"
@@ -53,7 +61,8 @@ export default function LoginForm({
       </form>
       <p className="mt-4 text-center text-gray-500 text-sm">
         <button onClick={() => navigate("/auth/create-account")}>
-          Pas de compte ? <span className="hover:underline text-blue-600">S'inscrire</span>
+          Pas de compte ?{" "}
+          <span className="hover:underline text-blue-600">S'inscrire</span>
         </button>
         <br />
         <button

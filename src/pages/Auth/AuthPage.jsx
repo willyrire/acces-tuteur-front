@@ -56,7 +56,7 @@ function AuthPage() {
 
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isSignupLoading, setIsSignupLoading] = useState(false);
-
+  const params = getParams();
   // Login submit handler
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -74,8 +74,7 @@ function AuthPage() {
 
     loginSuccessHandler(response.data);
     // Avant de rediriger sur le dashboard, création de la micro session de transport.
-    const { on_success } = getParams();
-    if (on_success === "open_app") {
+    if (params.on_success === "open_app") {
       await openApp();
       return;
     } else {
@@ -236,6 +235,7 @@ function AuthPage() {
                   onPasswordChange={setLoginPassword}
                   onSubmit={handleLoginSubmit}
                   onForgotPassword={() => navigate("/auth/password-recovery")}
+                  params={params}
                 />
               </div>
             </div>

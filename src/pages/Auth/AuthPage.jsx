@@ -14,6 +14,8 @@ import Logo from "@/components/Header/Logo";
 import useIsMobile from "@/utils/tools/useIsMobile";
 import { getDashBoardLink } from "@/utils/tools/getDashboardLink";
 import { getSession } from "@/api/auth/sessionCreation";
+import getParams from "@/utils/tools/getParams";
+import openApp from "@/handler/actions/openApp";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
@@ -54,17 +56,15 @@ function AuthPage() {
 
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isSignupLoading, setIsSignupLoading] = useState(false);
-
+  const params = getParams();
   // Login submit handler
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setIsLoginLoading(true);
-
     const response = await loginRequest(loginEmail, loginPassword);
     const loginSuccess = response.status === "success";
 
     setAuthSuccess(loginSuccess);
-    console.log("Response from loginRequest:", response);
 
     if (!loginSuccess) {
       setErrorMessage(response.error || "Erreur de connexion");
@@ -74,7 +74,12 @@ function AuthPage() {
 
     loginSuccessHandler(response.data);
     // Avant de rediriger sur le dashboard, création de la micro session de transport.
-    fastRedirect("/user/profile");
+    if (params.on_success === "open_app") {
+      await openApp();
+      return;
+    } else {
+      fastRedirect("/user/profile");
+    }
     setIsLoginLoading(false);
   };
 
@@ -230,6 +235,7 @@ function AuthPage() {
                   onPasswordChange={setLoginPassword}
                   onSubmit={handleLoginSubmit}
                   onForgotPassword={() => navigate("/auth/password-recovery")}
+                  params={params}
                 />
               </div>
             </div>

@@ -17,7 +17,7 @@ function PasswordRecoveryPage() {
     try {
       await passwordRecoveryRequest(email);
         setStatus("success");
-        setMessage("Si cet email est enregistré, un lien de réinitialisation a été envoyé.");
+        setMessage("Si un compte est associé à ce courriel, un lien de réinitialisation devrait arriver sous peu.");
     }catch (error) {
         setStatus("error");
         setMessage("Une erreur est survenue. Veuillez réessayer.");

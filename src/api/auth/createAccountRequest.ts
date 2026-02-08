@@ -1,6 +1,5 @@
 // src/api/auth.ts
 import API from "@/api/client";
-import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
 
 export type CreateAccountPayload = {
   email: string;

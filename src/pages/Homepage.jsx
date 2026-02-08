@@ -15,8 +15,8 @@ function HomePage({isAuth, userName}) {
 
       <Section
         title="Deuxième section"
-        children="Voici une autre section."
-        className="bg-green-500 min-h-screen"
+        children="Voici une autre section. Lol. Éventuellement cette page d'accueil sera modifiable à distance :)"
+        className="pb-30 pt-50 max-w-4xl mx-auto text-justify"
       />
       <Footer />
     </div>

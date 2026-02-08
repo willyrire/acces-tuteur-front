@@ -14,6 +14,8 @@ import Logo from "@/components/Header/Logo";
 import useIsMobile from "@/utils/tools/useIsMobile";
 import { getDashBoardLink } from "@/utils/tools/getDashboardLink";
 import { getSession } from "@/api/auth/sessionCreation";
+import getParams from "@/utils/tools/getParams";
+import openApp from "@/handler/actions/openApp";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
@@ -59,12 +61,10 @@ function AuthPage() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setIsLoginLoading(true);
-
     const response = await loginRequest(loginEmail, loginPassword);
     const loginSuccess = response.status === "success";
 
     setAuthSuccess(loginSuccess);
-    console.log("Response from loginRequest:", response);
 
     if (!loginSuccess) {
       setErrorMessage(response.error || "Erreur de connexion");
@@ -74,7 +74,13 @@ function AuthPage() {
 
     loginSuccessHandler(response.data);
     // Avant de rediriger sur le dashboard, création de la micro session de transport.
-    fastRedirect("/user/profile");
+    const { on_success } = getParams();
+    if (on_success === "open_app") {
+      await openApp();
+      return;
+    } else {
+      fastRedirect("/user/profile");
+    }
     setIsLoginLoading(false);
   };
 

@@ -1,0 +1,1 @@
+export const mainUri = "http://localhost:5173/";

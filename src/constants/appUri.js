@@ -1,0 +1,1 @@
+export const appUri = "http://localhost:5174/";

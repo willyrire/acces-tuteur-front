@@ -1,4 +1,4 @@
-import API from "@/api/client.ts";
+import API from "@/api/client";
 
 async function passwordRecoveryRequest(email: string) {
     var payload = { email: email };

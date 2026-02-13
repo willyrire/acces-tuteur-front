@@ -12,7 +12,6 @@ export const getSession = async()=> {
         );
         return response.data.data.sid;
     } catch (error) {
-        console.log("Session creation response:", error);
         return error;
     }
 }

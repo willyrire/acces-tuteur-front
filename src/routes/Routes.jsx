@@ -38,7 +38,6 @@ const AppRoutes = () => {
           console.log("User not authenticated"); // ✅ ça va s'afficher
           clearAuthStorage();
           setIsAuth(false);
-          
         }
       } catch (err) {
         // Erreur réseau / serveur

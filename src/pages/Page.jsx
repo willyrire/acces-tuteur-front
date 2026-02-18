@@ -6,8 +6,8 @@ import { getPage } from "@/api/public/getPage";
 import { useParams } from "react-router-dom";
 import MdPreview from "@/components/Preview/MdPreview";
 
-function HomePage({ isAuth, userName }) {
-  const slug = "accueil";
+function Page({ isAuth, userName }) {
+  const { slug } = useParams();
 
   const [pageContent, setPageContent] = React.useState(null);
   const [metaTitle, setMetaTitle] = React.useState(null);
@@ -71,7 +71,7 @@ function HomePage({ isAuth, userName }) {
       {status === "error" && (
         <Section
           title="Erreur"
-          className="bg-white-500 pb-30 pt-50 max-w-4xl mx-auto text-justify"
+          className="bg-white-500 pb-20 pt-50 max-w-4xl mx-auto text-justify"
           titleAlignement="text-center"
         >
           Page introuvable ou erreur de chargement.
@@ -83,7 +83,7 @@ function HomePage({ isAuth, userName }) {
           {sections.map((html, i) => (
             <Section
               key={i}
-              className="bg-white-500 pb-30 pt-50 max-w-4xl mx-auto text-justify"
+              className="bg-white-500 pt-50 max-w-4xl mx-auto text-justify"
               titleAlignement="text-center"
             >
               <MdPreview html={html} />
@@ -97,4 +97,4 @@ function HomePage({ isAuth, userName }) {
   );
 }
 
-export default HomePage;
+export default Page;

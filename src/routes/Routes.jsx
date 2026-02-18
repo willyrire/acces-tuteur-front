@@ -14,6 +14,7 @@ import NotFound404 from "../pages/Error/NotFound404";
 import PasswordRecoveryPage from "../pages/Auth/PasswordRecoveryPage";
 import Profile from "@/pages/User/Profile";
 import VerifyEmail from "@/pages/User/VerifyEmail";
+import Page from "@/pages/Page";
 
 // Utils
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
@@ -75,7 +76,7 @@ const AppRoutes = () => {
         {/* user/profile */}
         <Route path="/user/profile" element={isAuth ? <Profile isAuth={isAuth} userName={userName} /> : <Navigate from="/user/profile" to="/auth/login" />} />
         <Route path="/user/profile/verify-email" element={isAuth ? <VerifyEmail isAuth={isAuth} userName={userName} /> : <Navigate from="/user/profile/verify-email" to="/auth/login" />} />
-
+        <Route path="/page/:slug" element={<Page isAuth={isAuth} userName={userName} />} />
         {/* Fallback 404 */}
         <Route path="*" element={<NotFound404 isAuth={isAuth} userName={userName} />} />
       </Routes>

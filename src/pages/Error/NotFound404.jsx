@@ -17,7 +17,7 @@ function NotFound404({ isAuth, userName }) {
               changée de place. <br />
               Accès Tuteur est un projet en développement constant. <br />
               Il est donc
-              possible que cette page finisse par être ajoutée (ou pas) ! <br />
+              possible que cette page finisse par être ajoutée (ou pas) !
             </p>
             <Picture
               source="/images/404-error-page-robot.png"

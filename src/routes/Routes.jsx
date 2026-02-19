@@ -20,6 +20,7 @@ import Page from "@/pages/Page";
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
 import { getUserNameLastNameFirstInitial } from "@/utils/tools/getUserName";
 import { clearAuthStorage } from "@/utils/tools/clearAuthStorage";
+import LegalIntro from "@/pages/legal/LegalIntro";
 
 
 const AppRoutes = () => {
@@ -77,6 +78,8 @@ const AppRoutes = () => {
         <Route path="/user/profile" element={isAuth ? <Profile isAuth={isAuth} userName={userName} /> : <Navigate from="/user/profile" to="/auth/login" />} />
         <Route path="/user/profile/verify-email" element={isAuth ? <VerifyEmail isAuth={isAuth} userName={userName} /> : <Navigate from="/user/profile/verify-email" to="/auth/login" />} />
         <Route path="/page/:slug" element={<Page isAuth={isAuth} userName={userName} />} />
+        <Route path="/legal/:slug" element={<Page isAuth={isAuth} userName={userName} />} />
+        <Route path="/legal/" element={<LegalIntro isAuth={isAuth} userName={userName} />} />
         {/* Fallback 404 */}
         <Route path="*" element={<NotFound404 isAuth={isAuth} userName={userName} />} />
       </Routes>

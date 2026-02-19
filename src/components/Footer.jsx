@@ -19,7 +19,7 @@ function Footer() {
             FAQ
           </a>
           <a href="/legal" className="hover:text-white transition">
-            Conditions
+            Légal
           </a>
         </div>
         <div className="text-sm text-gray-400">

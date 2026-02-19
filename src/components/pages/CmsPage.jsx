@@ -56,7 +56,7 @@ export default function CmsPage({
     if (!pageContent) return [];
 
     return pageContent
-      .split(/\n\s*---\s*\n/g)
+      .split(/\n\s*\[\[SECTION\]\]\s*\n/g)
       .map((s) => s.trim())
       .filter(Boolean);
   }, [pageContent, splitSections]);

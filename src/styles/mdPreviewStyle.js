@@ -9,6 +9,11 @@ export const MD_PREVIEW_STYLE = `
   .md-preview p { margin: .75rem 0; line-height: 1.75; }
   .md-preview hr { margin: 1.25rem 0; opacity: .35; }
 
+  .md-preview h1,
+.md-preview h2 {
+  padding-bottom: .35rem;
+  border-bottom: 1px solid rgba(0,0,0,.18);
+}
   .md-preview ul { list-style: disc !important; padding-left: 1.5rem; margin: .75rem 0; }
   .md-preview ol { list-style: decimal !important; padding-left: 1.5rem; margin: .75rem 0; }
   .md-preview li { margin: .25rem 0; }
@@ -111,12 +116,19 @@ export const MD_PREVIEW_STYLE = `
   border-radius: .5rem;
 }
   /* Align helpers */
-.md-preview .md-align { width: 100%; }
-.md-preview .md-align-left { text-align: left !important; }
-.md-preview .md-align-center { text-align: center !important; }
-.md-preview .md-align-right { text-align: right !important; }
-.md-preview .md-align-justify { text-align: justify !important; }
-
+  .md-preview .md-align { width: 100%; }
+  .md-preview .md-align-left { text-align: left !important; }
+  .md-preview .md-align-center { text-align: center !important; }
+  .md-preview .md-align-right { text-align: right !important; }
+  .md-preview .md-align-justify { text-align: justify !important; }
+  .md-preview hr {
+    border: 0;
+    height: 2px;
+    opacity: 1;
+    background: rgba(0,0,0,.25);
+    margin: 1.75rem 0;
+    border-radius: 999px;
+  }
  /* Padding helpers (py) */
   .md-preview .md-py-0  { padding-top: 0 !important;    padding-bottom: 0 !important; }
   .md-preview .md-py-1  { padding-top: .25rem !important; padding-bottom: .25rem !important; }

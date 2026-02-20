@@ -13,7 +13,7 @@ export default function CmsPage({
   showHeader = true,
   showFooter = true,
   splitSections = true,
-  sectionClassName = "bg-white-500 pb-30 pt-50 max-w-4xl mx-auto text-justify",
+  sectionClassName = "bg-white-500 pt-50 max-w-4xl mx-auto text-justify",
   titleAlignement = "text-center",
   loadingTitle = "Chargement...",
   errorTitle = "Erreur",
@@ -56,7 +56,7 @@ export default function CmsPage({
     if (!pageContent) return [];
 
     return pageContent
-      .split(/\n\s*\[\[SECTION\]\]\s*\n/g)
+      .split(/\s*\[\[SECTION\]\]\s*/g)
       .map((s) => s.trim())
       .filter(Boolean);
   }, [pageContent, splitSections]);
@@ -81,7 +81,7 @@ export default function CmsPage({
       {status === "error" && (
         <Section
           title={errorTitle}
-          className={sectionClassName}
+          className={sectionClassName + "mt-[50%] mb-[32%]"}
           titleAlignement={titleAlignement}
         >
           {errorText}
@@ -89,17 +89,13 @@ export default function CmsPage({
       )}
 
       {status === "success" && (
-        <>
+        <div className="bg-white-500 max-w-4xl mx-auto text-justify pt-50 pb-30">
           {sections.map((html, i) => (
-            <Section
-              key={i}
-              className={sectionClassName}
-              titleAlignement={titleAlignement}
-            >
+            <div key={i} className={i === 0 ? "" : "mt-12"}>
               <MdPreview html={html} />
-            </Section>
+            </div>
           ))}
-        </>
+        </div>
       )}
 
       {showFooter && <Footer />}

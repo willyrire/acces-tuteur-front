@@ -207,8 +207,10 @@ export default function SignUpForm({
         />
         <span>
           J'accepte les{" "}
-          <a href="/legal/overwiew" className="text-blue-600 hover:underline">
+          <a href="/legal/terms" className="text-blue-600 hover:underline">
             conditions d'utilisation
+          </a> et la <a href="/legal/privacy" className="text-blue-600 hover:underline">
+            politique de confidentialité
           </a>
           .
         </span>

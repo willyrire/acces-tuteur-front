@@ -103,16 +103,7 @@ function AuthPage() {
     }
     setPasswordError("");
 
-    const response = await createAccountRequest(
-      signupData.email,
-      signupData.password,
-      signupData.firstName,
-      signupData.lastName,
-      signupData.role,
-      signupData.city,
-      signupData.address,
-      signupData.phone,
-    );
+    const response = await createAccountRequest(signupData);
 
     console.log("Response from createAccountRequest:", response);
 

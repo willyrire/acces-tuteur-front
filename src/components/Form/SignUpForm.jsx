@@ -131,9 +131,10 @@ export default function SignUpForm({
         type="email"
         placeholder="Email"
         value={signupData.email}
-        onChange={(e) =>
-          setSignupData({ ...signupData, email: e.target.value })
-        }
+        onChange={(e) => {
+          setSignupData({ ...signupData, email: e.target.value });
+          console.log("Email valid:", isValidEmail(e.target.value));
+        }}
         className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${signupData.email && !isValidEmail(signupData.email) ? "border-red-500" : "border-gray-300"} ${isMobile ? "col-span-1" : "md:col-span-2"}`}
         required
       />
@@ -207,9 +208,9 @@ export default function SignUpForm({
         />
         <span>
           J'accepte les{" "}
-          <a href="/legal/terms" className="text-blue-600 hover:underline">
+          <a target="_blank" href="/legal/terms" className="text-blue-600 hover:underline">
             conditions d'utilisation
-          </a> et la <a href="/legal/privacy" className="text-blue-600 hover:underline">
+          </a> et la <a target="_blank" href="/legal/privacy" className="text-blue-600 hover:underline">
             politique de confidentialité
           </a>
           .

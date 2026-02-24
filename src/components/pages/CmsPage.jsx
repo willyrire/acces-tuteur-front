@@ -87,7 +87,7 @@ export default function CmsPage({
         {status === "loading" && (
           <Section
             title={loadingTitle}
-            className={sectionClassName}
+            className={sectionClassName+ " mt-[10%] mb-[25%]"}
             titleAlignement={titleAlignement}
           >
             <div className="flex items-center justify-center gap-3 py-8">
@@ -100,7 +100,7 @@ export default function CmsPage({
         {status === "error" && (
           <Section
             title={errorTitle}
-            className={sectionClassName + " mt-[50%] mb-[32%]"}
+            className={sectionClassName + " mt-[10%] mb-[25%]"}
             titleAlignement={titleAlignement}
           >
             {errorText}

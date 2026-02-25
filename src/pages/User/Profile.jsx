@@ -96,8 +96,7 @@ function Profile({ isAuth, userName }) {
               onClick={() => openApp("profile_page")}
               className={`w-full text-center p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:cursor-pointer transition my-4`}
             >
-              <ExternalLink size={20} className="inline mr-2" /> Accéder au
-              tableau de bord
+              <ExternalLink size={20} className="inline mr-2" /> Accéder aux services
             </button>
             <p className="text-gray-400">
               En cliquant sur les boutons ci-dessus, vous acceptez de respecter

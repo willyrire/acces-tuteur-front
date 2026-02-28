@@ -220,7 +220,7 @@ export default function SignUpForm({
       {/* Submit */}
       <button
         type="submit"
-        className={`w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition ${isMobile ? "col-span-1" : "md:col-span-2"}`}
+        className={`w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition ${isSignupLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} ${isMobile ? "col-span-1" : "md:col-span-2"}`}
       >
         {isSignupLoading ? "Traitement..." : "Créer un compte"}
       </button>

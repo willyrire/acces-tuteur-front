@@ -8,6 +8,7 @@ const verifyEmail = async (code) => {
     const response = await API.patch("/v1/user/email-verification", payload);
     return response.data;
   } catch (error) {
+    console.log(error.response.data);
     return error.response.data;
   }
 };

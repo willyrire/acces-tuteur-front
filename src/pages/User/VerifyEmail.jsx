@@ -16,39 +16,82 @@ function VerifyEmail({ isAuth, userName }) {
   const params = getParams();
 
   useEffect(() => {
+    // reset quand le code change
+    setTrial(0);
+    setRequestStatus("processing");
+  }, [params.code]);
+
+  useEffect(() => {
     if (isEmpty(params.code)) {
       setRequestStatus("error");
       return;
     }
 
-    const runVerification = async () => {
-      const verifData = await verifyEmail(params.code);
-      if (verifData.status !== "success") {
-        setRequestStatus("error");
-        return;
-      }
-      setRequestStatus("success");
+    if (requestStatus === "success") return;
 
-      setTrial((prev) => prev + 1);
-      // On update quand même les données pour qu'elles soient à jour
-      const data = await getUserData();
-      updateLocalData(data.data);
+    if (trial >= 3) {
+      setRequestStatus("error");
+      return;
+    }
+
+    let cancelled = false;
+
+    const run = async () => {
+      try {
+        setRequestStatus("processing");
+
+        const verifData = await verifyEmail(params.code);
+
+        if (cancelled) return;
+
+        if (verifData?.status === "success") {
+          setRequestStatus("success");
+        } else {
+          // retente après un petit délai
+          setTimeout(() => {
+            if (!cancelled) setTrial((t) => t + 1);
+          }, 800);
+        }
+
+        // update quand même
+        const data = await getUserData();
+        if (!cancelled) updateLocalData(data.data);
+      } catch (e) {
+        if (cancelled) return;
+        setTimeout(() => {
+          if (!cancelled) setTrial((t) => t + 1);
+        }, 800);
+      }
     };
 
-    if (trial <= 2 && requestStatus !== "success") {
-      runVerification();
-    }
-  }, []);
+    run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [trial, params.code, requestStatus]);
   return (
     <div className="flex flex-col">
       <Header removeWarnings={true} isAuth={isAuth} userName={userName} />
 
       {requestStatus === "processing" && (
         <Section
-          title="Vérification en cours"
-          className="bg-white-500 pb-30 pt-50 max-w-4xl mx-auto text-center"
+          title=""
+          className="bg-white-500 max-h-screen my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
         >
-          Veuillez patienter pendant que nous vérifions votre adresse e-mail.
+          <div className="flex flex-col items-center justify-center gap-4">
+            {/* Spinner */}
+            <div
+              className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"
+              aria-label="Chargement"
+              role="status"
+            />
+            <h1 className="text-3xl font-bold">Vérification en cours</h1>
+            <p>
+              Veuillez patienter pendant que nous vérifions votre adresse
+              e-mail.
+            </p>
+          </div>
         </Section>
       )}
 
@@ -56,7 +99,7 @@ function VerifyEmail({ isAuth, userName }) {
         <>
           <Section
             title=""
-            className="bg-white-500 my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
+            className="bg-white-500 max-h-screen my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
           >
             <SuccessCheck text="" />
 
@@ -82,7 +125,7 @@ function VerifyEmail({ isAuth, userName }) {
         <>
           <Section
             title=""
-            className="bg-white-500 my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
+            className="bg-white-500 max-h-screen my-[11%] pb-30 pt-50 max-w-4xl mx-auto text-center"
           >
             <ErrorCheck text="" />
 

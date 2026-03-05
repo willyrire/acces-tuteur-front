@@ -65,11 +65,11 @@ const AppRoutes = () => {
         {/* Authentification */}
         <Route
           path="/auth/login"
-          element={isAuth ? <Navigate from="/auth/login" to="/" /> : <AuthPage />}
+          element={isAuth ? <Navigate from="/auth/login" to="/user/profile" /> : <AuthPage />}
         />
         <Route
           path="/auth/create-account"
-          element={isAuth ? <Navigate from="/auth/create-account" to="/" /> : <AuthPage />}
+          element={isAuth ? <Navigate from="/auth/create-account" to="/user/profile" /> : <AuthPage />}
         />
         {/* Authentification / Mot de passe oublié */}
         <Route path="/auth/password-recovery"  element={isAuth ? <Navigate from="/auth/password-recovery" to="/" /> : <PasswordRecoveryPage />} />

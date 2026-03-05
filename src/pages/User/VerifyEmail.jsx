@@ -55,6 +55,9 @@ function VerifyEmail({ isAuth, userName }) {
 
         // update quand même
         const data = await getUserData();
+        if(data.data.isEmailVerified && !cancelled) {
+            setRequestStatus("success");
+        }
         if (!cancelled) updateLocalData(data.data);
       } catch (e) {
         if (cancelled) return;
@@ -104,7 +107,7 @@ function VerifyEmail({ isAuth, userName }) {
             <SuccessCheck text="" />
 
             <h1 className="text-3xl font-bold mb-4">
-              Adresse Courriel Vérifié
+              Adresse Courriel Vérifiée
             </h1>
             <p className="mt-2 text-[18px] mb-4">
               Votre adresse courriel a été vérifiée avec succès.

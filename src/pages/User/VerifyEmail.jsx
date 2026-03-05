@@ -12,6 +12,7 @@ import ErrorCheck from "@/components/animation/ErrorCheck";
 
 function VerifyEmail({ isAuth, userName }) {
   const [requestStatus, setRequestStatus] = useState("processing");
+  const [trial, setTrial] = useState(0);
   const params = getParams();
 
   useEffect(() => {
@@ -21,22 +22,22 @@ function VerifyEmail({ isAuth, userName }) {
     }
 
     const runVerification = async () => {
-      try {
-        const verifData = await verifyEmail(params.code);
-        if (!verifData.success) {
-          setRequestStatus("error");
-          return;
-        }
-        setRequestStatus("success");
-      } catch {
+      const verifData = await verifyEmail(params.code);
+      if (verifData.status !== "success") {
         setRequestStatus("error");
+        return;
       }
+      setRequestStatus("success");
+
+      setTrial((prev) => prev + 1);
       // On update quand même les données pour qu'elles soient à jour
       const data = await getUserData();
       updateLocalData(data.data);
     };
 
-    runVerification();
+    if (trial <= 2 && requestStatus !== "success") {
+      runVerification();
+    }
   }, []);
   return (
     <div className="flex flex-col">
@@ -51,7 +52,7 @@ function VerifyEmail({ isAuth, userName }) {
         </Section>
       )}
 
-      {requestStatus === "error" && (
+      {requestStatus === "success" && (
         <>
           <Section
             title=""
@@ -59,7 +60,9 @@ function VerifyEmail({ isAuth, userName }) {
           >
             <SuccessCheck text="" />
 
-            <h1 className="text-3xl font-bold mb-4">Adresse Courriel Vérifié</h1>
+            <h1 className="text-3xl font-bold mb-4">
+              Adresse Courriel Vérifié
+            </h1>
             <p className="mt-2 text-[18px] mb-4">
               Votre adresse courriel a été vérifiée avec succès.
             </p>
@@ -68,7 +71,7 @@ function VerifyEmail({ isAuth, userName }) {
                 href="/"
                 className="rounded-full active:opacity-75 hover:text-blue-500 transition hover:bg-white p-4 border-2 border-blue-500 bg-blue-500 text-white font-bold"
               >
-                Retour à l'accueil
+                Retour au profil
               </a>
             </p>
           </Section>
@@ -83,16 +86,19 @@ function VerifyEmail({ isAuth, userName }) {
           >
             <ErrorCheck text="" />
 
-            <h1 className="text-3xl font-bold mb-4">Une erreur s'est produite</h1>
+            <h1 className="text-3xl font-bold mb-4">
+              Une erreur s'est produite
+            </h1>
             <p className="mt-2 text-[18px] mb-4">
-              Une erreur s'est produite lors de la vérification de votre adresse courriel.
+              Une erreur s'est produite lors de la vérification de votre adresse
+              courriel.
             </p>
             <p className="mt-6">
               <a
-                href="/"
+                href="/user/profile"
                 className="rounded-full active:opacity-75 hover:text-blue-500 transition hover:bg-white p-4 border-2 border-blue-500 bg-blue-500 text-white font-bold"
               >
-                Retour à l'accueil
+                Retour au profil
               </a>
             </p>
           </Section>

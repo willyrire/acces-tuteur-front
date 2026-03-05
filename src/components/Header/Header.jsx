@@ -56,8 +56,14 @@ const Header = ({
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
+        // if(!minimalist){
+        //   setShowWarning(false);
+        // }
         setScrolled(true);
       } else {
+        // if(!minimalist){
+        //   setShowWarning(true);
+        // }
         setScrolled(false);
       }
     };

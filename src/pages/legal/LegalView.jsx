@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import CmsPage from "@/components/pages/CmsPage";
 
 export default function LegalView({ isAuth, userName }) {
-  const allowedSlugs = ["terms", "privacy", "cookies", "contact"];
+  const allowedSlugs = ["terms", "privacy", "cookies", "contact", "modalites-d-achat"];
   const { slug } = useParams();
 
   if (!allowedSlugs.includes(slug)) {

@@ -49,7 +49,7 @@ export default function SignUpForm({
           }
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          <option value="parent">Parent</option>
+          <option value="parent">Parent ou Étudiant post-secondaire</option>
           <option value="enfant">Enfant</option>
           <option value="tuteur">Tuteur</option>
         </select>

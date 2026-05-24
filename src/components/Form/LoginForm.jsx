@@ -24,7 +24,7 @@ export default function LoginForm({
       )}
 
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
-        Se connecter
+        Connexion
       </h2>
       {params.auth_needed === "true" && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">

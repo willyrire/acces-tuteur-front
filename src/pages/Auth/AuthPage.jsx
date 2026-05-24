@@ -9,25 +9,23 @@ import LoginForm from "@/components/Form/LoginForm";
 import SignUpForm from "@/components/Form/SignUpForm";
 import { isValidEmail } from "@/utils/validator/isValidEmail";
 import { createAccountRequest } from "@/api/auth/createAccountRequest";
-import Header from "@/components/Header/Header";
 import Logo from "@/components/Header/Logo";
 import useIsMobile from "@/utils/tools/useIsMobile";
-import { getDashBoardLink } from "@/utils/tools/getDashboardLink";
-import { getSession } from "@/api/auth/sessionCreation";
 import getParams from "@/utils/tools/getParams";
 import openApp from "@/handler/actions/openApp";
+import { login_quotes, signup_quotes, quoteRandomizer } from "./Quotes";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
   const [signupSuccess, setSignupSuccess] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [signupErrorMessage, setSignupErrorMessage] = useState("");
-  const [emailValid, setEmailValid] = useState(true);
-  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [isLogin, setIsLogin] = useState(true);
+  const loginQuote = quoteRandomizer(login_quotes);
+  const signupQuote = quoteRandomizer(signup_quotes);
 
   useEffect(() => {
     if (location.pathname === "/auth/create-account") {
@@ -174,9 +172,10 @@ function AuthPage() {
                     alt="Illustration"
                     className="w-3/4 mb-6 rounded-lg shadow-lg mx-auto"
                   />
-                  <blockquote className="text-xl italic text-center">
-                    Rejoignez Accès tuteur et commencez votre parcours. <br />
-                  </blockquote>
+                  <blockquote
+                    className="text-xl italic text-center"
+                    dangerouslySetInnerHTML={{ __html: signupQuote }}
+                  />
                   <div className="text-center mt-3">
                     Déjà un compte ? <br />
                     <button
@@ -199,9 +198,10 @@ function AuthPage() {
                     alt="Illustration"
                     className="w-3/4 mb-6 rounded-lg shadow-lg mx-auto"
                   />
-                  <blockquote className="text-xl italic text-center">
-                    Accès tuteur : Connectez-vous avec votre futur.
-                  </blockquote>
+                  <blockquote
+                    className="text-xl italic text-center"
+                    dangerouslySetInnerHTML={{ __html: loginQuote }}
+                  />
                   <div className="text-center mt-3">
                     Pas de compte ? <br />
                     <button

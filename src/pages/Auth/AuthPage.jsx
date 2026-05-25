@@ -74,6 +74,18 @@ function AuthPage() {
 
     /**
      * TODO: Traiter l'a2f ici : si response.data.a2f_required est true, rediriger vers la page de vérification a2f avec les paramètres nécessaires (userId et method)
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
      */
 
     loginSuccessHandler(response.data);

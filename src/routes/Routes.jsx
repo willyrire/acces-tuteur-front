@@ -15,6 +15,7 @@ import PasswordRecoveryPage from "../pages/Auth/PasswordRecoveryPage";
 import Profile from "@/pages/User/Profile";
 import VerifyEmail from "@/pages/User/VerifyEmail";
 import Page from "@/pages/Page";
+import A2F from "@/module/auth/pages/A2F";
 
 // Utils
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
@@ -22,7 +23,6 @@ import { getUserNameLastNameFirstInitial } from "@/utils/tools/getUserName";
 import { clearAuthStorage } from "@/utils/tools/clearAuthStorage";
 import LegalIntro from "@/pages/legal/LegalIntro";
 import LegalView from "@/pages/legal/LegalView";
-
 
 const AppRoutes = () => {
   const [userName, setUserName] = React.useState(null);
@@ -65,24 +65,95 @@ const AppRoutes = () => {
         {/* Authentification */}
         <Route
           path="/auth/login"
-          element={isAuth ? <Navigate from="/auth/login" to="/user/profile" /> : <AuthPage />}
+          element={
+            isAuth ? (
+              <Navigate from="/auth/login" to="/user/profile" />
+            ) : (
+              <AuthPage />
+            )
+          }
         />
         <Route
           path="/auth/create-account"
-          element={isAuth ? <Navigate from="/auth/create-account" to="/user/profile" /> : <AuthPage />}
+          element={
+            isAuth ? (
+              <Navigate from="/auth/create-account" to="/user/profile" />
+            ) : (
+              <AuthPage />
+            )
+          }
+        />
+        {/* Authentification / A2F */}
+        <Route
+          path="/auth/login/a2f/:userId/:method"
+          element={
+            isAuth ? (
+              <Navigate from="/auth/login" to="/user/profile" />
+            ) : (
+              <A2F />
+            )
+          }
         />
         {/* Authentification / Mot de passe oublié */}
-        <Route path="/auth/password-recovery"  element={isAuth ? <Navigate from="/auth/password-recovery" to="/" /> : <PasswordRecoveryPage />} />
-        <Route path="/auth/reset-password" element={isAuth ? <Navigate from="/auth/reset-password" to="/" /> : <ResetPasswordPage />} />
+        <Route
+          path="/auth/password-recovery"
+          element={
+            isAuth ? (
+              <Navigate from="/auth/password-recovery" to="/" />
+            ) : (
+              <PasswordRecoveryPage />
+            )
+          }
+        />
+        <Route
+          path="/auth/reset-password"
+          element={
+            isAuth ? (
+              <Navigate from="/auth/reset-password" to="/" />
+            ) : (
+              <ResetPasswordPage />
+            )
+          }
+        />
 
         {/* user/profile */}
-        <Route path="/user/profile" element={isAuth ? <Profile isAuth={isAuth} userName={userName} /> : <Navigate from="/user/profile" to="/auth/login" />} />
-        <Route path="/user/profile/verify-email" element={isAuth ? <VerifyEmail isAuth={isAuth} userName={userName} /> : <Navigate from="/user/profile/verify-email" to="/auth/login" />} />
-        <Route path="/page/:slug" element={<Page isAuth={isAuth} userName={userName} />} />
-        <Route path="/legal/:slug" element={<LegalView isAuth={isAuth} userName={userName} />} />
-        <Route path="/legal/" element={<LegalIntro isAuth={isAuth} userName={userName} />} />
+        <Route
+          path="/user/profile"
+          element={
+            isAuth ? (
+              <Profile isAuth={isAuth} userName={userName} />
+            ) : (
+              <Navigate from="/user/profile" to="/auth/login" />
+            )
+          }
+        />
+        <Route
+          path="/user/profile/verify-email"
+          element={
+            isAuth ? (
+              <VerifyEmail isAuth={isAuth} userName={userName} />
+            ) : (
+              <Navigate from="/user/profile/verify-email" to="/auth/login" />
+            )
+          }
+        />
+        <Route
+          path="/page/:slug"
+          element={<Page isAuth={isAuth} userName={userName} />}
+        />
+        <Route
+          path="/legal/:slug"
+          element={<LegalView isAuth={isAuth} userName={userName} />}
+        />
+        <Route
+          path="/legal/"
+          element={<LegalIntro isAuth={isAuth} userName={userName} />}
+        />
         {/* Fallback 404 */}
-        <Route path="*" element={<NotFound404 isAuth={isAuth} userName={userName} />} />
+        <Route
+          path="*"
+          element={<NotFound404 isAuth={isAuth} userName={userName} />}
+        />
       </Routes>
     </Router>
   );

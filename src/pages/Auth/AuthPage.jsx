@@ -37,6 +37,7 @@ function AuthPage() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
+  // Formulaire d'inscription
   const [signupData, setSignupData] = useState({
     firstName: "",
     lastName: "",
@@ -59,6 +60,7 @@ function AuthPage() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setIsLoginLoading(true);
+    // envoie la requête de connexion à l'API
     const response = await loginRequest(loginEmail, loginPassword);
     const loginSuccess = response.status === "success";
 
@@ -69,6 +71,10 @@ function AuthPage() {
       setIsLoginLoading(false);
       return;
     }
+
+    /**
+     * TODO: Traiter l'a2f ici : si response.data.a2f_required est true, rediriger vers la page de vérification a2f avec les paramètres nécessaires (userId et method)
+     */
 
     loginSuccessHandler(response.data);
     // Avant de rediriger sur le dashboard, création de la micro session de transport.

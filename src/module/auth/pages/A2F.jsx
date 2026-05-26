@@ -1,9 +1,17 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Mail, ShieldCheck, KeyRound, ArrowRight } from "lucide-react";
+import { verifyA2F } from "../api/verifya2f";
+import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
+import getParams from "@/utils/tools/getParams";
+import openApp from "@/handler/actions/openApp";
+import { fastRedirect } from "@/utils/tools/fastRedirect";
 
 const A2F = () => {
-  const { userId, method } = useParams();
+  const { userId, method, challengeId } = useParams();
+  const params = getParams();
+  const [error, setError] = React.useState("");
+  const [code, setCode] = React.useState("");
 
   const isEmail = method === "email";
   const isTotp = method === "totp";
@@ -39,18 +47,22 @@ const A2F = () => {
 
     const cleanCode = code.trim();
 
-    if (!userId || !method || !cleanCode) return;
+    if (!challengeId || !method || !cleanCode) return;
     if (method !== "email" && method !== "totp") return;
 
-    const payload = {
-      user_id: userId,
-      method,
-      code: cleanCode,
-    };
+    const response = await verifyA2F(userId, method, challengeId, cleanCode);
 
-    console.log(payload);
-
-    // Ici tu deal avec ton API
+    if (response.success) {
+      loginSuccessHandler(response.data);
+      if (params.on_success === "open_app") {
+        await openApp();
+        return;
+      } else {
+        fastRedirect("/user/profile");
+      }
+    } else {
+      setError("Le code de vérification est incorrect.");
+    }
   };
 
   return (
@@ -81,9 +93,19 @@ const A2F = () => {
                 type="text"
                 inputMode="numeric"
                 maxLength={6}
+                value={code}
+                onChange={(e) => {
+                  setError("");
+                  setCode(e.target.value.replace(/\D/g, "").slice(0, 6));
+                }}
                 placeholder={config.placeholder}
                 className="w-full rounded-xl border bg-background px-4 py-3 text-center text-lg tracking-[0.35em] outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10"
               />
+              {error && (
+                <p className="mt-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+                  {error}
+                </p>
+              )}
             </div>
 
             <button

@@ -74,19 +74,25 @@ function AuthPage() {
 
     /**
      * TODO: Traiter l'a2f ici : si response.data.a2f_required est true, rediriger vers la page de vérification a2f avec les paramètres nécessaires (userId et method)
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
+     *
+     *
      */
+
+    if (response.data.requires_2fa) {
+      const user_id = response.data.user_id;
+      const method = response.data.method_2fa;
+      const challengeId = response.data.challenge_id;
+      // const challenge_id = response.data.challenge_id;
+
+      if (params.on_success === "open_app") {
+        navigate(
+          `/auth/login/a2f/${user_id}/${method}/${challengeId}?on_success=open_app`,
+        );
+      } else {
+        navigate(`/auth/login/a2f/${user_id}/${method}/${challengeId}`);
+      }
+      return;
+    }
 
     loginSuccessHandler(response.data);
     // Avant de rediriger sur le dashboard, création de la micro session de transport.

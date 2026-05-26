@@ -85,7 +85,7 @@ const AppRoutes = () => {
         />
         {/* Authentification / A2F */}
         <Route
-          path="/auth/login/a2f/:userId/:method"
+          path="/auth/login/a2f/:userId/:method/:challengeId"
           element={
             isAuth ? (
               <Navigate from="/auth/login" to="/user/profile" />

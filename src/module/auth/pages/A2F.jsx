@@ -4,23 +4,29 @@ import {
   Mail,
   ShieldCheck,
   KeyRound,
-  ArrowRight,
   GraduationCap,
   LockKeyhole,
-  AlertCircle,
 } from "lucide-react";
+
 import { verifyA2F } from "../api/verifya2f";
+import { recoveryA2F } from "../api/recoverya2f";
 import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
 import getParams from "@/utils/tools/getParams";
 import openApp from "@/handler/actions/openApp";
 import { fastRedirect } from "@/utils/tools/fastRedirect";
 
+import A2FCard from "../components/A2FCard";
+import RecoveryCodeCard from "../components/RecoveryCodeCard";
+
+
 const A2F = () => {
   const { userId, method, challengeId } = useParams();
   const params = getParams();
 
+  const [activeCard, setActiveCard] = React.useState("a2f");
   const [error, setError] = React.useState("");
   const [code, setCode] = React.useState("");
+  const [recoveryCode, setRecoveryCode] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
   const isEmail = method === "email";
@@ -53,9 +59,18 @@ const A2F = () => {
           placeholder: "",
         };
 
-  const Icon = config.icon;
+  const handleLoginSuccess = async (data) => {
+    loginSuccessHandler(data);
 
-  const handleSubmit = async (e) => {
+    if (params.on_success === "open_app") {
+      await openApp();
+      return;
+    }
+
+    fastRedirect("/user/profile");
+  };
+
+  const handleA2FSubmit = async (e) => {
     e.preventDefault();
 
     const cleanCode = code.trim();
@@ -70,14 +85,7 @@ const A2F = () => {
       const response = await verifyA2F(userId, method, challengeId, cleanCode);
 
       if (response.success) {
-        loginSuccessHandler(response.data);
-
-        if (params.on_success === "open_app") {
-          await openApp();
-          return;
-        }
-
-        fastRedirect("/user/profile");
+        await handleLoginSuccess(response.data);
       } else {
         setError("Le code de vérification est incorrect.");
       }
@@ -86,14 +94,49 @@ const A2F = () => {
     }
   };
 
+  const handleRecoverySubmit = async (e) => {
+    e.preventDefault();
+
+    const cleanCode = recoveryCode.trim();
+
+    if (!challengeId || !cleanCode) return;
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await recoveryA2F(
+        userId,
+        method,
+        challengeId,
+        cleanCode,
+      );
+
+      if (response.success) {
+        await handleLoginSuccess(response.data);
+      } else {
+        setError(response.error || "Le code de récupération est invalide." );
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const switchCard = (card) => {
+    setError("");
+    setCode("");
+    setRecoveryCode("");
+    setActiveCard(card);
+  };
+
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-background via-background to-sky-950/10 px-4 py-10 text-foreground">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-background via-background to-sky-950/10 px-4 py-10 text-foreground">
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
       <div className="pointer-events-none absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-sky-400/15 blur-3xl" />
 
       <div className="relative mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-5xl items-center justify-center">
         <div className="grid w-full overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="hidden flex-col justify-between bg-gradient-to-br from-primary/15 via-sky-500/10 to-blue-600/10 p-10 lg:flex">
+          <div className="hidden flex-col justify-between bg-linear-to-br from-primary/15 via-sky-500/10 to-blue-600/10 p-10 lg:flex">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/70 px-3 py-1.5 text-sm font-medium text-foreground shadow-sm backdrop-blur">
                 <GraduationCap className="h-4 w-4 text-primary" />
@@ -130,63 +173,28 @@ const A2F = () => {
           </div>
 
           <main className="bg-card p-6 sm:p-8 lg:p-10">
-            <div className="mx-auto flex min-h-[560px] max-w-md flex-col justify-center">
-              <div className="mb-8">
-                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground">
-                  <Icon className="h-4 w-4 text-primary" />
-                  {config.badge}
-                </div>
-
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-sm">
-                  <Icon className="h-7 w-7" />
-                </div>
-
-                <h1 className="mt-5 text-2xl font-bold tracking-tight text-foreground">
-                  {config.title}
-                </h1>
-
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  {config.description}
-                </p>
-              </div>
-
-              {(isEmail || isTotp) && (
-                <form className="space-y-5" onSubmit={handleSubmit}>
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-foreground">
-                      Code de vérification
-                    </label>
-
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={6}
-                      value={code}
-                      onChange={(e) => {
-                        setError("");
-                        setCode(e.target.value.replace(/\D/g, "").slice(0, 6));
-                      }}
-                      placeholder={config.placeholder}
-                      className="h-14 w-full rounded-2xl border border-border bg-background px-4 text-center text-xl font-semibold tracking-[0.45em] text-foreground outline-none transition placeholder:text-muted-foreground/40 focus:border-primary focus:ring-4 focus:ring-primary/10"
-                    />
-
-                    {error && (
-                      <div className="mt-3 flex gap-2 rounded-2xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-                        <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                        <p>{error}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={loading || code.length !== 6}
-                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {loading ? "Vérification..." : "Vérifier mon identité"}
-                    {!loading && <ArrowRight className="h-4 w-4" />}
-                  </button>
-                </form>
+            <div className="mx-auto flex min-h-140 max-w-md flex-col justify-center">
+              {activeCard === "a2f" ? (
+                <A2FCard
+                  config={config}
+                  code={code}
+                  setCode={setCode}
+                  error={error}
+                  setError={setError}
+                  loading={loading}
+                  onSubmit={handleA2FSubmit}
+                  onSwitchToRecovery={() => switchCard("recovery")}
+                />
+              ) : (
+                <RecoveryCodeCard
+                  recoveryCode={recoveryCode}
+                  setRecoveryCode={setRecoveryCode}
+                  error={error}
+                  setError={setError}
+                  loading={loading}
+                  onSubmit={handleRecoverySubmit}
+                  onSwitchToA2F={() => switchCard("a2f")}
+                />
               )}
 
               <p className="mt-8 text-center text-xs leading-5 text-muted-foreground">

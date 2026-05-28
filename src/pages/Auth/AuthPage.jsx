@@ -204,7 +204,7 @@ function AuthPage() {
                     Déjà un compte ? <br />
                     <button
                       onClick={() => navigate("/auth/login")}
-                      className="rounded-full hover:bg-blue-300 hover:cursor-pointer bg-blue-400 p-4 mt-2"
+                      className="cursor-pointer rounded-full hover:bg-blue-300 hover:cursor-pointer bg-blue-400 p-4 mt-2"
                     >
                       Se Connecter →
                     </button>
@@ -230,7 +230,7 @@ function AuthPage() {
                     Pas de compte ? <br />
                     <button
                       onClick={() => navigate("/auth/create-account")}
-                      className="rounded-full hover:bg-blue-300 hover:cursor-pointer bg-blue-400 p-4 mt-2"
+                      className="cursor-pointer rounded-full hover:bg-blue-300 hover:cursor-pointer bg-blue-400 p-4 mt-2"
                     >
                       ← S'inscrire
                     </button>

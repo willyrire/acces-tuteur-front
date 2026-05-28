@@ -206,10 +206,10 @@ export default function SignUpForm({
             type="checkbox"
             required
             checked={signupData.acceptTerms}
+            className={`cursor-pointer w-5 h-5 mt-1 ${signupData.acceptTerms === false ? "border-red-500" : "border-gray-300"}`}
             onChange={(e) =>
               setSignupData({ ...signupData, acceptTerms: e.target.checked })
             }
-            className="mt-1"
           />
           <span>
             J'accepte les{" "}

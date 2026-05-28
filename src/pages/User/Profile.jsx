@@ -4,7 +4,6 @@ import {
   User,
   Settings,
   LogOut,
-  X,
   ShieldCheck,
   AppWindow,
   ExternalLink,
@@ -17,7 +16,6 @@ import ChangePassword from "@/components/Form/ChangePassword";
 import updateProfileHandler from "@/api/service/updateUserProfile";
 import { getFirstName, getLastName } from "@/utils/tools/getUserName";
 import changePasswordFinalize from "@/api/service/changePasswordFinalize";
-import { div } from "framer-motion/client";
 import ChangeEmail from "@/components/Form/ChangeEmail";
 import changeEmailFinalize from "@/api/service/changeEmailFinalize";
 import logout from "@/handler/actions/logout";

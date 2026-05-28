@@ -41,7 +41,7 @@ export default function LoginForm({
             Vous allez être redirigé vers l'application web après la connexion.
           </p>
           <br />
-          <a href="/auth/login" className="rounded-full hover:bg-blue-800"><X/></a>
+          <a href="/auth/login" className="cursor-pointer rounded-full hover:bg-blue-800"><X/></a>
         </div>
       )}
       <form className="flex flex-col gap-4" onSubmit={onSubmit}>
@@ -67,20 +67,20 @@ export default function LoginForm({
         />
         <button
           type="submit"
-          className="w-full p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+          className="cursor-pointer w-full p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
         >
           {isLoginLoading ? "Connexion..." : "Se connecter"}
         </button>
       </form>
       <p className="mt-4 text-center text-gray-500 text-sm">
-        <button onClick={() => navigate("/auth/create-account")}>
+        <button onClick={() => navigate("/auth/create-account")} className="cursor-pointer">
           Pas de compte ?{" "}
           <span className="hover:underline text-blue-600">S'inscrire</span>
         </button>
         <br />
         <button
           onClick={onForgotPassword}
-          className="text-blue-600 hover:underline"
+          className="text-blue-600 hover:underline cursor-pointer"
         >
           Mot de passe oublié?
         </button>

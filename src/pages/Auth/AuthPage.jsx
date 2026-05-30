@@ -26,6 +26,7 @@ function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const loginQuote = quoteRandomizer(login_quotes);
   const signupQuote = quoteRandomizer(signup_quotes);
+  const params = getParams();
 
   useEffect(() => {
     if (location.pathname === "/auth/create-account") {
@@ -51,11 +52,17 @@ function AuthPage() {
     acceptTerms: false,
   });
 
+  React.useEffect(() => {
+    const justLoggedOut = params.logged_out === "true" || params.auth_needed === "true";
+    if (justLoggedOut) {
+      localStorage.clear();
+    }
+  },[params.logged_out, params.auth_needed]);
+
   const [passwordError, setPasswordError] = useState("");
 
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isSignupLoading, setIsSignupLoading] = useState(false);
-  const params = getParams();
   // Login submit handler
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -72,12 +79,7 @@ function AuthPage() {
       return;
     }
 
-    /**
-     * TODO: Traiter l'a2f ici : si response.data.a2f_required est true, rediriger vers la page de vérification a2f avec les paramètres nécessaires (userId et method)
-     *
-     *
-     */
-
+    // traitement de l'a2f
     if (response.data.requires_2fa) {
       const user_id = response.data.user_id;
       const method = response.data.method_2fa;

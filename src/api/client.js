@@ -5,7 +5,6 @@ const API = axios.create({
   baseURL: apiUri, // ton endpoint API
   headers: {
     "Content-Type": "application/json",
-    "Authorization": localStorage.getItem("Authorization") ?? ""
   },
   withCredentials: true, // OBLIGATOIRE pour cookies
 });

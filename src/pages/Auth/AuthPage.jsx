@@ -58,7 +58,7 @@ function AuthPage() {
   const params = getParams();
 
   useEffect(() => {
-    setIsLogin(location.pathname !== "/auth/create-account");
+    setIsLogin(location.pathname !== "/auth/register");
   }, [location.pathname]);
 
   useEffect(() => {
@@ -329,7 +329,7 @@ function AuthPage() {
                     <br />
                     <button
                       type="button"
-                      onClick={() => navigate("/auth/create-account")}
+                      onClick={() => navigate("/auth/register")}
                       className="mt-2 cursor-pointer rounded-full bg-blue-400 p-4 hover:bg-blue-300"
                     >
                       ← S'inscrire

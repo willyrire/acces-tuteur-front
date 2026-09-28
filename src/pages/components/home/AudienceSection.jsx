@@ -3,6 +3,7 @@ import {
   GraduationCap,
   Users,
 } from "lucide-react";
+import { auth_login, auth_register } from "@/constants/main";
 
 import AudienceCard from "@/pages/components/home/AudienceCard";
 
@@ -22,7 +23,7 @@ export default function AudienceSection() {
             title="Un accompagnement qui s'adapte à vous."
             description="Trouvez de l'aide lorsque vous en avez besoin et progressez avec un tuteur qui comprend vos objectifs."
             items={studentAdvantages}
-            href="/tuteurs"
+            href={auth_register}
             linkText="Trouver un tuteur"
           />
 
@@ -32,7 +33,7 @@ export default function AudienceSection() {
             title="Partagez vos connaissances simplement."
             description="Organisez vos séances et accompagnez vos élèves grâce à un espace conçu pour faciliter le tutorat."
             items={tutorAdvantages}
-            href="/inscription"
+            href={auth_register}
             linkText="Devenir tuteur"
           />
         </div>

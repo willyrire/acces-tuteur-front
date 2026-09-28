@@ -74,10 +74,10 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/auth/create-account"
+          path="/auth/register"
           element={
             isAuth ? (
-              <Navigate from="/auth/create-account" to="/user/profile" />
+              <Navigate from="/auth/register" to="/user/profile" />
             ) : (
               <AuthPage />
             )

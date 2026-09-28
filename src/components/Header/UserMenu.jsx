@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { User, Settings, LogOut } from "lucide-react"; // icônes
 import logout from "@/handler/actions/logout";
+import { auth_login, auth_register } from "@/constants/main";
 
 const UserMenu = ({ isAuth, userName }) => {
   const [open, setOpen] = useState(false);
@@ -23,11 +24,11 @@ const UserMenu = ({ isAuth, userName }) => {
   if (!isAuth) {
     return (
       <nav className="gap-1 pb-1.5 flex items-center">
-        <NavLink to="/auth/login" className="px-3 py-1 font-bold hover:underline">
+        <NavLink to={auth_login} className="px-3 py-1 font-bold hover:underline">
           Se connecter
         </NavLink>
         /
-        <NavLink to="/auth/create-account" className="px-3 py-1 font-bold hover:underline">
+        <NavLink to={auth_register} className="px-3 py-1 font-bold hover:underline">
           Créer un compte
         </NavLink>
       </nav>

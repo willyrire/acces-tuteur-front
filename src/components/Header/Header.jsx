@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Logo from "./Logo";
-import { X, CircleAlert } from "lucide-react";
 import NavMenu from "./NavMenu";
 import UserMenu from "./UserMenu";
 import SearchButton from "./SearchButton";
@@ -9,12 +8,8 @@ import MobileMenu from "./MobileMenu";
 import useIsMobile from "@/utils/tools/useIsMobile";
 import warningText from "@/assets/warning-text.json";
 import Warning from "@/components/HeaderObject/Warning";
-import Danger from "@/components/HeaderObject/Danger";
-import Info from "@/components/HeaderObject/Info";
 import Success from "@/components/HeaderObject/Success";
-import { div } from "framer-motion/client";
 import sendEmailVerification from "@/api/service/sendEmailVerification";
-import { isLoggedIn } from "@/api/auth/isLoggedIn";
 
 const Header = ({
   isAuth,

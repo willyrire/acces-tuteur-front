@@ -1,13 +1,13 @@
 export function getHomePrimaryAction(isAuth) {
   if (isAuth) {
     return {
-      href: "/tuteurs",
+      href: "/auth/create-account",
       label: "Trouver un tuteur",
     };
   }
 
   return {
-    href: "/inscription",
+    href: "/auth/create-account",
     label: "Commencer gratuitement",
   };
 }

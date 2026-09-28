@@ -1,44 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import Footer from "@/components/Footer";
-import { loginRequest } from "@/api/auth/loginRequest";
-import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
-import { fastRedirect } from "@/utils/tools/fastRedirect";
-import { validatePassword } from "@/utils/validator/validatePassword";
 import LoginForm from "@/components/Form/LoginForm";
 import SignUpForm from "@/components/Form/SignUpForm";
-import { isValidEmail } from "@/utils/validator/isValidEmail";
-import { createAccountRequest } from "@/api/auth/createAccountRequest";
 import Logo from "@/components/Header/Logo";
+
+import { loginRequest } from "@/api/auth/loginRequest";
+import { createAccountRequest } from "@/api/auth/createAccountRequest";
+
+import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
+import openApp from "@/handler/actions/openApp";
+
+import { fastRedirect } from "@/utils/tools/fastRedirect";
+import { validatePassword } from "@/utils/validator/validatePassword";
+import { isValidEmail } from "@/utils/validator/isValidEmail";
 import useIsMobile from "@/utils/tools/useIsMobile";
 import getParams from "@/utils/tools/getParams";
-import openApp from "@/handler/actions/openApp";
+
 import { login_quotes, signup_quotes, quoteRandomizer } from "./Quotes";
 
 function AuthPage() {
   const [authSuccess, setAuthSuccess] = useState(null);
   const [signupSuccess, setSignupSuccess] = useState(null);
+
   const [errorMessage, setErrorMessage] = useState("");
   const [signupErrorMessage, setSignupErrorMessage] = useState("");
-  const location = useLocation();
-  const navigate = useNavigate();
-  const isMobile = useIsMobile();
-  const [isLogin, setIsLogin] = useState(true);
-  const loginQuote = quoteRandomizer(login_quotes);
-  const signupQuote = quoteRandomizer(signup_quotes);
-  const params = getParams();
 
-  useEffect(() => {
-    if (location.pathname === "/auth/create-account") {
-      setIsLogin(false);
-    } else {
-      setIsLogin(true);
-    }
-  }, [location.pathname]);
+  const [isLogin, setIsLogin] = useState(true);
+
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  // Formulaire d'inscription
   const [signupData, setSignupData] = useState({
     firstName: "",
     lastName: "",
@@ -51,24 +44,40 @@ function AuthPage() {
     role: "parent",
     acceptTerms: false,
   });
-
-  React.useEffect(() => {
-    const justLoggedOut = params.logged_out === "true" || params.auth_needed === "true";
-    if (justLoggedOut) {
-      localStorage.clear();
-    }
-  },[params.logged_out, params.auth_needed]);
+  const [loginQuote] = useState(() => quoteRandomizer(login_quotes));
+  const [signupQuote] = useState(() => quoteRandomizer(signup_quotes));
 
   const [passwordError, setPasswordError] = useState("");
 
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isSignupLoading, setIsSignupLoading] = useState(false);
-  // Login submit handler
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  const params = getParams();
+
+  useEffect(() => {
+    setIsLogin(location.pathname !== "/auth/create-account");
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const justLoggedOut =
+      params.logged_out === "true" || params.auth_needed === "true";
+
+    if (justLoggedOut) {
+      localStorage.clear();
+    }
+  }, [params.logged_out, params.auth_needed]);
+
+  // Connexion
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+
     setIsLoginLoading(true);
-    // envoie la requête de connexion à l'API
+
     const response = await loginRequest(loginEmail, loginPassword);
+
     const loginSuccess = response.status === "success";
 
     setAuthSuccess(loginSuccess);
@@ -79,80 +88,136 @@ function AuthPage() {
       return;
     }
 
-    // traitement de l'a2f
+    // Traitement de l'A2F
     if (response.data.requires_2fa) {
-      const user_id = response.data.user_id;
+      const userId = response.data.user_id;
       const method = response.data.method_2fa;
       const challengeId = response.data.challenge_id;
-      // const challenge_id = response.data.challenge_id;
 
       if (params.on_success === "open_app") {
         navigate(
-          `/auth/login/a2f/${user_id}/${method}/${challengeId}?on_success=open_app`,
+          `/auth/login/a2f/${userId}/${method}/${challengeId}?on_success=open_app`,
         );
       } else {
-        navigate(`/auth/login/a2f/${user_id}/${method}/${challengeId}`);
+        navigate(`/auth/login/a2f/${userId}/${method}/${challengeId}`);
       }
+
       return;
     }
 
     loginSuccessHandler(response.data);
-    // Avant de rediriger sur le dashboard, création de la micro session de transport.
+
+    // Création de la micro-session de transport
     if (params.on_success === "open_app") {
       await openApp();
       return;
-    } else {
-      fastRedirect("/user/profile");
     }
+
+    fastRedirect("/user/profile");
     setIsLoginLoading(false);
   };
 
-  // Signup submit handler
+  // Inscription
   const handleSignupSubmit = async (e) => {
-    console.log("Signup data submitted");
     e.preventDefault();
+
+    if (isSignupLoading) {
+      return;
+    }
+
     setIsSignupLoading(true);
-    const error = validatePassword(signupData.password);
-    const emailError = isValidEmail(signupData.email);
-    console.log(error == [] + " | " + emailError);
-    if (error == [] || !emailError) {
-      console.log("Une erreur");
+    setSignupErrorMessage("");
+
+    const passwordErrors = validatePassword(signupData.password);
+
+    const emailIsValid = isValidEmail(signupData.email);
+    if (!emailIsValid && signupData.role !== "enfant") {
       setSignupSuccess(false);
       setIsSignupLoading(false);
-      setPasswordError(error);
+
       setSignupErrorMessage(
         "Le courriel ou le mot de passe ne sont pas valides.",
       );
-      return;
     }
-    setPasswordError("");
 
-    const response = await createAccountRequest(signupData);
-
-    console.log("Response from createAccountRequest:", response);
-
-    const signupSuccess = response.status === "success";
-
-    if (!signupSuccess) {
+    if (passwordErrors.length > 0) {
       setSignupSuccess(false);
-      setSignupErrorMessage(
-        response.error || "Erreur lors de la création du compte",
-      );
       setIsSignupLoading(false);
+      setPasswordError(passwordErrors);
+
+      setSignupErrorMessage(
+        "Le mot de passe n'est pas valide.",
+      );
+      
+
       return;
     }
-    loginSuccessHandler(response.data);
-    // Avant de rediriger sur le dashboard, création de la micro session de transport.
-    fastRedirect("/user/profile");
-    setIsSignupLoading(false);
-    console.log(
-      "Une erreur s'est produite lors de la création du compte : ",
-      response,
-    );
+
+    if (signupData.password !== signupData.confirmPassword) {
+      setSignupSuccess(false);
+      setIsSignupLoading(false);
+
+      setSignupErrorMessage("Les mots de passe ne correspondent pas.");
+
+      return;
+    }
+
+    setPasswordError([]);
+
+    /*
+     * On retire les données qui ne doivent pas être
+     * envoyées à l'API.
+     */
+    const { confirmPassword, acceptTerms, ...accountData } = signupData;
+
+    let requestData = accountData;
+
+    /*
+     * Un enfant ne fournit pas :
+     * - téléphone
+     * - ville
+     * - adresse
+     */
+    if (signupData.role === "enfant") {
+      const { phone, city, address, ...childAccountData } = accountData;
+
+      requestData = childAccountData;
+    }
+
+    try {
+      const response = await createAccountRequest(requestData);
+
+      const isSuccess = response.status === "success";
+
+      if (!isSuccess) {
+        setSignupSuccess(false);
+
+        setSignupErrorMessage(
+          response.error || "Erreur lors de la création du compte.",
+        );
+
+        return;
+      }
+
+      setSignupSuccess(true);
+
+      loginSuccessHandler(response.data);
+
+      fastRedirect("/user/profile");
+    } catch {
+      setSignupSuccess(false);
+
+      setSignupErrorMessage(
+        "Une erreur est survenue lors de la création du compte.",
+      );
+    } finally {
+      setIsSignupLoading(false);
+    }
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen">
+    <div className="relative flex min-h-screen flex-col">
+      {/* Logo */}
       <div
         className={`${
           isMobile
@@ -168,16 +233,32 @@ function AuthPage() {
       >
         <Logo bigTitleColorWhite={!isMobile} />
       </div>
-      <main className="flex-1 overflow-hidden bg-gray-50">
-        <div className="relative w-full h-full overflow-hidden">
+
+      {/* 
+      Le main prend tout l'espace disponible entre
+      le haut de la page et le footer.
+    */}
+      <main className="relative flex flex-1 overflow-hidden bg-blue-900">
+        {/* Fenêtre du slider */}
+        <div className="relative flex w-full flex-1 overflow-hidden">
+          {/* 
+          Rail du slider :
+          - 200% de la largeur de l'écran
+          - ne doit jamais rétrécir
+          - prend toute la hauteur disponible
+        */}
           <div
-            className={`flex w-[200%] transition-transform duration-700 ease-in-out ${
+            className={`flex w-[200%] shrink-0 items-stretch transition-transform duration-700 ease-in-out ${
               isLogin ? "-translate-x-1/2" : "translate-x-0"
             }`}
           >
-            {/* SIGNUP */}
-            <div className="w-1/2 flex flex-col md:flex-row">
-              <div className="flex w-full md:w-1/2 justify-center items-center p-6 md:p-10">
+            {/* ================================================= */}
+            {/* SIGNUP                                            */}
+            {/* ================================================= */}
+
+            <div className="flex w-1/2 shrink-0 flex-col md:flex-row">
+              {/* Formulaire */}
+              <section className="flex w-full items-center justify-center bg-gray-50 p-6 md:w-1/2 md:p-10">
                 <SignUpForm
                   navigate={navigate}
                   authSuccess={signupSuccess}
@@ -189,58 +270,76 @@ function AuthPage() {
                   isSignupLoading={isSignupLoading}
                   onSubmit={handleSignupSubmit}
                 />
-              </div>
+              </section>
 
-              <div className="hidden md:flex md:w-1/2 justify-center items-center bg-blue-900">
-                <div className="w-full max-w-lg text-white p-10">
+              {/* Partie bleue */}
+              <section className="hidden bg-blue-900 md:flex md:w-1/2 md:items-center md:justify-center">
+                <div className="w-full max-w-lg p-10 text-white">
                   <img
                     src="/images/progression.png"
                     alt="Illustration"
-                    className="w-3/4 mb-6 rounded-lg shadow-lg mx-auto"
+                    className="mx-auto mb-6 w-3/4 rounded-lg shadow-lg"
                   />
+
                   <blockquote
-                    className="text-xl italic text-center"
-                    dangerouslySetInnerHTML={{ __html: signupQuote }}
+                    className="text-center text-xl italic"
+                    dangerouslySetInnerHTML={{
+                      __html: signupQuote,
+                    }}
                   />
-                  <div className="text-center mt-3">
-                    Déjà un compte ? <br />
+
+                  <div className="mt-3 text-center">
+                    Déjà un compte ?
+                    <br />
                     <button
+                      type="button"
                       onClick={() => navigate("/auth/login")}
-                      className="cursor-pointer rounded-full hover:bg-blue-300 hover:cursor-pointer bg-blue-400 p-4 mt-2"
+                      className="mt-2 cursor-pointer rounded-full bg-blue-400 p-4 hover:bg-blue-300"
                     >
-                      Se Connecter →
+                      Se connecter →
                     </button>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
 
-            {/* LOGIN */}
-            <div className="w-1/2 flex flex-col md:flex-row">
-              <div className="hidden md:flex md:w-1/2 justify-center items-center bg-blue-900">
-                <div className="w-full max-w-lg text-white p-10">
+            {/* ================================================= */}
+            {/* LOGIN                                             */}
+            {/* ================================================= */}
+
+            <div className="flex w-1/2 shrink-0 flex-col md:flex-row">
+              {/* Partie bleue */}
+              <section className="hidden bg-blue-900 md:flex md:w-1/2 md:items-center md:justify-center">
+                <div className="w-full max-w-lg p-10 text-white">
                   <img
                     src="/images/cooperation.png"
                     alt="Illustration"
-                    className="w-3/4 mb-6 rounded-lg shadow-lg mx-auto"
+                    className="mx-auto mb-6 w-3/4 rounded-lg shadow-lg"
                   />
+
                   <blockquote
-                    className="text-xl italic text-center"
-                    dangerouslySetInnerHTML={{ __html: loginQuote }}
+                    className="text-center text-xl italic"
+                    dangerouslySetInnerHTML={{
+                      __html: loginQuote,
+                    }}
                   />
-                  <div className="text-center mt-3">
-                    Pas de compte ? <br />
+
+                  <div className="mt-3 text-center">
+                    Pas de compte ?
+                    <br />
                     <button
+                      type="button"
                       onClick={() => navigate("/auth/create-account")}
-                      className="cursor-pointer rounded-full hover:bg-blue-300 hover:cursor-pointer bg-blue-400 p-4 mt-2"
+                      className="mt-2 cursor-pointer rounded-full bg-blue-400 p-4 hover:bg-blue-300"
                     >
                       ← S'inscrire
                     </button>
                   </div>
                 </div>
-              </div>
+              </section>
 
-              <div className="flex w-full md:w-1/2 justify-center items-center p-6 md:p-10">
+              {/* Formulaire */}
+              <section className="flex w-full items-center justify-center bg-gray-50 p-6 md:w-1/2 md:p-10">
                 <LoginForm
                   navigate={navigate}
                   authSuccess={authSuccess}
@@ -254,7 +353,7 @@ function AuthPage() {
                   onForgotPassword={() => navigate("/auth/password-recovery")}
                   params={params}
                 />
-              </div>
+              </section>
             </div>
           </div>
         </div>

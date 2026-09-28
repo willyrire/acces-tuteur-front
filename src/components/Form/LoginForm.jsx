@@ -46,7 +46,7 @@ export default function LoginForm({
       )}
       <form className="flex flex-col gap-4" onSubmit={onSubmit}>
         <input
-          type="email"
+          type="text"
           placeholder="Email"
           value={loginEmail}
           onChange={(e) => onEmailChange(e.target.value)}

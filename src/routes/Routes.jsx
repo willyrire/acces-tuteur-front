@@ -12,7 +12,6 @@ import HomePage from "../pages/Homepage";
 import AuthPage from "../pages/Auth/AuthPage";
 import NotFound404 from "../pages/Error/NotFound404";
 import PasswordRecoveryPage from "../pages/Auth/PasswordRecoveryPage";
-import Profile from "@/pages/User/Profile";
 import VerifyEmail from "@/pages/User/VerifyEmail";
 import Page from "@/pages/Page";
 import A2F from "@/module/auth/pages/A2F";
@@ -117,16 +116,6 @@ const AppRoutes = () => {
         />
 
         {/* user/profile */}
-        <Route
-          path="/user/profile"
-          element={
-            isAuth ? (
-              <Profile isAuth={isAuth} userName={userName} />
-            ) : (
-              <Navigate from="/user/profile" to="/auth/login" />
-            )
-          }
-        />
         <Route
           path="/user/profile/verify-email"
           element={

@@ -73,7 +73,7 @@ export default function LoginForm({
         </button>
       </form>
       <p className="mt-4 text-center text-gray-500 text-sm">
-        <button onClick={() => navigate("/auth/create-account")} className="cursor-pointer">
+        <button onClick={() => navigate("/auth/register")} className="cursor-pointer">
           Pas de compte ?{" "}
           <span className="hover:underline text-blue-600">S'inscrire</span>
         </button>

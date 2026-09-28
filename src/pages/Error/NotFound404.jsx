@@ -3,8 +3,10 @@ import Section from "@/components/Section";
 import Header from "@/components/Header/Header";
 import Picture from "@/components/ui/picture";
 import Footer from "@/components/Footer";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function NotFound404({ isAuth, userName }) {
+  const navigate = useNavigate();
   return (
     <div>
       <Header isAuth={isAuth} userName={userName} />
@@ -25,12 +27,12 @@ function NotFound404({ isAuth, userName }) {
               className="w-80 md:w-96 h-auto opacity-95"
             />
             <p className="mt-4">
-              <a
-                href="/"
+              <NavLink
+                to="/"
                 className="items-center rounded-full hover:text-black transition hover:bg-white p-4 border-2 border-blue-500 bg-blue-500 text-white font-bold align-center"
               >
                 Retour à l'accueil
-              </a>
+              </NavLink>
             </p>
           </>
         }

@@ -20,7 +20,13 @@ export default function HomePage({ isAuth, userName }) {
       />
 
       <div className="min-h-screen bg-white-500">
-        <Header isAuth={isAuth} userName={userName} />
+        <Header 
+          isAuth={isAuth} 
+          userName={userName} 
+          animationOnScroll={false}
+          emptyBg={true} 
+          stayTopPage={true} 
+        />
 
         <main>
           <HeroSection isAuth={isAuth} />

@@ -8,12 +8,11 @@ import API from "@/api/client";
  * @returns {Promise<object>} données utilisateur ou token
  */
 export const loginRequest = async (email, password) => {
-
-  // On build le payload
-  var payload = {
-    "email": email,
-    "password": password
-  }
+  // On build le payload de la requête avec les données du formulaire
+  const payload = {
+    email: email,
+    password: password,
+  };
   try {
     const response = await API.post("/v1/auth/login", payload);
     return response.data;

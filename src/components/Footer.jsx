@@ -18,8 +18,8 @@ function Footer() {
           <a href="/faq" className="hover:text-white transition">
             FAQ
           </a>
-          <a href="/terms" className="hover:text-white transition">
-            Conditions
+          <a href="/legal" className="hover:text-white transition">
+            Légal
           </a>
         </div>
         <div className="text-sm text-gray-400">

@@ -114,7 +114,7 @@ const UpdateProfile = ({ updateProfile, setUpdateProfile, onSubmit }) => {
           {/* Submit Button */}
           <button
             type="submit"
-            className={`w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition my-4`}
+            className={`cursor-pointer w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition my-4`}
           >
             Mettre à jour mon profil
           </button>

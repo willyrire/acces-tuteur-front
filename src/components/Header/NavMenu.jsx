@@ -2,7 +2,10 @@ import React from "react";
 import useIsMobile from "@/utils/tools/useIsMobile";
 import { NavLink } from "react-router-dom";
 
-const NavMenu = ({ isMobileMenu = false }) => {
+const NavMenu = ({
+  isMobileMenu = false,
+  lightTheme = false,
+}) => {
   const isMobile = useIsMobile() || isMobileMenu;
 
   const tabs = [
@@ -13,12 +16,15 @@ const NavMenu = ({ isMobileMenu = false }) => {
     { name: "Contact", link: "/contact" },
   ];
 
+  // Le thème blanc concerne uniquement le Header desktop transparent.
+  const useLightTheme = lightTheme && !isMobileMenu;
+
   return (
     <nav
       className={
         isMobile
-          ? "flex flex-col items-center gap-6 mt-8"
-          : "flex gap-6"
+          ? "mt-8 flex flex-col items-center gap-6"
+          : "flex gap-6 pt-1.5"
       }
     >
       {tabs.map((tab) => (
@@ -26,15 +32,23 @@ const NavMenu = ({ isMobileMenu = false }) => {
           key={tab.name}
           to={tab.link}
           className={({ isActive }) =>
-            `
-            border-b-2 hover:border-gray-400 font-bold transition text-gray-800
-            ${isMobile ? "text-xl" : "inline-block pb-1"}
-            ${
+            [
+              "border-b-2 font-bold transition-colors duration-300",
+
+              isMobile
+                ? "text-xl"
+                : "inline-block pb-1",
+
+              useLightTheme
+                ? "text-white/80 hover:border-white/50 hover:text-white"
+                : "text-gray-800 hover:border-gray-400 hover:text-gray-950",
+
               !isMobile && isActive
-                ? "border-b-2 border-gray-800"
-                : "border-b-2 border-transparent"
-            }
-            `
+                ? useLightTheme
+                  ? "border-white text-white"
+                  : "border-gray-800"
+                : "border-transparent",
+            ].join(" ")
           }
         >
           {tab.name}

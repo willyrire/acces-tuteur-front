@@ -50,7 +50,7 @@ const ChangePassword = ({ changePassword, setChangePassword, onSubmit }) => {
           {/* Submit Button */}
           <button
             type="submit"
-            className={`w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition my-4`}
+            className={`w-full p-3 cursor-pointer bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition my-4`}
           >
             Modifier mon mot de passe
           </button>

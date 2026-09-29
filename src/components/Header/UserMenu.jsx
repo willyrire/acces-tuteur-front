@@ -1,33 +1,53 @@
-import React, { useState, useRef, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { User, Settings, LogOut } from "lucide-react"; // icônes
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { LogOut } from "lucide-react";
+
 import logout from "@/handler/actions/logout";
+import openApp from "@/handler/actions/openApp";
+import { auth_login, auth_register } from "@/constants/main";
 
-const UserMenu = ({ isAuth, userName }) => {
-  const [open, setOpen] = useState(false);
-  const menuRef = useRef(null);
-  const navigate = useNavigate();
-
-  // Fermer le menu si clic à l'extérieur
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
+const UserMenu = ({ isAuth, lightTheme = false }) => {
   if (!isAuth) {
     return (
-      <nav className="gap-1 pb-1.5 flex items-center">
-        <NavLink to="/auth/login" className="px-3 py-1 font-bold hover:underline">
+      <nav className="flex items-center gap-2">
+        <NavLink
+          to={auth_login}
+          className={[
+            "rounded-lg px-3 py-2 font-bold",
+            "transition-all duration-300",
+            lightTheme
+              ? "text-white/90 hover:bg-white/10 hover:text-white"
+              : "text-gray-900 hover:bg-black/5",
+          ].join(" ")}
+        >
           Se connecter
         </NavLink>
-        /
-        <NavLink to="/auth/create-account" className="px-3 py-1 font-bold hover:underline">
+
+        <span
+          className={lightTheme ? "text-white/40" : "text-gray-400"}
+          aria-hidden="true"
+        >
+          /
+        </span>
+
+        <NavLink
+          to={auth_register}
+          className={[
+            "rounded-xl px-4 py-2 font-bold",
+            "transition-all duration-300",
+            lightTheme
+              ? [
+                  "border border-white/25",
+                  "bg-white/10",
+                  "text-white",
+                  "backdrop-blur-sm",
+                  "hover:-translate-y-0.5",
+                  "hover:border-white/40",
+                  "hover:bg-white/20",
+                ].join(" ")
+              : ["bg-blue-600", "text-white", "hover:bg-blue-700"].join(" "),
+          ].join(" ")}
+        >
           Créer un compte
         </NavLink>
       </nav>
@@ -35,37 +55,66 @@ const UserMenu = ({ isAuth, userName }) => {
   }
 
   return (
-    <div className="relative" ref={menuRef}>
-      {/* Bouton utilisateur */}
+    <div className="flex items-stretch">
       <button
-        onClick={() => setOpen(!open)}
-        className="px-4 hover:cursor-pointer py-2 font-bold rounded-full bg-green-400 hover:bg-blue-300 transition"
+        type="button"
+        onClick={() => openApp("front")}
+        className={[
+          "cursor-pointer flex items-center justify-center",
+          "rounded-l-full border px-4 py-2",
+          "font-bold transition-all duration-300",
+          "focus:outline-none focus:ring-2 focus:ring-offset-2",
+          lightTheme
+            ? [
+                "border-yellow-300",
+                "bg-yellow-300",
+                "text-blue-950",
+                "shadow-sm",
+                "hover:bg-yellow-200",
+              ].join(" ")
+            : [
+                "border-blue-600",
+                "bg-blue-600",
+                "text-white",
+                "hover:bg-blue-700",
+              ].join(" "),
+        ].join(" ")}
       >
-        {userName}
+        Ouvrir l'application
       </button>
 
-      {/* Micro menu */}
-      {open && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
-          <NavLink
-            to="/user/profile"
-            className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
-            onClick={() => setOpen(false)}
-          >
-            <User size={18} /> Mon Compte
-          </NavLink>
-
-          <button
-            onClick={() => {
-              setOpen(false);
-              logout();
-            }}
-            className="w-full text-left flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50"
-          >
-            <LogOut size={18} /> Déconnexion
-          </button>
-        </div>
-      )}
+      <button
+        type="button"
+        onClick={logout}
+        aria-label="Se déconnecter"
+        className={[
+          "cursor-pointer -ml-px flex items-center justify-center gap-2",
+          "rounded-r-full border px-4 py-2",
+          "font-bold transition-all duration-300",
+          "focus:outline-none focus:ring-2 focus:ring-offset-2",
+          lightTheme
+            ? [
+                "border-white/25",
+                "bg-white/10",
+                "text-white",
+                "backdrop-blur-sm",
+                "hover:border-red-300/60",
+                "hover:bg-red-400/20",
+                "hover:text-red-100",
+              ].join(" ")
+            : [
+                "border-gray-300",
+                "bg-white",
+                "text-gray-700",
+                "hover:border-red-300",
+                "hover:bg-red-50",
+                "hover:text-red-600",
+              ].join(" "),
+        ].join(" ")}
+      >
+        <LogOut size={18} aria-hidden="true" />
+        <span>Déconnexion</span>
+      </button>
     </div>
   );
 };

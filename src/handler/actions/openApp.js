@@ -1,7 +1,6 @@
 import { fastRedirect } from "@/utils/tools/fastRedirect";
 import { createSession } from "@/api/auth/createSession";
-
-const APP_DASHBOARD_URL = "http://localhost:5174/security/auth";
+import { APP_DASHBOARD_URL } from "@/constants/appDashboardUrl";
 
 const openApp = async (source, time) => {
     // Créer une micro session pour l'application

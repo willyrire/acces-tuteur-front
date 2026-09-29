@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  ArrowRight,
   CheckCircle2,
   Sparkles,
 } from "lucide-react";
@@ -12,15 +11,15 @@ export default function HeroSection({ isAuth }) {
   const primaryAction = getHomePrimaryAction(isAuth);
 
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 text-white">
+    <section className="relative isolate overflow-hidden bg-linear-to-br from-blue-700 via-blue-600 to-indigo-700 text-white">
       {/* Lumières décoratives */}
       <div
-        className="pointer-events-none absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-cyan-400/20 blur-[100px]"
+        className="pointer-events-none absolute -left-40 -top-40 h-125 w-125 rounded-full bg-cyan-400/20 blur-[100px]"
         aria-hidden="true"
       />
 
       <div
-        className="pointer-events-none absolute -right-32 top-10 h-[500px] w-[500px] rounded-full bg-purple-400/25 blur-[120px]"
+        className="pointer-events-none absolute -right-32 top-10 h-125 w-125 rounded-full bg-purple-400/25 blur-[120px]"
         aria-hidden="true"
       />
 
@@ -68,15 +67,6 @@ export default function HeroSection({ isAuth }) {
           </p>
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={primaryAction.href}
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-semibold text-blue-700 shadow-xl shadow-blue-950/20 transition duration-200 hover:-translate-y-0.5 hover:bg-blue-50 hover:shadow-2xl"
-            >
-              {primaryAction.label}
-
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </a>
-
             <a
               href="#fonctionnement"
               className="inline-flex items-center justify-center rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"

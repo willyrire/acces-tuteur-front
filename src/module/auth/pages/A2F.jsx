@@ -35,8 +35,7 @@ const A2F = () => {
   const config = isEmail
     ? {
         icon: Mail,
-        badge: "Code par courriel",
-        title: "Confirmez votre connexion",
+        title: "Courriel de vérification",
         description:
           "Nous avons envoyé un code de sécurité à votre adresse courriel. Entrez-le pour accéder à votre espace Accès Tuteur.",
         placeholder: "000000",
@@ -44,16 +43,14 @@ const A2F = () => {
     : isTotp
       ? {
           icon: ShieldCheck,
-          badge: "Application d’authentification",
-          title: "Vérification sécurisée",
+          title: "Application d'authentification",
           description:
             "Ouvrez votre application d’authentification et entrez le code temporaire généré pour votre compte.",
           placeholder: "000000",
         }
       : {
           icon: KeyRound,
-          badge: "Erreur de vérification",
-          title: "Méthode invalide",
+          title: "Erreur de détection",
           description:
             "La méthode de double authentification demandée n’est pas reconnue.",
           placeholder: "",
@@ -67,7 +64,7 @@ const A2F = () => {
       return;
     }
 
-    fastRedirect("/user/profile");
+    fastRedirect("/");
   };
 
   const handleA2FSubmit = async (e) => {
@@ -144,7 +141,7 @@ const A2F = () => {
               </div>
 
               <h2 className="mt-8 text-3xl font-bold tracking-tight text-foreground">
-                Votre espace est protégé.
+                Authentification à deux facteurs
               </h2>
 
               <p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">

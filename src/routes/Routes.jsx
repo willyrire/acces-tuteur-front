@@ -66,7 +66,7 @@ const AppRoutes = () => {
           path="/auth/login"
           element={
             isAuth ? (
-              <Navigate from="/auth/login" to="/user/profile" />
+              <Navigate from="/auth/login" to="/" />
             ) : (
               <AuthPage />
             )
@@ -76,7 +76,7 @@ const AppRoutes = () => {
           path="/auth/register"
           element={
             isAuth ? (
-              <Navigate from="/auth/register" to="/user/profile" />
+              <Navigate from="/auth/register" to="/" />
             ) : (
               <AuthPage />
             )
@@ -87,7 +87,7 @@ const AppRoutes = () => {
           path="/auth/login/a2f/:userId/:method/:challengeId"
           element={
             isAuth ? (
-              <Navigate from="/auth/login" to="/user/profile" />
+              <Navigate from="/auth/login" to="/" />
             ) : (
               <A2F />
             )

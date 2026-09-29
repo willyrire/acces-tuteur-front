@@ -17,10 +17,6 @@ const A2FCard = ({
   return (
     <>
       <div className="mb-8">
-        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground">
-          <Icon className="h-4 w-4 text-primary" />
-          {config.badge}
-        </div>
 
         <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-sm">
           <Icon className="h-7 w-7" />

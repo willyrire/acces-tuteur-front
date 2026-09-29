@@ -1,1 +1,1 @@
-export const appUri = "http://localhost:5174/";
+export const appUri = "https://app.accestuteur.ca/";

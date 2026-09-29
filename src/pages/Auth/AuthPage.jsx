@@ -113,7 +113,7 @@ function AuthPage() {
       return;
     }
 
-    fastRedirect("/user/profile");
+    fastRedirect("/");
     setIsLoginLoading(false);
   };
 

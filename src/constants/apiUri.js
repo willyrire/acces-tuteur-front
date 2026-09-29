@@ -1,1 +1,1 @@
-export const apiUri = "http://localhost/";
+export const apiUri = "https://api.accestuteur.ca/";

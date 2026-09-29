@@ -1,3 +1,3 @@
-import { devStatus } from "./config.js";
+import { devStatus } from "@/config";
 
-export const apiUri = devStatus === "dev" ? "http://localhost/" : "https://api.accestuteur.ca/";
+export const apiUri = devStatus === "prod" ? "https://api.accestuteur.ca" : "http://localhost";

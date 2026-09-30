@@ -59,10 +59,7 @@ const A2F = () => {
   const handleLoginSuccess = async (data) => {
     loginSuccessHandler(data);
 
-    if (params.on_success === "open_app") {
-      await openApp();
-      return;
-    }
+    await openApp();
 
     fastRedirect("/");
   };

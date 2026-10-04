@@ -12,7 +12,6 @@ import { createAccountRequest } from "@/api/auth/createAccountRequest";
 import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
 import openApp from "@/handler/actions/openApp";
 
-import { fastRedirect } from "@/utils/tools/fastRedirect";
 import { validatePassword } from "@/utils/validator/validatePassword";
 import { isValidEmail } from "@/utils/validator/isValidEmail";
 import useIsMobile from "@/utils/tools/useIsMobile";
@@ -107,14 +106,7 @@ function AuthPage() {
 
     loginSuccessHandler(response.data);
 
-    // Création de la micro-session de transport
-    if (params.on_success === "open_app") {
-      await openApp();
-      return;
-    }
-
-    fastRedirect("/");
-    setIsLoginLoading(false);
+    openApp();
   };
 
   // Inscription
@@ -202,8 +194,8 @@ function AuthPage() {
       setSignupSuccess(true);
 
       loginSuccessHandler(response.data);
-
-      fastRedirect("/user/profile");
+      openApp();
+      return;
     } catch {
       setSignupSuccess(false);
 
@@ -212,7 +204,7 @@ function AuthPage() {
       );
     } finally {
       setIsSignupLoading(false);
-    }
+    }    
   };
 
   return (

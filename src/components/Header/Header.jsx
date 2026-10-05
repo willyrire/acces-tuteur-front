@@ -106,11 +106,11 @@ const Header = ({
 
   const headerSpacingClass = scrolled
     ? showWarning
-      ? "pt-2"
-      : "py-2"
+      ? "pt-2 py-2"
+      : "py-2 pt-2"
     : showWarning
-      ? "pt-4"
-      : "py-4";
+      ? "pt-4 py-4"
+      : "py-4 pt-4";
 
   return (
     <>

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-function Footer() {
+const Footer = () => {
   return (
     <footer className="bg-gray-800 text-gray-200 py-8">
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -9,18 +9,46 @@ function Footer() {
           <NavLink to="/">Accès Tuteur</NavLink>
         </div>
         <div className="flex gap-4 flex-wrap justify-center">
-          <a href="/about" className="hover:text-white transition">
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-semibold"
+                : "hover:text-white transition"
+            }
+          >
             À propos
-          </a>
-          <a href="/contact" className="hover:text-white transition">
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-semibold"
+                : "hover:text-white transition"
+            }
+          >
             Contact
-          </a>
-          <a href="/faq" className="hover:text-white transition">
+          </NavLink>
+          <NavLink
+            to="/faq"
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-semibold"
+                : "hover:text-white transition"
+            }
+          >
             FAQ
-          </a>
-          <a href="/legal" className="hover:text-white transition">
+          </NavLink>
+          <NavLink
+            to="/legal"
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-semibold"
+                : "hover:text-white transition"
+            }
+          >
             Légal
-          </a>
+          </NavLink>
         </div>
         <div className="text-sm text-gray-400">
           &copy; {new Date().getFullYear()} Accès Tuteur
@@ -28,6 +56,6 @@ function Footer() {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

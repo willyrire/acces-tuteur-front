@@ -1,5 +1,5 @@
 
-const getCreatorAge = () => {
+export const getCreatorAge = () => {
     const birthDate = new Date("2007-06-23"); // Replace with the creator's birth date
 
     const currentDate = new Date();

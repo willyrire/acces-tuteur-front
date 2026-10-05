@@ -182,30 +182,7 @@ const Header = ({
           )}
         </div>
 
-        {showWarning && (
-          <div className="mt-5">
-            {!isEmailVerified && showEmailNotVerifiedWarning && isAuth && (
-              <div className="mt-5">
-                <Warning
-                  isMobile={isMobile}
-                  message={warningText.email_not_verified.text}
-                  hasButton={warningText.email_not_verified.hasButton}
-                  buttonText={warningText.email_not_verified.buttonText}
-                  buttonTextMobile={
-                    warningText.email_not_verified.buttonTextMobile
-                  }
-                  buttonTargetFunction={handleResendEmail}
-                  showWarning={showWarning}
-                  onClose={() => setShowEmailNotVerifiedWarning(false)}
-                />
-              </div>
-            )}
-
-            {showSuccessEmailSent && (
-              <Success message={warningText.email_sent_success.text} />
-            )}
-          </div>
-        )}
+        {showWarning && (<></>)}
       </header>
     </>
   );

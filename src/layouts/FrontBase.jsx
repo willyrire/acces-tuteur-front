@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 const FrontBase = ({
   isAuth,
@@ -14,6 +14,16 @@ const FrontBase = ({
   stayTopPage = false,
   animationOnScroll = true,
 }) => {
+  const { pathname } = useLocation();
+  window.scrollTo(0, 0); // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [pathname]);
+
   return (
     <>
       <title>Accès Tuteur | Le tutorat simplement</title>

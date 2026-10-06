@@ -67,7 +67,6 @@ const SecuriteDonnes = ({ isAuth, userName }) => {
       />
 
       <div className="min-h-screen bg-background">
-        <Header isAuth={isAuth} userName={userName} animationOnScroll={true} />
 
         <main>
           <section className="relative overflow-hidden border-b pt-10">
@@ -278,8 +277,6 @@ const SecuriteDonnes = ({ isAuth, userName }) => {
             </div>
           </section>
         </main>
-
-        <Footer />
       </div>
     </>
   );

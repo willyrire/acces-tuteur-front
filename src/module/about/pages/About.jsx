@@ -9,17 +9,21 @@ import {
   ShieldCheck,
   Sparkles,
   Users,
+  ArrowRight,
 } from "lucide-react";
-
-import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer";
 import { getCreatorAge } from "../func/age";
-import { li, link } from "framer-motion/client";
 import { NavLink } from "react-router-dom";
 
-const About = ({ isAuth, userName }) => {
+const About = () => {
   const currentAge = getCreatorAge();
-
+  const liens_utiles = [
+    {
+      title: "Sécurité des données",
+      description:
+        "Découvrez concrètement les mécanismes utilisés par Accès Tuteur pour protéger vos données et votre compte.",
+      link: "/contenu/securite-donnees",
+    },
+  ];
   const features = [
     {
       icon: Users,
@@ -72,8 +76,7 @@ const About = ({ isAuth, userName }) => {
               <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
                 <div>
                   <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">
-                    <Sparkles className="h-4 w-4" />
-                    À propos d'Accès Tuteur
+                    <Sparkles className="h-4 w-4" />À propos d'Accès Tuteur
                   </div>
 
                   <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
@@ -270,12 +273,54 @@ const About = ({ isAuth, userName }) => {
             </div>
           </section>
 
+          {/* Autres liens utiles */}
+          <section className="border-t border-slate-200 bg-slate-50">
+            <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
+              <div className="mb-8">
+                <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">
+                  Continuer à découvrir
+                </p>
+
+                <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
+                  En savoir plus sur Accès Tuteur
+                </h2>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {liens_utiles.map((item) => (
+                  <NavLink
+                    key={item.link}
+                    to={item.link}
+                    className="group flex flex-col justify-between rounded-2xl border border-blue-100 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/60"
+                  >
+                    <div>
+                      <h3 className="text-lg font-semibold text-slate-950 transition group-hover:text-blue-700">
+                        {item.title}
+                      </h3>
+
+                      {item.description && (
+                        <p className="mt-2 leading-7 text-slate-600">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-blue-700">
+                      En savoir plus
+                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                    </div>
+                  </NavLink>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* Mention */}
           <section className="border-t border-slate-200 bg-slate-50">
             <div className="mx-auto max-w-6xl px-6 py-8 lg:px-8">
               <p className="text-xs leading-5 text-slate-500">
-                * Les conditions d'utilisation et la politique de confidentialité
-                prévalent sur cette présentation.
+                * Les conditions d'utilisation et la politique de
+                confidentialité prévalent sur cette présentation.
               </p>
             </div>
           </section>

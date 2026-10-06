@@ -8,10 +8,6 @@ import SearchBar from "./SearchBar";
 import MobileMenu from "./MobileMenu";
 
 import useIsMobile from "@/utils/tools/useIsMobile";
-import warningText from "@/assets/warning-text.json";
-
-import Warning from "@/components/HeaderObject/Warning";
-import Success from "@/components/HeaderObject/Success";
 
 import sendEmailVerification from "@/api/service/sendEmailVerification";
 

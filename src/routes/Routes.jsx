@@ -20,6 +20,9 @@ const LegalIntro = lazy(() => import("../pages/legal/LegalIntro"));
 const LegalView = lazy(() => import("../pages/legal/LegalView"));
 const About = lazy(() => import("@/module/about/pages/About"));
 
+// Layout
+const FrontBase = lazy(() => import("../layouts/FrontBase"));
+
 // Utils
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
 import { getUserNameLastNameFirstInitial } from "@/utils/tools/getUserName";

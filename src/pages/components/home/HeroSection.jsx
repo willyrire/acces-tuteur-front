@@ -1,11 +1,11 @@
 import React from "react";
-import {
-  CheckCircle2,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2, ExternalLink, Sparkles } from "lucide-react";
 
 import HeroVisual from "@/pages/components/home/HeroVisual";
 import { getHomePrimaryAction } from "@/pages/functions/home/getHomePrimaryAction";
+import { NavLink } from "react-router-dom";
+import openApp from "@/handler/actions/openApp";
+import { auth_register } from "@/constants/main";
 
 export default function HeroSection({ isAuth }) {
   const primaryAction = getHomePrimaryAction(isAuth);
@@ -43,14 +43,12 @@ export default function HeroSection({ isAuth }) {
         <div className="max-w-2xl">
           <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-blue-50 backdrop-blur-md">
             <Sparkles className="h-4 w-4 text-yellow-300" />
-
             Le tutorat, plus simple et plus accessible
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
             Le bon soutien,
             <br />
-
             <span className="relative inline-block">
               au bon moment.
               <span
@@ -61,18 +59,35 @@ export default function HeroSection({ isAuth }) {
           </h1>
 
           <p className="mt-8 max-w-xl text-lg leading-8 text-blue-100 sm:text-xl">
-            Accès Tuteur rapproche les élèves, les parents et les
-            tuteurs pour rendre l'accompagnement scolaire plus simple,
-            humain et accessible.
+            Accès Tuteur rapproche les élèves, les parents et les tuteurs pour
+            rendre l'accompagnement scolaire plus simple, humain et accessible.
           </p>
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <a
               href="#fonctionnement"
-              className="inline-flex items-center justify-center rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+              className="cursor-pointer inline-flex items-center justify-center rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
             >
               Comment ça fonctionne ?
             </a>
+            {isAuth ? (
+              <button
+                type="button"
+                onClick={() => openApp()}
+                className="cursor-pointer inline-flex items-center justify-center rounded-xl border border-white/25 bg-yellow-300/90 px-6 py-3.5 font-semibold text-black hover:text-white backdrop-blur-sm transition hover:bg-white/20"
+              >
+                Accéder à mon compte
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </button>
+            ) : (
+              <NavLink
+                to={auth_register}
+                className="cursor-pointer inline-flex items-center justify-center rounded-xl border border-white/25 bg-white px-6 py-3.5 font-semibold hover:text-white text-black backdrop-blur-sm transition hover:bg-white/20"
+              >
+                M'inscrire
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </NavLink>
+            )}
           </div>
 
           <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-sm text-blue-100">

@@ -14,6 +14,8 @@ import {
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import { getCreatorAge } from "../func/age";
+import { li, link } from "framer-motion/client";
+import { NavLink } from "react-router-dom";
 
 const About = ({ isAuth, userName }) => {
   const currentAge = getCreatorAge();
@@ -24,24 +26,32 @@ const About = ({ isAuth, userName }) => {
       title: "Pour tout le monde",
       description:
         "Accès Tuteur permet aux tuteurs, aux étudiants, aux parents et aux enfants d'utiliser une plateforme adaptée à leurs besoins.",
+      link: null,
+      linkText: null,
     },
     {
       icon: Layers3,
       title: "Tout au même endroit",
       description:
         "Rencontres, fichiers, paiements, communications et suivi du tutorat peuvent être centralisés sur une seule plateforme.",
+      link: null,
+      linkText: null,
     },
     {
       icon: MessageSquareMore,
       title: "Moins de messageries dispersées",
       description:
         "L'objectif est de réduire la dépendance aux réseaux sociaux et aux nombreuses applications habituellement utilisées pour organiser le tutorat.",
+      link: null,
+      linkText: null,
     },
     {
       icon: ShieldCheck,
       title: "Une plateforme pensée pour durer",
       description:
         "Accès Tuteur est développé avec une attention particulière portée à la sécurité, à la confidentialité et à l'expérience utilisateur.",
+      link: "/contenu/securite-donnees",
+      linkText: "En savoir plus sur la sécurité des données",
     },
   ];
 
@@ -186,6 +196,14 @@ const About = ({ isAuth, userName }) => {
                       <p className="mt-2 leading-7 text-slate-600">
                         {feature.description}
                       </p>
+                      {feature.link && (
+                        <NavLink
+                          to={feature.link}
+                          className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-900"
+                        >
+                          {feature.linkText || "En savoir plus"}
+                        </NavLink>
+                      )}
                     </div>
                   );
                 })}

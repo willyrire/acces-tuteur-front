@@ -8,10 +8,12 @@ import {
 } from "react-router-dom";
 
 // Pages
-import HomePage from "../pages/Homepage";
+const HomePage = lazy(() => import("../pages/HomePage"));
 const AuthPage = lazy(() => import("../pages/Auth/AuthPage"));
 const NotFound404 = lazy(() => import("../pages/Error/NotFound404"));
-const PasswordRecoveryPage = lazy(() => import("../pages/Auth/PasswordRecoveryPage"));
+const PasswordRecoveryPage = lazy(
+  () => import("../pages/Auth/PasswordRecoveryPage"),
+);
 const ResetPasswordPage = lazy(() => import("../pages/Auth/ResetPasswordPage"));
 const VerifyEmail = lazy(() => import("../pages/User/VerifyEmail"));
 const Page = lazy(() => import("../pages/Page"));
@@ -19,6 +21,7 @@ const A2F = lazy(() => import("../module/auth/pages/A2F"));
 const LegalIntro = lazy(() => import("../pages/legal/LegalIntro"));
 const LegalView = lazy(() => import("../pages/legal/LegalView"));
 const About = lazy(() => import("@/module/about/pages/About"));
+const SecuriteDonnes = lazy(() => import("@/module/public/builds/SecuriteDonnes"));
 
 // Layout
 const FrontBase = lazy(() => import("../layouts/FrontBase"));
@@ -129,13 +132,29 @@ const AppRoutes = () => {
           path="/legal/"
           element={<LegalIntro isAuth={isAuth} userName={userName} />}
         />
-        {/* Menu de navigation */}
-        <>
+
+        <Route
+          path="/"
+          element={<FrontBase isAuth={isAuth} userName={userName} />}
+        >
+          {/* Menu de navigation */}
+          <>
+            <Route
+              path="about"
+              element={<About isAuth={isAuth} userName={userName} />}
+            />
+          </>
+
+          {/* Contenu d'information intéractif non-cms */}
           <Route
-            path="/about"
-            element={<About isAuth={isAuth} userName={userName} />}
-          />
-        </>
+            path="contenu/">
+            <Route
+              path="securite-donnees"
+              element={<SecuriteDonnes />}
+            />
+          </Route>
+        </Route>
+
         {/* Fallback 404 */}
         <Route
           path="*"

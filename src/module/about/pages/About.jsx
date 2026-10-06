@@ -55,15 +55,9 @@ const About = ({ isAuth, userName }) => {
       />
 
       <div className="min-h-screen bg-white">
-        <Header
-          isAuth={isAuth}
-          userName={userName}
-          animationOnScroll={true}
-        />
-
         <main className="min-h-screen text-slate-900">
           {/* Hero */}
-          <section className="mt-10 border-b border-blue-100 bg-gradient-to-b from-blue-50/90 via-blue-50/40 to-white">
+          <section className="mt-10 border-b border-blue-100 bg-linear-to-b from-blue-50/90 via-blue-50/40 to-white">
             <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-24">
               <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
                 <div>
@@ -268,10 +262,6 @@ const About = ({ isAuth, userName }) => {
             </div>
           </section>
         </main>
-
-        <Footer
-          bottomLogo={false}
-        />
       </div>
     </>
   );

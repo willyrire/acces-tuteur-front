@@ -22,6 +22,7 @@ const LegalIntro = lazy(() => import("../pages/legal/LegalIntro"));
 const LegalView = lazy(() => import("../pages/legal/LegalView"));
 const About = lazy(() => import("@/module/about/pages/About"));
 const SecuriteDonnes = lazy(() => import("@/module/public/builds/SecuriteDonnes"));
+const FonctionnementTuteur = lazy(() => import("@/module/public/builds/FonctionnementTuteur"));
 
 // Layout
 const FrontBase = lazy(() => import("../layouts/FrontBase"));
@@ -151,6 +152,10 @@ const AppRoutes = () => {
             <Route
               path="securite-donnees"
               element={<SecuriteDonnes />}
+            />
+            <Route
+              path="fonctionnement-tuteur"
+              element={<FonctionnementTuteur />}
             />
           </Route>
         </Route>

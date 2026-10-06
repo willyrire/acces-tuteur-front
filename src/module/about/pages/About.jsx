@@ -23,6 +23,12 @@ const About = () => {
         "Découvrez concrètement les mécanismes utilisés par Accès Tuteur pour protéger vos données et votre compte.",
       link: "/contenu/securite-donnees",
     },
+    {
+      title: "Fonctionnement des tuteurs",
+      description:
+        "Découvrez comment devenir tuteur sur Accès Tuteur, comment organiser vos séances et comment gérer vos paiements.",
+      link: "/contenu/fonctionnement-tuteur",
+    }
   ];
   const features = [
     {

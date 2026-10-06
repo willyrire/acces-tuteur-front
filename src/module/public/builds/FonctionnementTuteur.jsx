@@ -10,6 +10,7 @@ import TutorPlans from "@/module/public/FonctionnementTuteur/components/TutorPla
 import TutorPayments from "@/module/public/FonctionnementTuteur/components/TutorPayments";
 import TutorFaq from "@/module/public/FonctionnementTuteur/components/TutorFaq";
 import { TUTOR_ROUTES } from "@/module/public/FonctionnementTuteur/data/tutorContent";
+import { auth_register } from "@/constants/main";
 
 // Render inside FrontBase's Outlet: the shared Header/Footer are supplied by the layout.
 export default function FonctionnementTuteur() {
@@ -29,7 +30,9 @@ export default function FonctionnementTuteur() {
           <div className="mx-auto max-w-6xl px-6 lg:px-8">
             <div className="grid gap-8 rounded-3xl bg-linear-to-r from-blue-700 to-blue-600 p-8 text-white shadow-xl shadow-blue-100/70 sm:p-12 lg:grid-cols-[1fr_auto] lg:items-center">
               <div><p className="inline-flex items-center gap-2 text-sm font-semibold text-blue-100"><Sparkles className="h-4 w-4" aria-hidden="true" />Votre prochaine étape</p><h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">Quelqu’un attend peut-être votre façon d’expliquer.</h2><p className="mt-5 max-w-2xl leading-8 text-blue-50">Vous apportez vos connaissances et votre envie d’aider. Accès Tuteur réunit les outils pour construire autour de ces qualités une activité organisée. Découvrez les forfaits et choisissez votre point de départ.</p></div>
-              <NavLink to={TUTOR_ROUTES.plans} className="inline-flex w-fit items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 font-semibold text-blue-800 shadow-sm hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-700">Choisir mon forfait<ArrowRight className="h-4 w-4" aria-hidden="true" /></NavLink>
+              <NavLink to={auth_register} className="inline-flex w-fit items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 font-semibold text-blue-800 shadow-sm hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-700">
+                Devenir Tuteur<ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </NavLink>
             </div>
           </div>
         </section>

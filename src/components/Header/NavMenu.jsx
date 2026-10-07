@@ -1,7 +1,6 @@
 import React from "react";
 import useIsMobile from "@/utils/tools/useIsMobile";
 import { NavLink } from "react-router-dom";
-import { li } from "framer-motion/client";
 
 const NavMenu = ({
   isMobileMenu = false,

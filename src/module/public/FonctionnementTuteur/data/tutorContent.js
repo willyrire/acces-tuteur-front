@@ -5,7 +5,7 @@ import {
 
 // Existing destination supplied in the earlier project context.
 // Change only this value if your live routes differ.
-export const TUTOR_ROUTES = { plans: "/checkout/forfaits", security: "/contenu/securite-donnees" };
+export const TUTOR_ROUTES = { plans: "/", security: "/contenu/securite-donnees" };
 
 export const TUTOR_STEPS = [
   {

@@ -1,6 +1,7 @@
 import React from "react";
 import useIsMobile from "@/utils/tools/useIsMobile";
 import { NavLink } from "react-router-dom";
+import { li } from "framer-motion/client";
 
 const NavMenu = ({
   isMobileMenu = false,
@@ -11,7 +12,9 @@ const NavMenu = ({
   const tabs = [
     { name: "Accueil", link: "/" },
     { name: "À propos", link: "/about" },
-    { name: "Services", link: "/services" },
+    { name: "Fonctionnement", link: "/contenu/fonctionnement-tuteur" },
+    // À développer
+    // { name: "Services", link: "/services" },
   ];
 
   // Le thème blanc concerne uniquement le Header desktop transparent.

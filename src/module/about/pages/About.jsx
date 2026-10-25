@@ -147,7 +147,7 @@ const About = () => {
 
                 <p>
                   Au fil des années, j'ai progressivement découvert le
-                  développement Web, et Accès Tuteur est devenu mon premier
+                  développement web et Accès Tuteur est devenu mon premier
                   véritable projet entrepreneurial.
                 </p>
 

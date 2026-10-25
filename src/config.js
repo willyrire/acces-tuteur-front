@@ -1,1 +1,1 @@
-export const devStatus = "prod";
+export const devStatus = "dev";

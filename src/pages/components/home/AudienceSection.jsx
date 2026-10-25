@@ -3,7 +3,7 @@ import {
   GraduationCap,
   Users,
 } from "lucide-react";
-import { auth_login, auth_register } from "@/constants/main";
+import { auth_register } from "@/constants/main";
 
 import AudienceCard from "@/pages/components/home/AudienceCard";
 
@@ -33,8 +33,8 @@ export default function AudienceSection() {
             title="Partagez vos connaissances simplement."
             description="Organisez vos séances et accompagnez vos élèves grâce à un espace conçu pour faciliter le tutorat."
             items={tutorAdvantages}
-            href={auth_register}
-            linkText="Devenir tuteur"
+            href="/contenu/fonctionnement-tuteur"
+            linkText="En savoir plus"
           />
         </div>
       </div>

@@ -11,9 +11,9 @@ const NavMenu = ({
   const tabs = [
     { name: "Accueil", link: "/" },
     { name: "À propos", link: "/about" },
-    { name: "Services", link: "/services" },
-    { name: "Support", link: "/support" },
-    { name: "Contact", link: "/contact" },
+    { name: "Fonctionnement", link: "/contenu/fonctionnement-tuteur" },
+    // À développer
+    // { name: "Services", link: "/services" },
   ];
 
   // Le thème blanc concerne uniquement le Header desktop transparent.

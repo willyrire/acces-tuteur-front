@@ -13,7 +13,6 @@ import { recoveryA2F } from "../api/recoverya2f";
 import { loginSuccessHandler } from "@/handler/auth/loginSuccessHandler";
 import getParams from "@/utils/tools/getParams";
 import openApp from "@/handler/actions/openApp";
-import { fastRedirect } from "@/utils/tools/fastRedirect";
 
 import A2FCard from "../components/A2FCard";
 import RecoveryCodeCard from "../components/RecoveryCodeCard";
@@ -59,9 +58,7 @@ const A2F = () => {
   const handleLoginSuccess = async (data) => {
     loginSuccessHandler(data);
 
-    await openApp();
-
-    fastRedirect("/");
+    openApp();
   };
 
   const handleA2FSubmit = async (e) => {
@@ -80,6 +77,8 @@ const A2F = () => {
 
       if (response.success) {
         await handleLoginSuccess(response.data);
+        openApp();
+        return;
       } else {
         setError("Le code de vérification est incorrect.");
       }
@@ -108,6 +107,9 @@ const A2F = () => {
 
       if (response.success) {
         await handleLoginSuccess(response.data);
+
+        openApp();
+        return;
       } else {
         setError(response.error || "Le code de récupération est invalide." );
       }

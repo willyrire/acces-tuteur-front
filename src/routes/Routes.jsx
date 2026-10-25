@@ -1,4 +1,5 @@
 import React from "react";
+import { lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,21 +8,29 @@ import {
 } from "react-router-dom";
 
 // Pages
-import ResetPasswordPage from "../pages/Auth/ResetPasswordPage";
-import HomePage from "../pages/Homepage";
-import AuthPage from "../pages/Auth/AuthPage";
-import NotFound404 from "../pages/Error/NotFound404";
-import PasswordRecoveryPage from "../pages/Auth/PasswordRecoveryPage";
-import VerifyEmail from "@/pages/User/VerifyEmail";
-import Page from "@/pages/Page";
-import A2F from "@/module/auth/pages/A2F";
+const HomePage = lazy(() => import("../pages/HomePage"));
+const AuthPage = lazy(() => import("../pages/Auth/AuthPage"));
+const NotFound404 = lazy(() => import("../pages/Error/NotFound404"));
+const PasswordRecoveryPage = lazy(
+  () => import("../pages/Auth/PasswordRecoveryPage"),
+);
+const ResetPasswordPage = lazy(() => import("../pages/Auth/ResetPasswordPage"));
+const VerifyEmail = lazy(() => import("../pages/User/VerifyEmail"));
+const Page = lazy(() => import("../pages/Page"));
+const A2F = lazy(() => import("../module/auth/pages/A2F"));
+const LegalIntro = lazy(() => import("../pages/legal/LegalIntro"));
+const LegalView = lazy(() => import("../pages/legal/LegalView"));
+const About = lazy(() => import("@/module/about/pages/About"));
+const SecuriteDonnes = lazy(() => import("@/module/public/builds/SecuriteDonnes"));
+const FonctionnementTuteur = lazy(() => import("@/module/public/builds/FonctionnementTuteur"));
+
+// Layout
+const FrontBase = lazy(() => import("../layouts/FrontBase"));
 
 // Utils
 import { isLoggedIn } from "@/api/auth/isLoggedIn";
 import { getUserNameLastNameFirstInitial } from "@/utils/tools/getUserName";
 import { clearAuthStorage } from "@/utils/tools/clearAuthStorage";
-import LegalIntro from "@/pages/legal/LegalIntro";
-import LegalView from "@/pages/legal/LegalView";
 
 const AppRoutes = () => {
   const [userName, setUserName] = React.useState(null);
@@ -65,33 +74,19 @@ const AppRoutes = () => {
         <Route
           path="/auth/login"
           element={
-            isAuth ? (
-              <Navigate from="/auth/login" to="/" />
-            ) : (
-              <AuthPage />
-            )
+            isAuth ? <Navigate from="/auth/login" to="/" /> : <AuthPage />
           }
         />
         <Route
           path="/auth/register"
           element={
-            isAuth ? (
-              <Navigate from="/auth/register" to="/" />
-            ) : (
-              <AuthPage />
-            )
+            isAuth ? <Navigate from="/auth/register" to="/" /> : <AuthPage />
           }
         />
         {/* Authentification / A2F */}
         <Route
           path="/auth/login/a2f/:userId/:method/:challengeId"
-          element={
-            isAuth ? (
-              <Navigate from="/auth/login" to="/" />
-            ) : (
-              <A2F />
-            )
-          }
+          element={isAuth ? <Navigate from="/auth/login" to="/" /> : <A2F />}
         />
         {/* Authentification / Mot de passe oublié */}
         <Route
@@ -138,6 +133,33 @@ const AppRoutes = () => {
           path="/legal/"
           element={<LegalIntro isAuth={isAuth} userName={userName} />}
         />
+
+        <Route
+          path="/"
+          element={<FrontBase isAuth={isAuth} userName={userName} />}
+        >
+          {/* Menu de navigation */}
+          <>
+            <Route
+              path="about"
+              element={<About isAuth={isAuth} userName={userName} />}
+            />
+          </>
+
+          {/* Contenu d'information intéractif non-cms */}
+          <Route
+            path="contenu/">
+            <Route
+              path="securite-donnees"
+              element={<SecuriteDonnes />}
+            />
+            <Route
+              path="fonctionnement-tuteur"
+              element={<FonctionnementTuteur />}
+            />
+          </Route>
+        </Route>
+
         {/* Fallback 404 */}
         <Route
           path="*"

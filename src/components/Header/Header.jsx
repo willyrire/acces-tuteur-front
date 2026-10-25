@@ -8,10 +8,6 @@ import SearchBar from "./SearchBar";
 import MobileMenu from "./MobileMenu";
 
 import useIsMobile from "@/utils/tools/useIsMobile";
-import warningText from "@/assets/warning-text.json";
-
-import Warning from "@/components/HeaderObject/Warning";
-import Success from "@/components/HeaderObject/Success";
 
 import sendEmailVerification from "@/api/service/sendEmailVerification";
 
@@ -106,11 +102,11 @@ const Header = ({
 
   const headerSpacingClass = scrolled
     ? showWarning
-      ? "pt-2"
-      : "py-2"
+      ? "pt-2 py-2"
+      : "py-2 pt-2"
     : showWarning
-      ? "pt-4"
-      : "py-4";
+      ? "pt-4 py-4"
+      : "py-4 pt-4";
 
   return (
     <>
@@ -182,30 +178,7 @@ const Header = ({
           )}
         </div>
 
-        {showWarning && (
-          <div className="mt-5">
-            {!isEmailVerified && showEmailNotVerifiedWarning && isAuth && (
-              <div className="mt-5">
-                <Warning
-                  isMobile={isMobile}
-                  message={warningText.email_not_verified.text}
-                  hasButton={warningText.email_not_verified.hasButton}
-                  buttonText={warningText.email_not_verified.buttonText}
-                  buttonTextMobile={
-                    warningText.email_not_verified.buttonTextMobile
-                  }
-                  buttonTargetFunction={handleResendEmail}
-                  showWarning={showWarning}
-                  onClose={() => setShowEmailNotVerifiedWarning(false)}
-                />
-              </div>
-            )}
-
-            {showSuccessEmailSent && (
-              <Success message={warningText.email_sent_success.text} />
-            )}
-          </div>
-        )}
+        {showWarning && (<></>)}
       </header>
     </>
   );

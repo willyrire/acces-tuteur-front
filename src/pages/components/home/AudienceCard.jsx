@@ -3,6 +3,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 export default function AudienceCard({
   icon: Icon,
@@ -50,14 +51,14 @@ export default function AudienceCard({
           ))}
         </ul>
 
-        <a
-          href={href}
+        <NavLink
+          to={href}
           className="mt-8 inline-flex items-center gap-2 font-semibold text-blue-600 transition hover:text-blue-700"
         >
           {linkText}
 
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </a>
+        </NavLink>
       </div>
     </article>
   );

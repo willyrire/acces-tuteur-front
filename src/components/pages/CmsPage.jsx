@@ -81,7 +81,7 @@ export default function CmsPage({
       <title>{finalTitle}</title>
       <meta key="description" name="description" content={finalDescription} />
 
-      <div className="flex flex-col">
+      <div className="flex flex-col pl-3 pr-3">
         {showHeader && <Header isAuth={isAuth} userName={userName} />}
 
         {status === "loading" && (
@@ -117,8 +117,8 @@ export default function CmsPage({
           </div>
         )}
 
-        {showFooter && <Footer />}
       </div>
+        {showFooter && <Footer />}
     </>
   );
 }

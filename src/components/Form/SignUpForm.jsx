@@ -1,4 +1,5 @@
 import React from "react";
+
 import { formatPhoneNumber } from "@/utils/tools/formatPhoneNumber";
 import { validatePassword } from "@/utils/validator/validatePassword";
 import { isValidEmail } from "@/utils/validator/isValidEmail";
@@ -15,59 +16,89 @@ export default function SignUpForm({
   isSignupLoading,
   onSubmit,
 }) {
-  const [isPasswordMatch, setIsPasswordMatch] = React.useState(true);
+  const [
+    isPasswordMatch,
+    setIsPasswordMatch,
+  ] = React.useState(true);
+
   const isMobile = useIsMobile();
 
-  const isChild = signupData.role === "enfant";
+  const isChild =
+    signupData.role === "enfant";
 
   const handleRoleChange = (e) => {
     const role = e.target.value;
 
-    setSignupData((previousData) => ({
-      ...previousData,
-      role,
-      ...(role === "enfant"
-        ? {
-            phone: "",
-            city: "",
-            address: "",
-          }
-        : {}),
-    }));
+    setSignupData(
+      (previousData) => ({
+        ...previousData,
+        role,
+
+        /*
+         * Les coordonnées ne sont pas
+         * demandées pour un enfant.
+         */
+        ...(role === "enfant"
+          ? {
+              phone: "",
+              city: "",
+            }
+          : {}),
+      })
+    );
   };
 
   return (
-    <div className="bg-white p-6 md:p-10 rounded-lg shadow-lg w-full max-w-2xl">
+    <div className="w-full max-w-2xl rounded-lg bg-white p-6 shadow-lg md:p-10">
       <form
         onSubmit={onSubmit}
-        className={`grid gap-4 ${isMobile ? "grid-cols-1" : "grid-cols-2"}`}
+        className={`grid gap-4 ${
+          isMobile
+            ? "grid-cols-1"
+            : "grid-cols-2"
+        }`}
       >
         {authSuccess === false && (
-          <div className="mb-4 p-3 col-span-1 md:col-span-2 bg-red-100 border border-red-400 text-red-700 rounded">
+          <div className="col-span-1 mb-4 rounded border border-red-400 bg-red-100 p-3 text-red-700 md:col-span-2">
             <b>Erreur : </b>
+
             {signupErrorMessage}
           </div>
         )}
 
-        <h2 className="text-3xl font-bold mb-6 text-center col-span-1 md:col-span-2 text-gray-800">
+        <h2 className="col-span-1 mb-6 text-center text-3xl font-bold text-gray-800 md:col-span-2">
           Créer un compte
         </h2>
 
         {/* Rôle */}
         <label
           className={`flex flex-col gap-1 ${
-            isMobile ? "col-span-1" : "md:col-span-2"
-          } text-gray-700 font-medium`}
+            isMobile
+              ? "col-span-1"
+              : "md:col-span-2"
+          } font-medium text-gray-700`}
         >
           Vous êtes :
+
           <select
             value={signupData.role}
-            onChange={handleRoleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            onChange={
+              handleRoleChange
+            }
+            className="w-full rounded-lg border p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
-            <option value="parent">Parent ou Étudiant post-secondaire</option>
-            <option value="enfant">Enfant</option>
-            <option value="tuteur">Tuteur</option>
+            <option value="parent">
+              Parent ou Étudiant
+              post-secondaire
+            </option>
+
+            <option value="enfant">
+              Enfant
+            </option>
+
+            <option value="tuteur">
+              Tuteur
+            </option>
           </select>
         </label>
 
@@ -75,14 +106,17 @@ export default function SignUpForm({
         <input
           type="text"
           placeholder="Prénom"
-          value={signupData.firstName}
+          value={
+            signupData.firstName
+          }
           onChange={(e) =>
             setSignupData({
               ...signupData,
-              firstName: e.target.value,
+              firstName:
+                e.target.value,
             })
           }
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full rounded-lg border p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
         />
 
@@ -90,34 +124,51 @@ export default function SignUpForm({
         <input
           type="text"
           placeholder="Nom"
-          value={signupData.lastName}
+          value={
+            signupData.lastName
+          }
           onChange={(e) =>
             setSignupData({
               ...signupData,
-              lastName: e.target.value,
+              lastName:
+                e.target.value,
             })
           }
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full rounded-lg border p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
         />
 
-        {/* Coordonnées non demandées pour un enfant */}
+        {/*
+         * Coordonnées non demandées
+         * pour un enfant.
+         *
+         * On conserve seulement :
+         * - téléphone
+         * - ville
+         *
+         * Aucune adresse personnelle.
+         */}
         {!isChild && (
           <>
             {/* Téléphone */}
             <input
               type="tel"
               placeholder="Numéro de téléphone"
-              value={signupData.phone}
+              value={
+                signupData.phone
+              }
               onChange={(e) => {
-                const formatted = formatPhoneNumber(e.target.value);
+                const formatted =
+                  formatPhoneNumber(
+                    e.target.value
+                  );
 
                 setSignupData({
                   ...signupData,
                   phone: formatted,
                 });
               }}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full rounded-lg border p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
 
@@ -125,24 +176,29 @@ export default function SignUpForm({
             <input
               type="text"
               placeholder="Ville"
-              value={signupData.city}
+              value={
+                signupData.city
+              }
               onChange={(e) =>
                 setSignupData({
                   ...signupData,
                   city: e.target.value,
                 })
               }
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full rounded-lg border p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
 
             {/* Attribution GeoNames */}
             <p
               className={`${
-                isMobile ? "col-span-1" : "md:col-span-2"
-              } text-xs text-gray-400 w-full pl-3`}
+                isMobile
+                  ? "col-span-1"
+                  : "md:col-span-2"
+              } w-full pl-3 text-xs text-gray-400`}
             >
-              Données de ville fournies par{" "}
+              Données de ville
+              fournies par{" "}
               <a
                 href="https://www.geonames.org"
                 target="_blank"
@@ -152,144 +208,202 @@ export default function SignUpForm({
                 GeoNames
               </a>
             </p>
-
-            {/* Adresse */}
-            <input
-              type="text"
-              placeholder="Adresse"
-              value={signupData.address}
-              onChange={(e) =>
-                setSignupData({
-                  ...signupData,
-                  address: e.target.value,
-                })
-              }
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                isMobile ? "col-span-1" : "md:col-span-2"
-              }`}
-              required
-            />
           </>
         )}
 
-        {/* Courriel */}
+        {/* Courriel / nom utilisateur */}
         <input
-          type={isChild ? "text" : "email"}
-          placeholder={isChild ? "Nom d'utilisateur" : "Courriel"}
-          value={signupData.email}
+          type={
+            isChild
+              ? "text"
+              : "email"
+          }
+          placeholder={
+            isChild
+              ? "Nom d'utilisateur"
+              : "Courriel"
+          }
+          value={
+            signupData.email
+          }
           onChange={(e) =>
             setSignupData({
               ...signupData,
-              email: e.target.value,
+              email:
+                e.target.value,
             })
           }
-          className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-            signupData.email && !isValidEmail(signupData.email) && !isChild
+          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+            signupData.email &&
+            !isValidEmail(
+              signupData.email
+            ) &&
+            !isChild
               ? "border-red-500"
               : "border-gray-300"
-          } ${isMobile ? "col-span-1" : "md:col-span-2"}`}
+          } ${
+            isMobile
+              ? "col-span-1"
+              : "md:col-span-2"
+          }`}
           required
         />
 
-        {signupData.email && !isChild && !isValidEmail(signupData.email) && (
-          <p
-            className={`${
-              isMobile ? "col-span-1" : "md:col-span-2"
-            } text-sm text-red-600`}
-          >
-            Veuillez entrer un courriel valide
-          </p>
-        )}
+        {signupData.email &&
+          !isChild &&
+          !isValidEmail(
+            signupData.email
+          ) && (
+            <p
+              className={`${
+                isMobile
+                  ? "col-span-1"
+                  : "md:col-span-2"
+              } text-sm text-red-600`}
+            >
+              Veuillez entrer un
+              courriel valide
+            </p>
+          )}
 
         {/* Mot de passe */}
         <input
           type="password"
           placeholder="Mot de passe"
-          value={signupData.password}
+          value={
+            signupData.password
+          }
           onChange={(e) => {
-            const value = e.target.value;
+            const value =
+              e.target.value;
 
             setSignupData({
               ...signupData,
               password: value,
             });
 
-            setPasswordError(validatePassword(value));
+            setPasswordError(
+              validatePassword(value)
+            );
 
-            if (signupData.confirmPassword) {
-              setIsPasswordMatch(value === signupData.confirmPassword);
+            if (
+              signupData.confirmPassword
+            ) {
+              setIsPasswordMatch(
+                value ===
+                  signupData.confirmPassword
+              );
             }
           }}
-          className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-            passwordError.length > 0 ? "border-red-500" : "border-gray-300"
-          } ${isMobile ? "col-span-1" : "md:col-span-2"}`}
+          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+            passwordError.length >
+            0
+              ? "border-red-500"
+              : "border-gray-300"
+          } ${
+            isMobile
+              ? "col-span-1"
+              : "md:col-span-2"
+          }`}
           required
         />
 
-        {passwordError.length > 0 && (
+        {passwordError.length >
+          0 && (
           <ul
             className={`${
-              isMobile ? "col-span-1" : "md:col-span-2"
-            } text-sm text-red-600 list-disc list-inside text-left`}
+              isMobile
+                ? "col-span-1"
+                : "md:col-span-2"
+            } list-inside list-disc text-left text-sm text-red-600`}
           >
-            {passwordError.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
+            {passwordError.map(
+              (
+                error,
+                index
+              ) => (
+                <li key={index}>
+                  {error}
+                </li>
+              )
+            )}
           </ul>
         )}
 
-        {/* Confirmation du mot de passe */}
+        {/* Confirmation mot de passe */}
         <input
           type="password"
           placeholder="Confirmer le mot de passe"
-          value={signupData.confirmPassword}
+          value={
+            signupData.confirmPassword
+          }
           onChange={(e) => {
-            const value = e.target.value;
+            const value =
+              e.target.value;
 
             setSignupData({
               ...signupData,
-              confirmPassword: value,
+              confirmPassword:
+                value,
             });
 
-            setIsPasswordMatch(signupData.password === value);
+            setIsPasswordMatch(
+              signupData.password ===
+                value
+            );
           }}
-          className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-            !isPasswordMatch && signupData.confirmPassword
+          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+            !isPasswordMatch &&
+            signupData.confirmPassword
               ? "border-red-500"
               : "border-gray-300"
-          } ${isMobile ? "col-span-1" : "md:col-span-2"}`}
+          } ${
+            isMobile
+              ? "col-span-1"
+              : "md:col-span-2"
+          }`}
           required
         />
 
-        {!isPasswordMatch && signupData.confirmPassword && (
-          <p
-            className={`${
-              isMobile ? "col-span-1" : "md:col-span-2"
-            } text-sm text-red-600`}
-          >
-            Les mots de passe ne correspondent pas
-          </p>
-        )}
+        {!isPasswordMatch &&
+          signupData.confirmPassword && (
+            <p
+              className={`${
+                isMobile
+                  ? "col-span-1"
+                  : "md:col-span-2"
+              } text-sm text-red-600`}
+            >
+              Les mots de passe ne
+              correspondent pas
+            </p>
+          )}
 
         {/* Conditions d'utilisation */}
         <label
           className={`flex items-start gap-3 text-sm text-gray-600 ${
-            isMobile ? "col-span-1" : "md:col-span-2"
+            isMobile
+              ? "col-span-1"
+              : "md:col-span-2"
           }`}
         >
           <input
             type="checkbox"
             required
-            checked={signupData.acceptTerms}
-            className={`cursor-pointer w-5 h-5 mt-1 ${
-              signupData.acceptTerms === false
+            checked={
+              signupData.acceptTerms
+            }
+            className={`mt-1 h-5 w-5 cursor-pointer ${
+              signupData.acceptTerms ===
+              false
                 ? "border-red-500"
                 : "border-gray-300"
             }`}
             onChange={(e) =>
               setSignupData({
                 ...signupData,
-                acceptTerms: e.target.checked,
+                acceptTerms:
+                  e.target.checked,
               })
             }
           />
@@ -302,7 +416,8 @@ export default function SignUpForm({
               href="/legal/terms"
               className="text-blue-600 hover:underline"
             >
-              conditions d'utilisation
+              conditions
+              d'utilisation
             </a>{" "}
             et la{" "}
             <a
@@ -311,7 +426,8 @@ export default function SignUpForm({
               href="/legal/privacy"
               className="text-blue-600 hover:underline"
             >
-              politique de confidentialité
+              politique de
+              confidentialité
             </a>
             .
           </span>
@@ -320,12 +436,22 @@ export default function SignUpForm({
         {/* Soumission */}
         <button
           type="submit"
-          disabled={isSignupLoading}
-          className={`w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition ${
-            isSignupLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-          } ${isMobile ? "col-span-1" : "md:col-span-2"}`}
+          disabled={
+            isSignupLoading
+          }
+          className={`w-full rounded-lg bg-green-600 p-3 font-semibold text-white transition hover:bg-green-700 ${
+            isSignupLoading
+              ? "cursor-not-allowed opacity-50"
+              : "cursor-pointer"
+          } ${
+            isMobile
+              ? "col-span-1"
+              : "md:col-span-2"
+          }`}
         >
-          {isSignupLoading ? "Traitement..." : "Créer un compte"}
+          {isSignupLoading
+            ? "Traitement..."
+            : "Créer un compte"}
         </button>
       </form>
 
@@ -334,11 +460,16 @@ export default function SignUpForm({
         Déjà un compte ?{" "}
         <button
           type="button"
-          onClick={() => navigate("/auth/login")}
-          className="cursor-pointer hover:underline text-blue-600"
+          onClick={() =>
+            navigate(
+              "/auth/login"
+            )
+          }
+          className="cursor-pointer text-blue-600 hover:underline"
         >
           Se connecter
         </button>
+
         {!isChild && (
           <p className="text-[12px] text-gray-400">
             Données fournies par{" "}

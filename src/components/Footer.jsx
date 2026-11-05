@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
+import { github_project_repo } from "@/constants/main";
+import { FaGithub } from "react-icons/fa";
+import { ExternalLink } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-gray-200 py-8">
@@ -49,6 +51,16 @@ const Footer = () => {
           >
             Légal
           </NavLink>
+          <a
+            href={github_project_repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 hover:text-white transition-colors"
+          >
+            <FaGithub className="w-5 h-5" />
+            <span>Développement</span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
         </div>
         <div className="text-sm text-gray-400">
           &copy; {new Date().getFullYear()} Accès Tuteur

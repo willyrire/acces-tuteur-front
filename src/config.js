@@ -1,1 +1,1 @@
-export const devStatus = "dev";
+export const devStatus = import.meta.env.VITE_APP_ENV;

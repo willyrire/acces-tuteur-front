@@ -1,0 +1,9 @@
+name: Commit Convention
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    uses: willyrire/acces-tuteur-developpement/.github/workflows/commit-convention.yml@main
